@@ -1,0 +1,223 @@
+@charset "UTF-8";
+/*Fuentes*/
+@font-face {
+  font-family: "TrebuchetMS";
+  src: url("fonts/TrebuchetMS.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "BebasNeue";
+  src: url("fonts/BebasNeue.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+/*Fuente para los simbolos*/
+@font-face {
+  font-family: "WebSymbolsRegular";
+  src: url("fonts/websymbols-regular-webfont-eot");
+  src: url("fonts/websymbols-regular-webfont-eot?#iefitx") format("embebed-opentype"), url("fonts/websymbols-regular-webfont.woff") format("woff"), url("fonts/websymbols-regular-webfont.ttf") format("truetype"), url("fonts/websymbols-regular-webfont.svg#WebSymbolsRegular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+/*Estilos Generales*/
+:root {
+  --bg--orange: #f27405;
+  --bg--red: #d91a1a;
+  --bg--green: #8c8303;
+  --bg--whiteOrange: #f3be7a;
+  --bg--gray: #404040;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  background: url("../img/pattern.png");
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap {
+  width: 1250px;
+  margin: 0px auto;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/*Cabecera*/
+#header {
+  width: 100%;
+  height: 100px;
+  background-color: var(--bg--gray);
+  font-family: Century Gothic, sans-serif;
+  font-size: 22px;
+  color: white;
+  overflow: hidden;
+  border-bottom: 6px solid var(--bg--orange);
+}
+#header #logo {
+  width: 100px;
+}
+#header #logo img {
+  width: 100%;
+}
+#header .wrap {
+  display: flex;
+  flex-direction: row;
+}
+#header .wrap #menu {
+  margin-left: 30%;
+}
+#header .wrap #menu ul {
+  display: flex;
+  flex-direction: row;
+  margin-top: 45px;
+}
+#header .wrap #menu ul li {
+  display: inline-block;
+  margin-right: 22px;
+}
+#header .wrap #menu ul li a {
+  text-decoration: none;
+  color: white;
+  transition: color 500ms;
+}
+#header .wrap #menu ul li i {
+  visibility: hidden;
+}
+#header .wrap #menu ul li a:hover {
+  color: var(--bg--orange);
+}
+#header .wrap #menu ul li a:hover i {
+  animation: showIcon 250ms linear;
+  visibility: visible;
+}
+@keyframes showIcon {
+  from {
+    transform: translateY(-180%);
+    visibility: visible;
+  }
+  to {
+    transform: translateY(0%);
+    visibility: visible;
+  }
+}
+
+/*Fondo*/
+#fondo {
+  width: 100%;
+  margin: 0px auto;
+}
+#fondo img {
+  width: 100%;
+  height: 820px;
+}
+
+/*Estilos generales contenido*/
+.mainContent {
+  margin-top: 5%;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+.mainContent h2, .mainContent h3 {
+  display: block;
+  width: 100%;
+  height: 75px;
+  line-height: 75px;
+  text-align: center;
+  font-family: "BebasNeue";
+  font-size: 40px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  background: url("../img/pxgray.png");
+  box-shadow: 0px 1px 0px #393d3f, 1px 2px 0px #393d3f, 2px 3px 0px #393d3f, 3px 4px 0px #393d3f;
+  margin: 0px auto;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+/*Artículos*/
+#articles {
+  width: 860px;
+}
+#articles article {
+  width: 98%;
+  height: auto;
+  border: 1px solid #ccc;
+  margin: 40px auto;
+  padding: 10px;
+  font-family: "TrebuchetMS";
+  background: white;
+  color: black;
+  box-shadow: 1px 1px 2px #ddd;
+}
+#articles article h4 {
+  display: block;
+  font-size: 23px;
+  margin: 3px;
+}
+#articles article h4 a {
+  text-decoration: none;
+  color: #00538c;
+}
+#articles article h4 a:hover {
+  text-decoration: underline;
+}
+#articles article p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+#articles .data {
+  float: right;
+  background: #393d3f;
+  color: white;
+  height: 30px;
+  line-height: 30px;
+  margin: -10px;
+  padding: 4px;
+  font-size: 13px;
+  border-radius: 0px 0px 0px 5px;
+}
+#articles .data span {
+  margin: 6px;
+}
+
+/*Pie de página*/
+footer {
+  display: flex;
+  flex-direction: column;
+  background-color: #404040;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+footer p {
+  font-size: 130%;
+  color: #f2e9e9;
+  text-decoration: none;
+  font-family: var(--font--family);
+  text-shadow: 0.1em 0.1em #333;
+}
+footer ul {
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+}
+footer a {
+  font-size: 250%;
+  color: #f2e9e9;
+  text-shadow: 0.1em 0.1em #333;
+}
+footer li {
+  margin: 0 auto;
+}
+
+/*# sourceMappingURL=home.css.map */

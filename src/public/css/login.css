@@ -1,0 +1,100 @@
+/*VARIABLES*/
+:root {
+  --bg--error: rgb(197, 0, 0);
+}
+
+* {
+  font-family: Century Gothic, sans-serif;
+}
+
+body {
+  background: #404040;
+  background: linear-gradient(158deg, #404040 -48%, #8c8c8c 21%, #f27405 108%);
+  height: 98vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#logo i {
+  display: block;
+  text-align: center;
+  color: white;
+}
+
+#login {
+  width: 600px;
+}
+
+#registro {
+  width: 700px;
+}
+
+.contenedor {
+  margin-top: 3%;
+  margin-right: 2%;
+}
+.contenedor h2 {
+  text-align: center;
+  font-size: 28px;
+}
+.contenedor .form {
+  width: 78%;
+  height: 60%;
+  margin: 0px auto;
+}
+.contenedor .form p {
+  font-weight: bold;
+  margin-bottom: 1%;
+}
+.contenedor .form input[type=text],
+.contenedor .form input[type=password] {
+  width: 99%;
+  height: 35px;
+  font-size: initial;
+  padding-left: 3px;
+}
+.contenedor .form input[type=button] {
+  margin-top: 3%;
+  border-radius: 5px;
+  width: 100%;
+  height: 60px;
+  font-size: larger;
+  background-color: #404040;
+  color: white;
+  border: 1px dashed #404040;
+}
+.contenedor .form #optionsPassword {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3%;
+}
+.contenedor .form #registro {
+  padding: 30%;
+}
+.contenedor .form a {
+  color: white;
+}
+.contenedor .form .fa-exclamation-triangle {
+  margin-right: 1%;
+}
+
+.error {
+  border: 2px solid var(--bg--error);
+}
+
+.msgError {
+  color: var(--bg--error);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 85%;
+  margin-bottom: -1%;
+  margin-top: 1%;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.noVisible {
+  display: none;
+}
+
+/*# sourceMappingURL=login.css.map */
