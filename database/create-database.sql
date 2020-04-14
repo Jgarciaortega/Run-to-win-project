@@ -20,26 +20,48 @@ CREATE TABLE usuario (
 	email VARCHAR(255),
 	password VARCHAR(255),
 	status VARCHAR(255),
-	nickname VARCHAR(255)
+	nickname VARCHAR(255),
+	imagen VARCHAR(255),
+	logros INT(11),
+	id_strava INT(255),
+	peso FLOAT(11),
+	altura FLOAT(11),
+	fecha_registro timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW() 
 );
 
 CREATE TABLE registros_entrenamiento(
-	id_registro INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	fecha DATE,
-	km_recorridos FLOAT(11),
-	tiempo_empleado DATE,
+	id INT(100) NOT NULL PRIMARY KEY,
+	distancia FLOAT(22),
+	tiempo_empleado FLOAT(22),
+	fecha timestamp NOT NULL DEFAULT current_timestamp,
+	velocidad_media FLOAT(11),
+	velocidad_max FLOAT(11),
 	id_usuario INT(11),
 	FOREIGN KEY (id_usuario) REFERENCES usuario (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE
 	
 );
 
 CREATE TABLE mensaje(
-	id_mensaje INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	fecha DATE,
-	contenido_mensaje VARCHAR(255),
+	id INT(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	contenido VARCHAR(255),
+	id_destinatario INT(100),
+	fecha_envio timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW(), 
+	leido BOOLEAN,
 	id_usuario INT(11),
 	FOREIGN KEY (id_usuario) REFERENCES usuario (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE
 );
+
+CREATE TABLE notificaciones(
+	id INT(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	contenido VARCHAR(255),
+	id_destinatario INT(100),
+	fecha_envio timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW(), 
+	leido BOOLEAN,
+	id_usuario INT(11),
+	FOREIGN KEY (id_usuario) REFERENCES usuario (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE
+);
+
+
 
 CREATE TABLE rutinas_ejercicios(
 	id_rutina INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

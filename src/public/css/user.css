@@ -1,64 +1,150 @@
+@charset "UTF-8";
+/*Fuentes*/
+@font-face {
+  font-family: "TrebuchetMS";
+  src: url("fonts/TrebuchetMS.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "BebasNeue";
+  src: url("fonts/BebasNeue.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+/*Fuente para los simbolos*/
+@font-face {
+  font-family: "WebSymbolsRegular";
+  src: url("fonts/websymbols-regular-webfont-eot");
+  src: url("fonts/websymbols-regular-webfont-eot?#iefitx") format("embebed-opentype"), url("fonts/websymbols-regular-webfont.woff") format("woff"), url("fonts/websymbols-regular-webfont.ttf") format("truetype"), url("fonts/websymbols-regular-webfont.svg#WebSymbolsRegular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
 /*VARIABLES*/
 :root {
   --bg--error: rgb(197, 0, 0);
   --bg--red: #d91a1a;
   --bg--gray: #404040;
   --bg--orange: #f27405;
+  --bg--strava: #f9511c;
 }
 
-* {
+body {
   font-family: Century Gothic, sans-serif;
+  background-color: #ececec;
 }
 
+/* Header*/
 #header {
   background-color: var(--bg--gray);
   border-bottom: 6px solid var(--bg--orange);
+  margin: 0px;
+  padding: 0px;
+  max-height: 99px;
 }
 #header #contentHeader {
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
 }
 #header #contentHeader #logo img {
-  width: 84px;
+  width: 101px;
 }
-#header #contentHeader #menu {
-  margin-top: 1%;
+#header #contentHeader #mainNav {
+  margin-top: 3%;
+  margin-right: 5%;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
 }
-#header #contentHeader ul li {
+#header #contentHeader #mainNav ul li {
   display: inline;
 }
-#header #contentHeader ul li a {
-  text-decoration: none;
+#header #contentHeader #mainNav ul li a {
   color: white;
   font-size: x-large;
   padding: 3%;
 }
+#header #contentHeader #btn-strava {
+  width: 90%;
+  height: 63%;
+  max-height: 38px;
+  background-image: url("../assets//img/stravacut.png");
+  background-size: 101%;
+  border: 1px solid var(--bg--strava);
+  background-repeat: no-repeat;
+  margin-top: 5%;
+  background-position-x: -1px;
+  opacity: 0.9;
+}
+#header #contentHeader #btn-strava:active {
+  border: 2px solid #f3be7a;
+  opacity: 1;
+}
 #header #contentHeader #profile {
   display: flex;
   flex-direction: row;
-  padding-top: 30px;
+  padding-top: 27px;
 }
 #header #contentHeader #profile i {
   color: white;
 }
-#header #contentHeader #profile #user {
-  margin-right: 8px;
+#header #contentHeader #profile #user .fa-user {
+  font-size: 33px;
 }
-#header #contentHeader #profile #message i,
-#header #contentHeader #profile #notification i {
+#header #contentHeader #profile #user #menuUser {
+  padding: 0px;
+  position: absolute;
+  left: 1406px;
+  top: 112px;
+  border: 1px solid black;
+  font-size: 22px;
+  background-color: #ece7e2;
+  opacity: 0.8;
+  display: flex;
+  flex-direction: column;
+}
+#header #contentHeader #profile #user #menuUser li {
+  display: flex;
+  justify-content: flex-start;
+  padding: 5px;
+  border: 1px solid black;
+}
+#header #contentHeader #profile #user #menuUser li:first-child {
+  padding-top: 12px;
+}
+#header #contentHeader #profile #user #menuUser li:hover {
+  background-color: gray;
+}
+#header #contentHeader #profile #user #menuUser i,
+#header #contentHeader #profile #user #menuUser a {
+  color: black;
+}
+#header #contentHeader #profile #user #menuUser a {
+  padding: 10px;
+}
+#header #contentHeader #profile #user #menuUser i {
+  padding-right: 7px;
+}
+#header #contentHeader #message,
+#header #contentHeader #notification {
+  padding-left: 1px;
+  margin-top: 5px;
+}
+#header #contentHeader #message i,
+#header #contentHeader #notification i {
   font-size: 20px;
 }
-#header #contentHeader #profile #msgQuantity {
+#header #contentHeader #msgQuantity {
   position: relative;
   top: -15px;
   left: -3px;
 }
-#header #contentHeader #profile #ntfQuantity {
+#header #contentHeader #ntfQuantity {
   position: relative;
   top: -15px;
   left: -8px;
 }
 
+/* Contenido */
 #mainContent {
   margin-top: 45px;
   display: grid;
@@ -66,7 +152,6 @@
 }
 #mainContent #left #userData {
   height: 250px;
-  border: 1px solid black;
 }
 #mainContent #left #userData #photo {
   border: 1px solid black;
@@ -81,13 +166,170 @@
 #mainContent #left #userData #photo img {
   width: 100%;
 }
-#mainContent #center {
+#mainContent #left #userData #data #nickname {
+  position: relative;
+  top: -40px;
+  text-align: center;
+}
+#mainContent #left #userData #data #status {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: relative;
+  top: -59px;
+}
+#mainContent #left #userData #data .containerStatus {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+#mainContent #left #userData #data .containerStatus h6 {
   border: 1px solid black;
-  height: 500px;
+  padding: 5px;
+}
+#mainContent #left #userData #data .containerStatus i {
+  color: #663939;
+}
+#mainContent #left #leftMenu {
+  margin-top: 11%;
+  min-height: 410px;
+}
+#mainContent #left #leftMenu ul {
+  padding: 0px;
+}
+#mainContent #left #leftMenu li {
+  list-style: none;
+  cursor: pointer;
+  font-size: larger;
+  letter-spacing: 1px;
+  padding: 5%;
+  border-bottom: 1px solid black;
+}
+#mainContent #left #leftMenu li:hover {
+  background-color: gray;
+  color: white;
+}
+#mainContent #center {
+  height: 693px;
 }
 #mainContent #right {
-  border: 1px solid black;
   height: 250px;
+}
+
+/*Pie de página*/
+footer {
+  background: url("../assets/img/pxgray.png");
+  display: flex;
+  flex-direction: column;
+  margin-top: 4%;
+  justify-content: center;
+  align-items: center;
+}
+footer p {
+  font-size: 130%;
+  text-decoration: none;
+}
+footer ul {
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+}
+footer a {
+  font-size: 250%;
+  color: #f2e9e9;
+  text-shadow: 0.1em 0.1em #333;
+}
+footer li {
+  margin: 0 auto;
+  list-style: none;
+}
+
+/* Vistas mensajes/notificaciones */
+#msgContent {
+  margin-top: 45px;
+  width: 1000px;
+  margin: 0px auto;
+  min-height: 590px;
+}
+#msgContent #inbox #msgHeader {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px solid black;
+  justify-content: space-between;
+  height: 55px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+#msgContent #inbox #msgHeader #btn-msg {
+  height: 40px;
+  align-self: center;
+  margin-right: 3%;
+}
+#msgContent #inbox #msgTemplate {
+  border: 1px solid black;
+  margin: 4px;
+  display: grid;
+  grid-template-columns: 0.5fr 6fr 0.75fr;
+}
+#msgContent #inbox #msgTemplate #msgPhoto img {
+  padding: 22%;
+  width: 43px;
+}
+#msgContent #inbox #msgTemplate #msgDate {
+  text-align: center;
+}
+#msgContent #inbox #msgTemplate #msgDate #btn-msg {
+  margin: 0px auto;
+}
+
+#newMessage {
+  width: 469px;
+  height: 223px;
+  border: 1px solid black;
+  position: absolute;
+  top: 440px;
+  left: 500px;
+  background-color: #ece7e2;
+}
+#newMessage #msg-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: var(--bg--gray);
+  color: white;
+}
+#newMessage #msg-top h4 {
+  margin: 0;
+  padding-left: 3px;
+  align-self: center;
+}
+#newMessage #msg-top i {
+  margin: 1%;
+  align-self: center;
+  font-size: 20px;
+}
+#newMessage #optionsMessage {
+  margin: 10px;
+}
+#newMessage #optionsMessage #para input {
+  margin-left: 29px;
+  margin-bottom: 14px;
+}
+#newMessage #optionsMessage #msg-txt {
+  display: flex;
+  flex-direction: row;
+}
+#newMessage #optionsMessage #msg-txt textarea {
+  margin-left: 5px;
+}
+#newMessage #optionsMessage #btn-send {
+  margin-top: 3%;
+  background: var(--bg--strava);
+  color: white;
+  border: 1px solid var(--bg--gray);
+  border-radius: 5px;
+  width: 72px;
+  height: 35px;
 }
 
 /*CLASES GENERALES*/
@@ -103,6 +345,28 @@
 .wrap {
   width: 1400px;
   margin: 0px auto;
+}
+
+.container {
+  margin-right: 2%;
+  margin-left: 2%;
+  border: 1px dotted black;
+  border-radius: 20px;
+  background-color: #fefefe;
+  box-shadow: 5px 6px 10px var(--bg--gray);
+}
+
+.noVisible {
+  visibility: hidden;
+}
+
+/*ESTILOS GENERALES*/
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
 }
 
 /*# sourceMappingURL=user.css.map */

@@ -1,0 +1,42 @@
+{{>userHeader}}
+<div id="mainContent" class="wrap">
+    <aside id="left">
+        <div id="userData" class="container">
+            <div id='photo'>
+                <img src="../assets/user_photos/yo.jpg" alt="">
+            </div>
+            <div id="data">
+                <h4 id="nickname"></h4>
+                <div id="status">
+                    <div class="containerStatus">
+                        <h6>STATUS</h6>
+                        <i class="fas fa-2x fa-dog"></i>
+                        <p id="level"></p>
+                    </div>
+                    <div class="containerStatus" >
+                        <h6>LOGROS</h6>
+                        <i class="fas fa-2x fa-trophy"></i>
+                        <p id="achievements-quantity"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav id="leftMenu">
+            <ul>
+                <li>INICIO</li>
+                <li id="informeSemanal">INFORME SEMANAL</li>
+                <li>INFORMES TOTALES</li>
+                <li>RUTINAS</li>
+            </ul>
+        </nav>
+    </aside>
+    <div id="center" class="container">
+        <canvas id="canvas"></canvas>
+    </div>
+    <aside id="right" class="container">
+        <div id="wall">
+
+        </div>
+    </aside>
+</div>
+{{>userFooter}}

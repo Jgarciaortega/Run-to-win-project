@@ -1,0 +1,3 @@
+USE db_rtw
+
+INSERT INTO mensaje VALUES(1,10344.4,2500,'2020-01-02 05:15:09',5.2,10.8,1);

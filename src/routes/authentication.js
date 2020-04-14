@@ -4,7 +4,7 @@ const router = express.Router();
 router.get('/authentication', (req,res) => {
     res.render('authentication/login',{
         style: 'css/login.css',
-        js: 'js/auth.js'
+        js1: 'js/auth.js'
     });
 })
 

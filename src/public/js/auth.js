@@ -295,11 +295,6 @@ async function createUser() {
     }
 }
 
-function askToServer(url, data) {
-
-
-}
-
 async function sendToServer(url, data) {
 
     let body = {
@@ -328,8 +323,10 @@ async function login() {
         password: pass
     }
 
-    console.log(await sendToServer(url, userLogin));
-    // location.href="/profile";
+    let response = await sendToServer(url, userLogin);
+
+    if(response.code == 200) window.location.href = '/user?id=' + response.user.id;
+    else showError('passwordLogin','Usuario o contraseña no válidos');
 
 }
 
