@@ -21,16 +21,20 @@
                 <li><a href="#"><i class="fas fa-user"></i></a></i>
                     <ul id="menuUser" class="noVisible">
                         <li>
-                           <span id="conf-link"><i class="fas fa fa-cog"></i>Configuración</span>
+                           {{!-- <span id="conf-link"><i class="fas fa fa-cog"></i>Configuración</span> --}}
+                           <a href=""><i class="fas fa fa-cog"></i>Configuración</a>
                         </li>
                         <li>    
-                            <span id="msg-link"><i class="far fa-envelope"></i>Mensajes</span>
+                            {{!-- <span id="msg-link"><i class="far fa-envelope"></i>Mensajes</span> --}}
+                            <a href="/user/messages"><i class="far fa-envelope"></i>Mensajes</a>
                         </li>
                         <li>
-                            <span id="notf-link"><i class="fas fa-bell"></i>Notificaciones</span>
+                            {{!-- <span id="notf-link"><i class="fas fa-bell"></i>Notificaciones</span> --}}
+                            <a href="/user/notifications"><i class="fas fa-bell"></i>Notificaciones</a>
                         </li>
                         <li>
-                            <span id="logout-link"><i class="fas fa-sign-out-alt"></i>Salir</span>
+                            {{!-- <span id="logout-link"><i class="fas fa-sign-out-alt"></i>Salir</span> --}}
+                            <a href="/user/logOut"><i class="fas fa-sign-out-alt"></i>Salir</a>
                         </li>
                     </ul>
                 </li>

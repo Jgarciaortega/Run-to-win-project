@@ -1,31 +1,11 @@
 
 
 function despliegaMenu() {
-
     document.getElementById('menuUser').classList.remove('noVisible');
-
 }
 
 function ocultaMenu() {
-
     document.getElementById('menuUser').classList.add('noVisible');
-
-}
-
-function showConfiguration() {
-    console.log('showConfiguration');
-}
-
-function showMessages(){
-    console.log('showMessages');  
-}
-
-function showNotifications(){
-    console.log('showNotifications');  
-}
-
-function logout(){
-    console.log('logout');   
 }
 
 function init() {
@@ -37,16 +17,9 @@ function init() {
     document.getElementById('user').addEventListener('click', despliegaMenu);
     document.getElementById('menuUser').addEventListener('mouseleave', ocultaMenu);
 
-    //listeners enlaces de los menus desplegables
-    document.getElementById('conf-link').addEventListener('click', showConfiguration);
-    document.getElementById('msg-link').addEventListener('click', showMessages);
-    document.getElementById('notf-link').addEventListener('click', showNotifications);
-    document.getElementById('logout-link').addEventListener('click', logout);
-
 }
 
 //Variables Globales
-
 let dataStrava;
 
 window.addEventListener('load', init);

@@ -17,7 +17,7 @@ const validateName = (name) => {
 
 const validateUsername = (username) => {
     //Alphanumeric string that may include _ and – having a length of 3 to 22 characters –
-    const usernameRegex = /^[a-zñ0-9_-]{3,22}$/
+    const usernameRegex = /^[A-ZÑ0-9_-]{3,22}$/
     let msg;
 
     if (usernameRegex.test(username)) msg = 'ok';
@@ -152,7 +152,7 @@ function dataResgistry() {
             break;
 
         case "nickname":
-            verifyData(validateUsername, inputContent, inputName);
+            verifyData(validateUsername, inputContent.toUpperCase(), inputName);
             break;
 
         case "email":
@@ -252,7 +252,6 @@ function showError(inputName, message) {
 async function createUser() {
 
     let validationOk = true;
-    console.log(newUser);
 
     // Obteniendo todas las claves del objeto newUser para comprobar si hay errores
     for (let clave in newUser) {
@@ -285,11 +284,11 @@ async function createUser() {
         }
         //3º Si todo ok registramos al usuario
         let urlCreate = '/user/createUser';
-        console.log(validationOk);
 
         if (validationOk) {
 
-            sendToServer(urlCreate, newUser);
+            await sendToServer(urlCreate, newUser);
+            login(newUser.nickname, newUser.password);
         }
 
     }
@@ -312,11 +311,9 @@ async function sendToServer(url, data) {
 
 }
 
-async function login() {
+async function login(user, pass) {
 
-    let user = document.querySelector('input[name="userLogin"]').value;
-    let pass = document.querySelector('input[name="passwordLogin"]').value;
-    let url = '../user/isValidUser';
+    let url = '../user/logIn';
 
     let userLogin = {
         nickname: user,
@@ -324,9 +321,10 @@ async function login() {
     }
 
     let response = await sendToServer(url, userLogin);
+    localStorage.setItem('user', JSON.stringify(response.user));
 
-    if(response.code == 200) window.location.href = '/user?id=' + response.user.id;
-    else showError('passwordLogin','Usuario o contraseña no válidos');
+    if (response.succes) window.location.href = '/user/profile';
+    else showError('passwordLogin', 'Usuario o contraseña no válidos');
 
 }
 
@@ -345,9 +343,12 @@ function init() {
     let inputPassRegistry = document.querySelector('input[name="passwordRegistry"]');
     let inputPassCheck = document.querySelector('input[name="passwordCheck"]');
     let btnRegistry = document.querySelector('input[name="btnregistro"]');
-    
+
     /* Init listener login */
-    btnLogin.addEventListener('click', login);
+    btnLogin.addEventListener('click', function () {
+        login(document.querySelector('input[name="userLogin"]').value,
+            document.querySelector('input[name="passwordLogin"]').value)
+    });
 
     /* Init listeners register */
     inputName.addEventListener('blur', dataResgistry);
@@ -359,12 +360,12 @@ function init() {
     btnRegistry.addEventListener('click', createUser);
 
     /* Reset values */
-    inputLogin.value='';
-    inputLoginPass='';
-    inputName.value='';
-    inputApellidos.value='';
-    inputNickname.value='';
-    inputEmail.value='';
+    inputLogin.value = '';
+    inputLoginPass = '';
+    inputName.value = '';
+    inputApellidos.value = '';
+    inputNickname.value = '';
+    inputEmail.value = '';
 }
 
 window.addEventListener('load', init);

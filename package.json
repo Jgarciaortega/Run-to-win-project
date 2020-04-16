@@ -29,9 +29,12 @@
     "express-mysql-session": "^2.1.4",
     "express-session": "^1.17.0",
     "express-validator": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
     "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "sass": "^1.26.3",
     "timeago.js": "^4.0.2"

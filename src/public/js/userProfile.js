@@ -6,30 +6,19 @@
 // }
 
 
-//Obtiene el parametro id usuario de la url (enviado por get desde /authentication)
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-async function loadInfoUser(id) {
+async function loadInfoUser(userId) {
 
     const url = '/user/findById';
-    const userId = { id };
     const user = await sendToServer(url, userId);
     const nickname = document.getElementById('nickname');
     const level = document.getElementById('level');
     const achievements = document.getElementById('achievements-quantity');
 
-    
     nickname.innerHTML = user.nickname;
     level.innerHTML = user.status;
     achievements.innerHTML = user.logros;
 
 }
-
 async function sendToServer(url, data) {
 
     let body = {
@@ -47,24 +36,23 @@ async function sendToServer(url, data) {
 
 }
 
-
-
 function informeSemanal() {
 
-    fetch('/api/prueba/' + 'Javi')
-        .then(response => response.json())
-        .then(data => createChart(data));
+    // fetch('/api/prueba/' + 'Javi')
+    //     .then(response => response.json())
+    //     .then(data => createChart(data));
 
 }
 
 function init() {
 
-     //1º obtenemos el id usuario de la url para carga su informacion
-     loadInfoUser(getParameterByName('id'));
-     
+    //1º obtenemos el id usuario de la url para carga su informacion
+    // para borrar localstorage es : localStorage.remove('user');
+    const user = JSON.parse(localStorage.getItem('user'));
+    loadInfoUser(user);
+
     document.getElementById('informeSemanal').addEventListener('click', informeSemanal);
 
 }
-
 
 window.addEventListener('load', init);

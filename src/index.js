@@ -6,7 +6,7 @@ const cors = require("cors");
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const passportLocal = require('passport-local').Strategy;
+
  
 /*INITIALIZATIONS*/
 const app = express();
@@ -33,24 +33,21 @@ app.set('view engine', '.hbs');
 app.use(morgan('dev'));
 //2º para que solo puedas pasar archivos texto plano a traves de la URL
 app.use(express.urlencoded({extended: false}));
-//3º no se si hace falta
 app.use(express.json());
 //4º 
 app.use(cors());
 //5º
-app.use(cookieParser('my secret'));
+app.use(cookieParser('mySecret'));
 //6º
 app.use(session({
-    secret: 'my secret',
+    secret: 'mySecret',
     resave: false,
     saveUninitialized: false
 }))
 //passport
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new passportLocal(function(username,password,done){
-    
-}))
+require('../src/config/passport');
 
 /*ROURES*/
 app.use(require('./routes'));

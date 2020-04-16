@@ -1,61 +1,62 @@
 const model = require('../model/model');
 
-exports.isValidUser = async (req, res) => {
-
+exports.findByNickname = async (nickname) => {
     const connection = await model.getConnection();
-    connection.connect(async err => {
-        if (err) {
-            return console.error(
-                "Database not connected!  : " +
-                JSON.stringify(err, undefined, 2)
-            );
-        }
-        console.log(req.body);
-
-        const { nickname, password } = req.body;
-
-        let sql = `SELECT * FROM usuario WHERE nickname ='${nickname}'`;
-
-        connection.query(sql, (error, results) => {
-            if (error) {
-                return console.error(error.message);
-            }
-
-            //si no existe el usuario...
-            if (results.length == 0) {
-                return res.send({ msg: "Usuario not valid" });
-            }
-
-            const user = parseUser(results[0]); 
-          
-            //comprobamos si coinciden la password
-            if (model.isCorrectPassword(password, results[0].password)) {
-                console.log('usuario correcto')
-                return res.json({
-                    code: 200,
-                    user
-                });
-            } else {
-                return res.json(401);
-            };
-
-        });
-    });
+    const [
+        rows,
+    ] = await connection.execute(
+        "SELECT * FROM `usuario` WHERE `nickname` = ?",
+        [nickname]
+    );
+    connection.end();
+    if (rows.length) {
+        const user = parseUser(rows[0]);
+        return user;
+    }
+    return false;
 };
 
-exports.createUser = async (req, res) => {
+exports.findByIdByPassport = async (id) => {
 
+    const connection = await model.getConnection();
+    const [
+        rows,
+    ] =
+        await connection.execute("SELECT * FROM `usuario` WHERE `id` = ?", [id]);
+    connection.end();
+
+    if (rows.length) {
+        const user = parseUser(rows[0]);
+        return user;
+    }
+
+    return { out: false };
+
+}
+
+exports.findById = async (req, res) => {
+
+    const user = await this.findByIdByPassport(req.body.id);
+    res.send(user);
+
+}
+
+
+exports.createUser = async (req, res) => {
     const connection = await model.getConnection();
     const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,now())";
     const password = model.getEncrypted(req.body.password);
     const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
-    '/assets/img/default.png',0,null,0,0];
+        '/assets/img/default.png', 0, null, 0, 0];
+    res.send({msg: 'Antes de nada'})
+    const [
+        results,
+    ] = await connection.execute(sql, data);
 
-    connection.query(sql, data, (err, results, fields) => {
-
-        console.log('Lista:' + results.insertId);
-
-    });
+    // console.log(results);
+    
+    // if(results.rowAffected > 0) res.send({msg: 'Registro correcto'})
+    // no estoy controlando si esta funcion da alguna excepcion(no he sabido)
 
 }
 
@@ -87,24 +88,8 @@ exports.existNickname = async (req, res) => {
 
 }
 
-exports.findById = async (req, res) => {
 
-    const connection = await model.getConnection();
-    let sql = `SELECT * FROM usuario WHERE id ='${req.body.id}'`;
-
-    await connection.query(sql, (error, results) => {
-        
-        const user = parseUser(results[0]);
-        console.log(user);
-        
-        if (results.length != 0) return res.json( user );
-        else return res.json({ msg: false });
-
-    })
-
-}
-
-const parseUser = results =>{
+const parseUser = results => {
 
     let user = {
         id: results.id,
@@ -112,6 +97,7 @@ const parseUser = results =>{
         apellidos: results.apellidos,
         email: results.email,
         status: results.status,
+        password: results.password,
         nickname: results.nickname,
         imagen: results.imagen,
         logros: results.logros,
@@ -122,5 +108,5 @@ const parseUser = results =>{
     };
 
     return user;
-    
+
 }
