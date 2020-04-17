@@ -311,8 +311,15 @@ async function sendToServer(url, data) {
 
 }
 
+function getKey(event){
+    console.log(event.key);
+    
+}
+
 async function login(user, pass) {
 
+    console.log(user, pass);
+    
     let url = '../user/logIn';
 
     let userLogin = {
@@ -368,4 +375,5 @@ function init() {
     inputEmail.value = '';
 }
 
+window.addEventListener('keydown', function(){getKey(event)});
 window.addEventListener('load', init);

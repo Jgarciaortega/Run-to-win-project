@@ -1,26 +1,55 @@
+async function getServer(url) {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    return data;
+
+}
+
+async function countMsg(){
+
+    const url = '/api/countMessages/'+userId.id;
+    
+    const count = await getServer(url);
+    document.getElementById('msgQuantity').innerHTML = count.total;
+    
+}
+
+async function countNtf(){
+
+}
 
 
-function despliegaMenu() {
+function deployMenu() {
     document.getElementById('menuUser').classList.remove('noVisible');
 }
 
-function ocultaMenu() {
+function hideMenu() {
     document.getElementById('menuUser').classList.add('noVisible');
 }
 
-function init() {
+async function init() {
+
+    // Obtenemos el id del usuario
+    userId = JSON.parse(localStorage.getItem('user')); 
 
     //1º peticion a strava de los datos del usuario
     document.getElementById('btn-strava').addEventListener('click', connectToStrava);
 
     //listeners para desplegar/plegar menus
-    document.getElementById('user').addEventListener('click', despliegaMenu);
-    document.getElementById('menuUser').addEventListener('mouseleave', ocultaMenu);
+    document.getElementById('user').addEventListener('click', deployMenu);
+    document.getElementById('menuUser').addEventListener('mouseleave', hideMenu);
 
+    //contamos mensajes / notificaciones pendientes
+    await countMsg();
+    await countNtf();
+
+    
 }
 
 //Variables Globales
 let dataStrava;
+let userId;
 
 window.addEventListener('load', init);
 

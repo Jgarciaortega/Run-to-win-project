@@ -63,7 +63,7 @@ router.get("/user/logOut", (req, res) => {
   });
 
 
-router.post('/user/findById', passport.authenticate('jwt', { session: false }), User.findById);
+router.get('/user/findById/:id', passport.authenticate('jwt', { session: false }), User.findById);
 
 router.post('/user/createUser', User.createUser);
 router.post('/user/existEmail', User.existEmail);

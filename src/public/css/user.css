@@ -99,8 +99,6 @@ body {
   font-size: 22px;
   background-color: #ece7e2;
   opacity: 0.8;
-  display: flex;
-  flex-direction: column;
 }
 #header #contentHeader #profile #user #menuUser li {
   display: flex;
@@ -247,7 +245,7 @@ footer li {
 /* Vistas mensajes/notificaciones */
 #msgContent {
   margin-top: 45px;
-  width: 1000px;
+  width: 900px;
   margin: 0px auto;
   min-height: 590px;
 }
@@ -263,32 +261,80 @@ footer li {
 #msgContent #inbox #msgHeader #btn-msg {
   height: 40px;
   align-self: center;
-  margin-right: 3%;
+  margin-right: 1%;
 }
-#msgContent #inbox #msgTemplate {
-  border: 1px solid black;
+#msgContent #inbox .msgTemplate {
+  background: url("../assets/img/pattern.png");
+  border: 1px dashed black;
   margin: 4px;
   display: grid;
-  grid-template-columns: 0.5fr 6fr 0.75fr;
+  grid-template-columns: 0.65fr 6fr 0.75fr;
 }
-#msgContent #inbox #msgTemplate #msgPhoto img {
-  padding: 22%;
-  width: 43px;
+#msgContent #inbox .msgTemplate .msgPhoto {
+  display: flex;
 }
-#msgContent #inbox #msgTemplate #msgDate {
+#msgContent #inbox .msgTemplate .msgPhoto img {
+  border-radius: 38%;
+  align-self: center;
+  margin-left: 17%;
+  width: 47px;
+}
+#msgContent #inbox .msgTemplate h4 {
+  text-decoration: underline;
+}
+#msgContent #inbox .msgTemplate .msgDate {
   text-align: center;
 }
-#msgContent #inbox #msgTemplate #msgDate #btn-msg {
+#msgContent #inbox .msgTemplate .msgDate .btn-msg {
   margin: 0px auto;
 }
+#msgContent #inbox .msgReply {
+  border: 1px dashed black;
+  background: url("../assets/img/pattern.png");
+  margin: 4px;
+  padding: 1%;
+}
+#msgContent #inbox .msgReply .txtArea {
+  display: inline;
+}
+#msgContent #inbox .msgReply .botoneraSendReply {
+  display: inline;
+  margin-left: 2.9%;
+}
 
+.showReplyMsg {
+  animation: showReplyMsg 250ms linear;
+  display: block;
+}
+
+.showReplyMsgReverse {
+  animation: showReplyMsgReverse 250ms linear;
+  display: none;
+}
+
+@keyframes showReplyMsg {
+  from {
+    transform: translateY(-80%);
+    display: block;
+  }
+  to {
+    transform: translateY(0%);
+    display: block;
+  }
+}
+@keyframes showReplyMsgReverse {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-80%);
+  }
+}
 #newMessage {
   width: 469px;
   height: 223px;
   border: 1px solid black;
   position: absolute;
-  top: 440px;
-  left: 500px;
   background-color: #ece7e2;
 }
 #newMessage #msg-top {
@@ -342,6 +388,12 @@ footer li {
   border-radius: 50%;
 }
 
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
 .wrap {
   width: 1400px;
   margin: 0px auto;
@@ -357,7 +409,7 @@ footer li {
 }
 
 .noVisible {
-  visibility: hidden;
+  display: none;
 }
 
 /*ESTILOS GENERALES*/

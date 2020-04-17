@@ -8,8 +8,8 @@
 
 async function loadInfoUser(userId) {
 
-    const url = '/user/findById';
-    const user = await sendToServer(url, userId);
+    const url = '/user/findById/'+userId.id;
+    const user = await getFromServer(url);
     const nickname = document.getElementById('nickname');
     const level = document.getElementById('level');
     const achievements = document.getElementById('achievements-quantity');
@@ -36,6 +36,15 @@ async function sendToServer(url, data) {
 
 }
 
+async function getFromServer(url) {
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    return data;
+
+}
+
 function informeSemanal() {
 
     // fetch('/api/prueba/' + 'Javi')
@@ -48,8 +57,8 @@ function init() {
 
     //1º obtenemos el id usuario de la url para carga su informacion
     // para borrar localstorage es : localStorage.remove('user');
-    const user = JSON.parse(localStorage.getItem('user'));
-    loadInfoUser(user);
+    const userId = JSON.parse(localStorage.getItem('user'));
+    loadInfoUser(userId);
 
     document.getElementById('informeSemanal').addEventListener('click', informeSemanal);
 

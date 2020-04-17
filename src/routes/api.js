@@ -4,9 +4,20 @@ const passport = require('passport');
 
 const Message = require('../controllers/messages.controllers');
 
-
-router.post ("/api/sendMessage",
+router.post("/api/sendMessage",
 passport.authenticate("jwt", { session: false }),Message.createMessage);
+
+router.get("/api/getMessages/:id",
+passport.authenticate("jwt", { session: false }),Message.getMessages);
+
+router.get("/api/countMessages/:id",
+passport.authenticate("jwt", { session: false }),Message.countMessages);
+
+router.delete("/api/deleteMsg/:id",
+passport.authenticate("jwt", { session: false }),Message.deleteMessage);
+
+
+
 
 router.get(
     "/api/prueba/:dia",

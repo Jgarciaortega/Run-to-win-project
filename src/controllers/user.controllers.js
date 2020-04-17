@@ -35,8 +35,9 @@ exports.findByIdByPassport = async (id) => {
 }
 
 exports.findById = async (req, res) => {
-
-    const user = await this.findByIdByPassport(req.body.id);
+ 
+    const user = await this.findByIdByPassport(req.params.id);
+    user.password='';
     res.send(user);
 
 }
@@ -47,16 +48,12 @@ exports.createUser = async (req, res) => {
     const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,now())";
     const password = model.getEncrypted(req.body.password);
     const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
-        '/assets/img/default.png', 0, null, 0, 0];
+        '/assets/user_photos/yo.jpg', 0, null, 0, 0];
     res.send({msg: 'Antes de nada'})
-    const [
-        results,
-    ] = await connection.execute(sql, data);
+   
+    await connection.execute(sql, data);
 
-    // console.log(results);
-    
-    // if(results.rowAffected > 0) res.send({msg: 'Registro correcto'})
-    // no estoy controlando si esta funcion da alguna excepcion(no he sabido)
+ 
 
 }
 
@@ -87,8 +84,6 @@ exports.existNickname = async (req, res) => {
     })
 
 }
-
-
 const parseUser = results => {
 
     let user = {
