@@ -3,7 +3,9 @@ const { format } = require('timeago.js');
 
 exports.createMessage = async (req, res) => {
     const connection = await model.getConnection();
-    const data = ['"'+req.body.messageTxt+'"',2,false,req.body.user.id];
+    console.log(req.body.messageTxt);
+    
+    const data = ['"'+req.body.messageTxt+'"',req.body.id_addressee,false,req.body.user.id];
 
     await connection.execute("INSERT INTO mensaje VALUES (NULL,?,?,now(),?,?)",
     data);
@@ -26,12 +28,13 @@ exports.deleteMessage = async (req, res) => {
 
     const connection = await model.getConnection();
     let idMsg = req.params.id;
+ 
     let sqlQuery = "DELETE FROM mensaje WHERE id=" + idMsg;
     console.log(sqlQuery);
 
     connection.query(sqlQuery, function (err, result) {
-        if (err) res.send(false);
-        res.send(true);
+        if (err) res.send({ msg: "Error al eliminar usuario"});
+        res.send({msg:"Usuario eliminado"});
         console.log("Number of records deleted: " + result.affectedRows);
       });
 

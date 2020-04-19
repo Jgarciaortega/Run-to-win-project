@@ -1,3 +1,10 @@
 USE db_rtw
 
-INSERT INTO mensaje VALUES(1,10344.4,2500,'2020-01-02 05:15:09',5.2,10.8,1);
+INSERT INTO mensaje VALUES(NULL,'Hola Isabel esto es el mensaje de prueba 1',1,now(), false, 2);
+INSERT INTO mensaje VALUES(NULL,'Hola Isabel esto es el mensaje de prueba 2',1,now(), false, 2);
+INSERT INTO mensaje VALUES(NULL,'Hola Isabel esto es el mensaje de prueba 3',1,now(), false, 2);
+INSERT INTO mensaje VALUES(NULL,'Hola Isabel esto es el mensaje de prueba 4',1,now(), false, 2);
+INSERT INTO mensaje VALUES(NULL,'Hola Javier esto es el mensaje de prueba 1',2,now(), false, 1);
+INSERT INTO mensaje VALUES(NULL,'Hola Javier esto es el mensaje de prueba 2',2,now(), false, 1);
+INSERT INTO mensaje VALUES(NULL,'Hola Javier esto es el mensaje de prueba 3',2,now(), false, 1);
+INSERT INTO mensaje VALUES(NULL,'Hola Javier esto es el mensaje de prueba 4',2,now(), false, 1);

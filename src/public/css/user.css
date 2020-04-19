@@ -249,7 +249,7 @@ footer li {
   margin: 0px auto;
   min-height: 590px;
 }
-#msgContent #inbox #msgHeader {
+#msgContent #inbox #inboxHeader {
   display: flex;
   flex-direction: row;
   border-bottom: 2px solid black;
@@ -258,76 +258,45 @@ footer li {
   margin-top: 20px;
   margin-bottom: 15px;
 }
-#msgContent #inbox #msgHeader #btn-msg {
+#msgContent #inbox #inboxHeader #btn-newMsg {
   height: 40px;
   align-self: center;
   margin-right: 1%;
 }
 #msgContent #inbox .msgTemplate {
-  background: url("../assets/img/pattern.png");
-  border: 1px dashed black;
-  margin: 4px;
-  display: grid;
-  grid-template-columns: 0.65fr 6fr 0.75fr;
+  border: 1px solid black;
+  background: url("../assets/img/pxgray.png");
 }
-#msgContent #inbox .msgTemplate .msgPhoto {
-  display: flex;
-}
-#msgContent #inbox .msgTemplate .msgPhoto img {
-  border-radius: 38%;
-  align-self: center;
-  margin-left: 17%;
-  width: 47px;
-}
-#msgContent #inbox .msgTemplate h4 {
-  text-decoration: underline;
-}
-#msgContent #inbox .msgTemplate .msgDate {
-  text-align: center;
-}
-#msgContent #inbox .msgTemplate .msgDate .btn-msg {
-  margin: 0px auto;
-}
-#msgContent #inbox .msgReply {
-  border: 1px dashed black;
-  background: url("../assets/img/pattern.png");
-  margin: 4px;
-  padding: 1%;
-}
-#msgContent #inbox .msgReply .txtArea {
+#msgContent #inbox .msgTemplate .dataContent {
+  border: 1px solid black;
   display: inline;
 }
-#msgContent #inbox .msgReply .botoneraSendReply {
-  display: inline;
-  margin-left: 2.9%;
+#msgContent #inbox .msgTemplate .dataContent img {
+  width: 20px;
+}
+#msgContent #inbox .msgTemplate .dataContent .msgOptions {
+  position: relative;
+  left: 767px;
+  top: 10px;
+}
+#msgContent #inbox .msgTemplate .msgReply {
+  border: 1px solid black;
+}
+#msgContent #inbox .msgTemplate .msgReply .replyOptions {
+  position: relative;
+  left: 767px;
 }
 
 .showReplyMsg {
   animation: showReplyMsg 250ms linear;
-  display: block;
-}
-
-.showReplyMsgReverse {
-  animation: showReplyMsgReverse 250ms linear;
-  display: none;
 }
 
 @keyframes showReplyMsg {
   from {
     transform: translateY(-80%);
-    display: block;
   }
   to {
     transform: translateY(0%);
-    display: block;
-  }
-}
-@keyframes showReplyMsgReverse {
-  from {
-    transform: translateY(0%);
-  }
-  to {
-    transform: translateY(-80%);
   }
 }
 #newMessage {

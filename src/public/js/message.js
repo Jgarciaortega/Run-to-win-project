@@ -58,34 +58,69 @@ function closeNewMessage() {
     document.getElementById('newMessage').classList.add('noVisible');
 }
 
-function closeReplyMessage(){
- 
+function closeReplyMessage() {
+
     const botonera = this.parentNode;
     const divReplyMsg = botonera.parentNode;
-    
+
     divReplyMsg.classList.add('noVisible');
-    
+
 }
 
-async function replyMessage() {
+function showReplyMessage() {
 
-    console.log(this.getAttribute('data'));
-    document.getElementById(this.getAttribute('data')).classList.remove('noVisible');
-    document.getElementById(this.getAttribute('data')).classList.add('showReplyMsg');
-    
+    const mainContent = document.getElementById(this.getAttribute('data-id'));
+    const content = mainContent.lastChild;
+    content.classList.remove('noVisible');
+    content.classList.add('showReplyMsg');
+
 }
 
-async function sendMessage(addressee, messageTxt) {
+function sendMessageReply() {
 
-    console.log(document.querySelector('input[name="addressee"]'));
+    const id_addressee = this.getAttribute('data-addresse');
+    const id_msg = this.getAttribute('data-id');
+    const mainContent = document.getElementById(id_msg);
+    const txt_msg = mainContent.lastChild.firstChild;
+
     
+    // para generar nuevo mensaje obtengo todo el contenido previo
+    const msgComplete = generateMsg(mainContent,txt_msg.value);
+
+    sendMessage(id_addressee, msgComplete);
+    mainContent.lastChild.classList.add('noVisible');
+    
+
+}
+
+function generateMsg(mainContent,txt_msg,date) {
+
+    const content = mainContent.firstChild;
+    const dataContent = content.firstChild.children;
+    let msgComplete = '';
+
+    for (let i = 0; i < dataContent.length; i++) {
+
+        msgComplete += dataContent[i].children[1].innerHTML;
+     
+        msgComplete += ' * ';
+
+    }
+    msgComplete += txt_msg;
+    return msgComplete;
+}
+
+async function sendMessage(id_addressee, messageTxt) {
+
+    // console.log(document.querySelector('input[name="addressee"]'));
     const message = {
-        addressee,
+        id_addressee,
         messageTxt,
         user
     };
 
     await postServer('/api/sendMessage', message);
+
 }
 
 async function postServer(url, data) {
@@ -130,109 +165,125 @@ async function getServer(url) {
 
 }
 
+function divideMsg(msg) {
+
+    const messages = msg.split('*');
+    return messages;
+
+}
+
 function showMessages(messages) {
 
     const inbox = document.getElementById('inbox');
 
     messages.forEach(async msg => {
 
-        // primero averiguamos el usuario que crea el mensaje
+        // 1 primero averiguamos el usuario que crea el mensaje
         const userSentMsg = await getServer('/user/findById/' + msg.id_usuario);
+        console.log(userSentMsg);
 
-        // div principal del mensaje
-        const message = document.createElement('div');
-        message.classList.add('msgTemplate')
-        inbox.appendChild(message);
+        // 2 div principal del mensaje (msg y reply msg)
+        const msgTemplate = document.createElement('div');
+        msgTemplate.classList.add('msgTemplate')
+        msgTemplate.setAttribute('id', msg.id);
+        inbox.appendChild(msgTemplate);
 
-        // div foto del usuario envia mensaje
-        const photo = document.createElement('div');
-        photo.classList.add('msgPhoto');
-        message.appendChild(photo);
+        // 2.1 div msg
+        const dataContent = document.createElement('div');
+        dataContent.classList.add('dataContent');
+        msgTemplate.appendChild(dataContent);
 
-        // img del usuario
-        const avatar = document.createElement('img');
-        avatar.setAttribute('src', userSentMsg.imagen);
-        avatar.setAttribute('alt', 'imagen usuario envia mensaje');
-        photo.appendChild(avatar);
+        // 2.1.1 div datos msg
+        const msgData = document.createElement('div');
+        msgData.classList.add('msgData');
+        dataContent.appendChild(msgData);
 
-        // div del texto mensaje
-        const text = document.createElement('div');
-        text.classList.add('msgText');
-        message.appendChild(text);
+        /* Bucle de aquí */
+        let msgParts = divideMsg(msg.contenido);
+        // 2.1.1.1 div msg
+        let imgMsg;
+        for (let i = 0; i < msgParts.length; i++) {
 
-        // contenido mensaje (creador msg + contenido msg)
-        const nombre = document.createElement('h4');
-        nombre.innerHTML = userSentMsg.nickname;
-        text.appendChild(nombre);
-        const contenido = document.createElement('p');
-        contenido.innerHTML = msg.contenido;
-        text.appendChild(contenido);
+            if (i % 2 == 0) imgMsg = userSentMsg.imagen;
+            else imgMsg = user.imagen;
 
-        // div fecha envio mensaje y botones
-        const date = document.createElement('div');
-        date.classList.add('msgDate');
-        message.appendChild(date);
+            const message = document.createElement('div');
+            message.classList.add('msg');
+            msgData.appendChild(message);
 
-        // fecha
-        const datoFecha = document.createElement('p');
-        datoFecha.innerHTML = msg.fecha_envio;
-        date.appendChild(datoFecha);
+            // 2.1.1.1.1 img user envia mensaje
 
-        // div botonera borrar
-        const buttons = document.createElement('div');
-        buttons.classList.add('btn-msg');
-        date.appendChild(buttons);
+            const avatar = document.createElement('img');
+            avatar.setAttribute('src', imgMsg);
+            avatar.setAttribute('alt', 'imagen usuario envia mensaje');
+            message.appendChild(avatar);
 
-        // boton borrar
+            // 2.1.1.1.2 info del msg
+            const msgText = document.createElement('span');
+            msgText.classList.add('msgText');
+            msgText.innerHTML = msgParts[i];
+            message.appendChild(msgText);
+
+        }
+        /* Hasta aquí bucle */
+
+        // 2.1.2 botonera opciones enviar
+        const msgOptions = document.createElement('div');
+        msgOptions.classList.add('msgOptions');
+        dataContent.appendChild(msgOptions);
+
+        // 2.1.2.1 boton contestar
         const btnReply = document.createElement('button');
-        btnReply.classList.add('reply');
-        btnReply.setAttribute('data', msg.id);
-        btnReply.addEventListener('click', replyMessage);
         btnReply.innerHTML = '<i class="fas fa-reply"></i>';
-        buttons.appendChild(btnReply);
+        btnReply.addEventListener('click', showReplyMessage);
+        btnReply.setAttribute('data-id', msg.id);
+        msgOptions.appendChild(btnReply);
+
+        // 2.1.2.2 boton borrar mensaje
         const btnDelete = document.createElement('button');
-        btnDelete.classList.add('delete');
-        btnDelete.setAttribute('data', msg.id);
-        btnDelete.addEventListener('click', deleteMessage);
         btnDelete.innerHTML = '<i class="fas fa-trash-alt"></i>';
-        buttons.appendChild(btnDelete);
+        btnDelete.addEventListener('click', deleteMessage);
+        btnDelete.setAttribute('data-id', msg.id);
+        msgOptions.appendChild(btnDelete);
 
-        // div respuesta 
-        const contentReply = document.createElement('div');
-        contentReply.classList.add('msgReply','noVisible');
-        contentReply.setAttribute('id',msg.id);
-        inbox.appendChild(contentReply);
+        // 2.2 div msgReply
+        const msgReply = document.createElement('div');
+        msgReply.classList.add('msgReply');
+        msgReply.classList.add('noVisible');
+        msgTemplate.appendChild(msgReply);
 
-        // contenido div respuesta
-        const divTxtAreaReply = document.createElement('div');
-        divTxtAreaReply.classList.add('txtArea');
-        contentReply.appendChild(divTxtAreaReply);
-        const txtAreaReply = document.createElement('textarea');
-        // txtAreaReply.setAttribute('name','message');
-        // txtAreaReply.setAttribute('id', msg.id);
-        txtAreaReply.setAttribute('cols','94');
-        // txtAreaReply.setAttribute('rows','1');
-        divTxtAreaReply.appendChild(txtAreaReply);
+        // 2.2.1 area texto respuesta
+        const reply = document.createElement('textarea');
+        reply.setAttribute('cols', '90');
+        msgReply.appendChild(reply);
 
-        const botoneraSendReply = document.createElement('div');
-        botoneraSendReply.classList.add('botoneraSendReply');
-        contentReply.appendChild(botoneraSendReply);
-        const btnSendReply = document.createElement('button');
-        btnSendReply.innerHTML = '<i class="fas fa-paper-plane"></i>';
-        botoneraSendReply.appendChild(btnSendReply);
-        const btnCloseReply = document.createElement('button');
-        btnCloseReply.innerHTML = '<i class="fas fa-window-close"></i>';
-        btnCloseReply.addEventListener('click', closeReplyMessage);
-        botoneraSendReply.appendChild(btnCloseReply);
-        
+        // 2.2.2 botonera opciones reply
+        const replyOptions = document.createElement('div');
+        replyOptions.classList.add('replyOptions');
+        msgReply.appendChild(replyOptions);
+
+        // 2.2.2.1 boton enviar
+        const btnSend = document.createElement('button');
+        btnSend.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        btnSend.addEventListener('click', sendMessageReply);
+        btnSend.setAttribute('data-id', msg.id);
+        btnSend.setAttribute('data-addresse', userSentMsg.id);
+        replyOptions.appendChild(btnSend);
+
+        // 2.2.2.2. boton cerrar
+        const btnClose = document.createElement('button');
+        btnClose.innerHTML = '<i class="fas fa-window-close"></i>';
+        btnClose.addEventListener('click', closeReplyMessage);
+        btnClose.setAttribute('data-id', msg.id);
+        replyOptions.appendChild(btnClose);
 
     });
 }
 
 function deleteMessage() {
 
-    // 1º borrar en BBDD
-    deleteServer('/api/deleteMsg/' + this.getAttribute('data'));
+    // // 1º borrar en BBDD
+    deleteServer('/api/deleteMsg/' + this.getAttribute('data-id'));
 
     // 2º borrar en interfaz (vamos subiendo del boton a nodo padre para eliminarlo)
     let localContent = this.parentNode;
@@ -243,8 +294,6 @@ function deleteMessage() {
     mainContent.innerHTML = '';
 
 }
-
-
 async function init() {
 
     // Obtenemos el id del usuario
@@ -252,29 +301,30 @@ async function init() {
     user = await getServer('/user/findById/' + userId.id);
 
     // Descargamos los mensajes del usuario y se muestran
-    messages = await getServer('/api/getMessages/' + userId.id)
+    const messages = await getServer('/api/getMessages/' + userId.id)
     showMessages(messages);
 
-    // Listeners ventana mensaje nuevo
-    document.getElementById('btn-send').addEventListener('click', function () {
-        sendMessage(document.querySelector('input[name="addressee"]').value,
-            document.querySelector('textarea[name="message"]').value)
-    });
-    document.getElementById('close-newMsg').addEventListener('click', closeNewMessage);
-    document.getElementById('btn-msg').addEventListener('click', showWindowSend);
+    // // Listeners ventana mensaje nuevo
+    // document.getElementById('btn-send').addEventListener('click', function () {
+    //     sendMessage(1,
+    //         // document.querySelector('input[name="addressee"]').value
+    //         document.querySelector('textarea[name="message"]').value)
+    // });
+    // document.getElementById('close-newMsg').addEventListener('click', closeNewMessage);
+    // document.getElementById('btn-msg').addEventListener('click', showWindowSend);
 
-    // Drag and drop listeners
-    let newMessage = document.getElementById('newMessage');
-    let placeDroppable = document.querySelector('body');
-    newMessage.addEventListener('dragstart', drag);
-    placeDroppable.addEventListener('dragover', allowDrop);
-    placeDroppable.addEventListener('drop', drop);
+    // // Drag and drop listeners
+    // let newMessage = document.getElementById('newMessage');
+    // let placeDroppable = document.querySelector('body');
+    // newMessage.addEventListener('dragstart', drag);
+    // placeDroppable.addEventListener('dragover', allowDrop);
+    // placeDroppable.addEventListener('drop', drop);
 
 }
 
 /* Variables globales */
 let user;
-let messages;
+
 
 window.addEventListener('load', init);
 window.addEventListener('scroll', fijarHeader);
