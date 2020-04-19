@@ -303,28 +303,32 @@ footer {
       }
     }
     .msgTemplate {
-      border: 1px solid black;
-      background: url("../assets/img/pxgray.png");
+      background: url("../assets/img/pattern.png");
+      border: 1px dashed black;
+      margin: 5px;
       .dataContent {
-        border: 1px solid black;
-        display: inline;
-        img {
-          width: 20px;
+        display: grid;
+        grid-template-columns: 11fr 1fr;
+      
+        .msgData {
+          .msg {
+            margin: 1%;
+            img {
+              width: 20px;
+              margin-right: 0.5%;
+            }
+          }
         }
-        .msgOptions {
-          position: relative;
-          left: 767px;
-          top: 10px;
+        .msgOptions{
+          margin-top: 1px;
+          margin-right: 1px;
         }
       }
 
       .msgReply {
-        border: 1px solid black;
-      
-        .replyOptions {
-          position: relative;
-          left: 767px;
-        }
+        display: grid;
+        grid-template-columns: 11fr 1fr;
+        
       }
     }
   }
@@ -332,17 +336,15 @@ footer {
 
 .showReplyMsg {
   animation: showReplyMsg 250ms linear;
-  
 }
 
 @keyframes showReplyMsg {
   from {
     transform: translateY(-80%);
-   
   }
   to {
     transform: translateY(0%);
-    
+    visibility: visible;
   }
 }
 
@@ -433,6 +435,10 @@ footer {
 
 .noVisible {
   display: none;
+}
+
+.noVisibility{
+  visibility: hidden;
 }
 
 /*ESTILOS GENERALES*/

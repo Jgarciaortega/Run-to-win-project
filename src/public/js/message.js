@@ -11,7 +11,6 @@ function fijarHeader() {
     } else {
         header.classList.remove("sticky");
     }
-
 }
 /* INICIO DRAG AND DROP */
 function allowDrop(ev) {
@@ -37,6 +36,7 @@ function drop(ev) {
 }
 
 /* FIN DRAG AND DROP */
+
 function showWindowSend() {
 
     //1º Centramos la ventana
@@ -63,37 +63,54 @@ function closeReplyMessage() {
     const botonera = this.parentNode;
     const divReplyMsg = botonera.parentNode;
 
-    divReplyMsg.classList.add('noVisible');
-
+    divReplyMsg.classList.add('noVisibility');
+    divReplyMsg.classList.remove('showReplyMsg');
 }
 
 function showReplyMessage() {
 
     const mainContent = document.getElementById(this.getAttribute('data-id'));
     const content = mainContent.lastChild;
-    content.classList.remove('noVisible');
+    content.classList.remove('noVisibility');
     content.classList.add('showReplyMsg');
 
 }
 
-function sendMessageReply() {
+async function sendMessageReply() {
 
     const id_addressee = this.getAttribute('data-addresse');
     const id_msg = this.getAttribute('data-id');
     const mainContent = document.getElementById(id_msg);
     const txt_msg = mainContent.lastChild.firstChild;
-
+   
+   
+    // solo permito que se haga reply a un msg si su lenght > 0
+    if (txt_msg.value.length > 0) {
+        // para generar nuevo mensaje obtengo todo el contenido previo
+        const msgComplete = generateMsg(mainContent, txt_msg.value);
+        mainContent.classList.add('noVisible');
+        await updateMessage(id_msg, id_addressee, userId.id, msgComplete);
     
-    // para generar nuevo mensaje obtengo todo el contenido previo
-    const msgComplete = generateMsg(mainContent,txt_msg.value);
+    }
 
-    sendMessage(id_addressee, msgComplete);
-    mainContent.lastChild.classList.add('noVisible');
-    
 
 }
 
-function generateMsg(mainContent,txt_msg,date) {
+async function updateMessage(id_msg, addressee, sender, msgComplete) {
+
+    const url = '/api/updateMessage/' + id_msg;
+
+    const message = {
+        txt: msgComplete,
+        addressee,
+        sender
+    };
+
+    await putServer(url, message);
+
+}
+
+function generateMsg(mainContent, txt_msg, date) {
 
     const content = mainContent.firstChild;
     const dataContent = content.firstChild.children;
@@ -102,7 +119,7 @@ function generateMsg(mainContent,txt_msg,date) {
     for (let i = 0; i < dataContent.length; i++) {
 
         msgComplete += dataContent[i].children[1].innerHTML;
-     
+
         msgComplete += ' * ';
 
     }
@@ -112,57 +129,16 @@ function generateMsg(mainContent,txt_msg,date) {
 
 async function sendMessage(id_addressee, messageTxt) {
 
+    console.log(id_addressee, messageTxt);
+
     // console.log(document.querySelector('input[name="addressee"]'));
-    const message = {
-        id_addressee,
-        messageTxt,
-        user
-    };
+    // const message = {
+    //     id_addressee,
+    //     messageTxt,
+    //     user
+    // };
 
-    await postServer('/api/sendMessage', message);
-
-}
-
-async function postServer(url, data) {
-
-    let body = {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    const res1 = await fetch(url, body);
-    const res2 = await res1.json();
-
-    return res2;
-
-}
-
-async function deleteServer(url) {
-
-    let body = {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    const res = await fetch(url, body);
-    const data = await res.json();
-
-    console.log(data);
-
-}
-
-async function getServer(url) {
-
-    const res = await fetch(url);
-    const data = await res.json();
-
-    return data;
-
+    // await postServer('/api/sendMessage', message);
 }
 
 function divideMsg(msg) {
@@ -187,6 +163,7 @@ function showMessages(messages) {
         msgTemplate.classList.add('msgTemplate')
         msgTemplate.setAttribute('id', msg.id);
         inbox.appendChild(msgTemplate);
+
 
         // 2.1 div msg
         const dataContent = document.createElement('div');
@@ -249,7 +226,7 @@ function showMessages(messages) {
         // 2.2 div msgReply
         const msgReply = document.createElement('div');
         msgReply.classList.add('msgReply');
-        msgReply.classList.add('noVisible');
+        msgReply.classList.add('noVisibility');
         msgTemplate.appendChild(msgReply);
 
         // 2.2.1 area texto respuesta
@@ -294,6 +271,67 @@ function deleteMessage() {
     mainContent.innerHTML = '';
 
 }
+
+/* MÉTODOS CONEXION SERVIDOR */
+
+async function putServer(url, data) {
+
+    let body = {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    const res1 = await fetch(url, body);
+    // const res2 = await res.json();
+
+}
+
+
+async function postServer(url, data) {
+
+    let body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const res1 = await fetch(url, body);
+    const res2 = await res1.json();
+
+    return res2;
+
+}
+
+async function deleteServer(url) {
+
+    let body = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const res = await fetch(url, body);
+    const data = await res.json();
+
+    console.log(data);
+
+}
+
+async function getServer(url) {
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    return data;
+
+}
+/* FIN METODOS CONEXION SERVIDOR */
+
 async function init() {
 
     // Obtenemos el id del usuario
@@ -304,21 +342,21 @@ async function init() {
     const messages = await getServer('/api/getMessages/' + userId.id)
     showMessages(messages);
 
-    // // Listeners ventana mensaje nuevo
-    // document.getElementById('btn-send').addEventListener('click', function () {
-    //     sendMessage(1,
-    //         // document.querySelector('input[name="addressee"]').value
-    //         document.querySelector('textarea[name="message"]').value)
-    // });
-    // document.getElementById('close-newMsg').addEventListener('click', closeNewMessage);
-    // document.getElementById('btn-msg').addEventListener('click', showWindowSend);
+    // Listeners ventana mensaje nuevo
+    document.getElementById('btn-send').addEventListener('click', function () {
+        sendMessage(
+            document.querySelector('input[name="addressee"]').value,
+            document.querySelector('textarea[name="message"]').value)
+    });
+    document.getElementById('close-newMsg').addEventListener('click', closeNewMessage);
+    document.getElementById('btn-newMsg').addEventListener('click', showWindowSend);
 
-    // // Drag and drop listeners
-    // let newMessage = document.getElementById('newMessage');
-    // let placeDroppable = document.querySelector('body');
-    // newMessage.addEventListener('dragstart', drag);
-    // placeDroppable.addEventListener('dragover', allowDrop);
-    // placeDroppable.addEventListener('drop', drop);
+    // Drag and drop listeners
+    let newMessage = document.getElementById('newMessage');
+    let placeDroppable = document.querySelector('body');
+    newMessage.addEventListener('dragstart', drag);
+    placeDroppable.addEventListener('dragover', allowDrop);
+    placeDroppable.addEventListener('drop', drop);
 
 }
 

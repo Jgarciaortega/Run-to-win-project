@@ -48,7 +48,7 @@ exports.createUser = async (req, res) => {
     const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,now())";
     const password = model.getEncrypted(req.body.password);
     const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
-        '/assets/user_photos/yo.jpg', 0, null, 0, 0];
+        '/assets/user_photos/Schwarzy.jpg', 0, null, 0, 0];
     res.send({msg: 'Antes de nada'})
    
     await connection.execute(sql, data);

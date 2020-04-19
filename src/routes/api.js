@@ -16,8 +16,8 @@ passport.authenticate("jwt", { session: false }),Message.countMessages);
 router.delete("/api/deleteMsg/:id",
 passport.authenticate("jwt", { session: false }),Message.deleteMessage);
 
-
-
+router.put("/api/updateMessage/:id",
+passport.authenticate("jwt", { session: false }),Message.updateMessage);
 
 router.get(
     "/api/prueba/:dia",

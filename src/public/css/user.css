@@ -264,27 +264,28 @@ footer li {
   margin-right: 1%;
 }
 #msgContent #inbox .msgTemplate {
-  border: 1px solid black;
-  background: url("../assets/img/pxgray.png");
+  background: url("../assets/img/pattern.png");
+  border: 1px dashed black;
+  margin: 5px;
 }
 #msgContent #inbox .msgTemplate .dataContent {
-  border: 1px solid black;
-  display: inline;
+  display: grid;
+  grid-template-columns: 11fr 1fr;
 }
-#msgContent #inbox .msgTemplate .dataContent img {
+#msgContent #inbox .msgTemplate .dataContent .msgData .msg {
+  margin: 1%;
+}
+#msgContent #inbox .msgTemplate .dataContent .msgData .msg img {
   width: 20px;
+  margin-right: 0.5%;
 }
 #msgContent #inbox .msgTemplate .dataContent .msgOptions {
-  position: relative;
-  left: 767px;
-  top: 10px;
+  margin-top: 1px;
+  margin-right: 1px;
 }
 #msgContent #inbox .msgTemplate .msgReply {
-  border: 1px solid black;
-}
-#msgContent #inbox .msgTemplate .msgReply .replyOptions {
-  position: relative;
-  left: 767px;
+  display: grid;
+  grid-template-columns: 11fr 1fr;
 }
 
 .showReplyMsg {
@@ -297,6 +298,7 @@ footer li {
   }
   to {
     transform: translateY(0%);
+    visibility: visible;
   }
 }
 #newMessage {
@@ -379,6 +381,10 @@ footer li {
 
 .noVisible {
   display: none;
+}
+
+.noVisibility {
+  visibility: hidden;
 }
 
 /*ESTILOS GENERALES*/

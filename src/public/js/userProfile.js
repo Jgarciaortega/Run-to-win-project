@@ -13,6 +13,12 @@ async function loadInfoUser(userId) {
     const nickname = document.getElementById('nickname');
     const level = document.getElementById('level');
     const achievements = document.getElementById('achievements-quantity');
+    const photo = document.getElementById('photo')
+
+    const imgPhoto = document.createElement('img');
+    imgPhoto.setAttribute('src', user.imagen);
+    imgPhoto.setAttribute('alt', 'Imagen del usuario');
+    photo.appendChild(imgPhoto);
 
     nickname.innerHTML = user.nickname;
     level.innerHTML = user.status;
