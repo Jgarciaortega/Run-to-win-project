@@ -2,21 +2,21 @@
 /*Fuentes*/
 @font-face {
   font-family: "TrebuchetMS";
-  src: url("fonts/TrebuchetMS.ttf");
+  src: url("../assets/fonts/TrebuchetMS.ttf");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "BebasNeue";
-  src: url("fonts/BebasNeue.otf");
+  src: url("../assets/fonts/BebasNeue.otf");
   font-weight: normal;
   font-style: normal;
 }
 /*Fuente para los simbolos*/
 @font-face {
   font-family: "WebSymbolsRegular";
-  src: url("fonts/websymbols-regular-webfont-eot");
-  src: url("fonts/websymbols-regular-webfont-eot?#iefitx") format("embebed-opentype"), url("fonts/websymbols-regular-webfont.woff") format("woff"), url("fonts/websymbols-regular-webfont.ttf") format("truetype"), url("fonts/websymbols-regular-webfont.svg#WebSymbolsRegular") format("svg");
+  src: url("../assets/fonts/websymbols-regular-webfont-eot");
+  src: url("../assets/fonts/websymbols-regular-webfont-eot?#iefitx") format("embebed-opentype"), url("../assets/fonts/websymbols-regular-webfont.woff") format("woff"), url("../assets/fonts/websymbols-regular-webfont.ttf") format("truetype"), url("../assets/fonts/websymbols-regular-webfont.svg#WebSymbolsRegular") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -211,6 +211,10 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0.5%;
+  /* Estilos salud*/
+  /* Fin estilos salud*/
+  /* Estilos rutina */
+  /* Fin estilos rutina*/
 }
 #mainContent #center .banner {
   color: white;
@@ -258,6 +262,37 @@ body {
   background-position-x: -53px;
   background-size: 107% 102%;
   background-repeat: no-repeat;
+}
+#mainContent #center #salud {
+  display: flex;
+  flex-direction: row;
+}
+#mainContent #center #salud .graficoSalud {
+  border: 1px solid black;
+}
+#mainContent #center .headerSubMenus {
+  text-align: center;
+  margin-bottom: 4%;
+  text-transform: uppercase;
+  font-family: "TrebuchetMS";
+  letter-spacing: 1px;
+  font-size: larger;
+}
+#mainContent #center table,
+#mainContent #center th,
+#mainContent #center td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+#mainContent #center table {
+  margin: 0px auto;
+}
+#mainContent #center th,
+#mainContent #center td {
+  padding: 1%;
+}
+#mainContent #center td {
+  min-width: 6%;
 }
 #mainContent #right {
   height: 250px;
@@ -421,6 +456,10 @@ footer li {
 }
 
 /*CLASES GENERALES*/
+.subMenu {
+  margin-top: 1%;
+}
+
 .circulo {
   color: white;
   background: var(--bg--orange);
@@ -446,7 +485,8 @@ footer li {
   margin-left: 2%;
   border: 1px dotted black;
   border-radius: 20px;
-  background-color: #fefefe;
+  background: url("../assets/img/pattern.png");
+  background-color: white;
   box-shadow: 5px 6px 10px var(--bg--gray);
 }
 

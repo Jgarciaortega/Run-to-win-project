@@ -1,0 +1,38 @@
+/*VARIABLES*/
+:root {
+    --bg--error: rgb(197, 0, 0);
+    --bg--red: #d91a1a;
+    --bg--gray: #404040;
+    --bg--orange: #f27405;
+    --bg--strava: #f9511c;
+  }
+  
+
+#loadContainer{
+
+    height: 68%;
+    width: 100%;
+    z-index: 1;
+
+    #load{
+        border: 15px solid #ccc;
+        border-top-color: var(--bg--orange);
+        border-top-style: groove;
+        height: 5px;
+        width: 5px;
+        border-radius: 100%;
+
+        position: relative;
+        top: 150px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        animation: gira 1.5s linear infinite;
+
+    }
+}
+
+@keyframes gira{
+    from{ transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}

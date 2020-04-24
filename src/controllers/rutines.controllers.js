@@ -7,7 +7,7 @@ exports.findRutineById = async (req, res) => {
     ] =
         await connection.execute("SELECT * FROM `rutinas_ejercicios` WHERE `id` = ?", [req.params.id]);
     connection.end();
-
+  
     if (rows.length) {
         return res.send(rows[0]);       
     }

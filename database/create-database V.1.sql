@@ -38,7 +38,11 @@ CREATE TABLE usuario (
 	logros INT(11),
 	id_strava INT(255),
 	peso FLOAT(11),
-	altura FLOAT(11),
+	altura INT(11),
+	pulsaciones_reposo INT(5),
+	tension_alta INT(5),
+	tension_baja INT(5),
+	sexo VARCHAR(7),
 	fecha_registro timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW(),
 	id_rutina INT(11),
 	FOREIGN KEY (id_rutina) REFERENCES rutinas_ejercicios (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE

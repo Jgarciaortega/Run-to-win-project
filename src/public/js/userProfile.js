@@ -1,4 +1,19 @@
 /* FUNCIONES GENERALES */
+
+function showLoadCircle(mainContainer){
+
+    const loadContainer = document.createElement('div');
+    loadContainer.setAttribute('id','loadContainer');
+    mainContainer.appendChild(loadContainer);
+
+    const loadCircle = document.createElement('div');
+    loadCircle.setAttribute('id','load');
+    loadContainer.appendChild(loadCircle);
+
+    setTimeout(() => { mainContainer.removeChild(loadContainer) }, 2000)
+
+}
+
 function limpiarNodo(elemento) {
 
     if (elemento.hasChildNodes()) {
@@ -9,8 +24,19 @@ function limpiarNodo(elemento) {
     }
 }
 
-function createChart() {
-    var ctx = document.getElementById('statusChart').getContext('2d');
+function createDoughnut(element,data){
+
+    const ctx = element.getContext('2d');
+
+    const myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data
+
+    });
+}
+
+function chart() {
+    const ctx = document.getElementById('statusChart').getContext('2d');
 
     data = {
         datasets: [{
@@ -31,11 +57,23 @@ function createChart() {
         ]
     };
 
-    var myDoughnutChart = new Chart(ctx, {
+    const myDoughnutChart = new Chart(ctx, {
         type: 'doughnut',
         data: data
 
     });
+}
+
+function generateDataIMC(){
+
+const IMC = user.peso / user.altura;
+console.log('peso: ' + user.peso);
+console.log('altura: ' + user.altura);
+
+console.log(IMC);
+
+
+
 
 }
 
@@ -83,7 +121,7 @@ function showInfoUser(user) {
     level.innerHTML = user.status;
     achievements.innerHTML = user.logros;
 
-    createChart();
+    chart();
 }
 
 
@@ -158,6 +196,43 @@ function muestraSalud() {
     textPortada.classList.add('tituloDownUp');
     textPortada.innerHTML = 'SALUD';
     inicioContainer.appendChild(textPortada);
+
+    //showLoadCircle(mainContainer);
+
+    // contenido salud
+    const dataContainer = document.createElement('div');
+    dataContainer.classList.add('subMenu');
+    dataContainer.setAttribute('id','salud');
+    mainContainer.appendChild(dataContainer);
+
+    const dataIMC = document.createElement('div');
+    // dataIMC.setAttribute('id', 'IMC');
+    dataIMC.classList.add('graficoSalud');
+    dataContainer.appendChild(dataIMC);
+    const canvasIMC = document.createElement('canvas');
+    canvasIMC.setAttribute('id','IMC');
+    dataIMC.appendChild(canvasIMC);
+    let dataDoughnutIMC = generateDataIMC();
+    createDoughnut(canvasIMC,dataDoughnutIMC);
+
+    // const dataTensionAlta = document.createElement('div');
+    // dataTensionAlta.setAttribute('id','tensionAlta');
+    // dataTensionAlta.classList.add('graficoSalud');
+    // dataContainer.appendChild(dataTensionAlta);
+    // const canvasTensionAlta = document.createElement('canvas');
+    // dataTensionAlta.appendChild(canvasTensionAlta);
+    // let dataDoughnut = generateDataDoughnut();
+    // createDoughnut(canvasTensionAlta,dataDoughnut);
+
+    // const dataTensionBaja = document.createElement('div');
+    // dataTensionBaja.setAttribute('id','tensionBaja');
+    // dataTensionBaja.classList.add('graficoSalud');
+    // dataContainer.appendChild(dataTensionBaja);
+
+    // const dataPulsaciones = document.createElement('div');
+    // dataPulsaciones.setAttribute('id','pulsaciones');
+    // dataPulsaciones.classList.add('graficoSalud');
+    // dataContainer.appendChild(dataPulsaciones);
 }
 
 async function muestraRutina() {
@@ -178,15 +253,23 @@ async function muestraRutina() {
 
     // descargamos la rutina del usuario(dato estatico para realizar pruebas)
     const rutina = await loadRutine(1);
+    
+    showLoadCircle(mainContainer);
+    
+    setTimeout(() => {
 
-    // montamos la tabla-rutina
+    //montamos la tabla-rutina
     const dataContainer = document.createElement('div');
+    dataContainer.classList.add('subMenu');
     mainContainer.appendChild(dataContainer);
 
     const headerRoutine = document.createElement('div');
+    headerRoutine.classList.add('headerSubMenus');
     dataContainer.appendChild(headerRoutine);
 
-    
+    const titleRoutine = document.createElement('h3');
+    titleRoutine.innerHTML = rutina.nombre;
+    headerRoutine.appendChild(titleRoutine);
 
     const tabla = document.createElement('table');
     dataContainer.appendChild(tabla);
@@ -212,7 +295,7 @@ async function muestraRutina() {
 
             } else {
 
-                (y == 0) ? cell.innerHTML = diasSemana[i - 1] : cell.innerHTML = ejercicios[i];
+                (y == 0) ? cell.innerHTML = diasSemana[i - 1] : cell.innerHTML = ejercicios[i-1];
                 row.appendChild(cell);
             }
 
@@ -220,6 +303,8 @@ async function muestraRutina() {
         }
 
     }
+    }, 2000);
+  
 }
 
 async function init() {
@@ -227,7 +312,7 @@ async function init() {
     //1º obtenemos el id usuario 
     let localStorageInfo = JSON.parse(localStorage.getItem('user'));
     //2º con el id obtenemos el usario
-    let user = await loadInfoUser(localStorageInfo);
+    user = await loadInfoUser(localStorageInfo);
     //3º mostramos la info basica del perfil
     showInfoUser(user);
 
