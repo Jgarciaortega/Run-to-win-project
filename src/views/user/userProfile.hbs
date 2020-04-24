@@ -13,7 +13,7 @@
                         {{!-- <img src="../assets/img/turtle.png" width="50px" height="50px" alt=""> --}}
                         <p id="level"></p>
                     </div>
-                    <div class="containerStatus" >
+                    <div class="containerStatus">
                         <h6>LOGROS</h6>
                         <i class="fas fa-2x fa-trophy"></i>
                         <p id="achievements-quantity"></p>
@@ -23,19 +23,25 @@
         </div>
         <nav id="leftMenu">
             <ul>
-                <li>INICIO</li>
-                <li id="informeSemanal">INFORME SEMANAL</li>
-                <li>INFORMES TOTALES</li>
-                <li>RUTINAS</li>
+                <li id="inicio">INICIO</li>
+                <li id="informe">INFORMES</li>
+                <li id="salud">SALUD</li>
+                <li id="rutinaEjercicios">RUTINAS</li>
             </ul>
         </nav>
     </aside>
     <div id="center" class="container">
-        <canvas id="canvas"></canvas>
+
+        
     </div>
     <aside id="right" class="container">
-        <div id="wall">
-
+        <div id="statusRing">
+            <div id="statusPoints">
+                <h4>PUNTUACIÓN</h4>
+                <span>100</span>
+            </div>
+            <canvas id="statusChart"></canvas>
+            <p>Completa el anillo para subir tu status</p>
         </div>
     </aside>
 </div>

@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 
 const Message = require('../controllers/messages.controllers');
+const Rutine = require('../controllers/rutines.controllers');
 
 router.post("/api/sendMessage",
 passport.authenticate("jwt", { session: false }),Message.createMessage);
@@ -18,6 +19,9 @@ passport.authenticate("jwt", { session: false }),Message.deleteMessage);
 
 router.put("/api/updateMessage/:id",
 passport.authenticate("jwt", { session: false }),Message.updateMessage);
+
+router.get("/api/rutine/:id",
+passport.authenticate("jwt", { session: false }),Rutine.findRutineById);
 
 router.get(
     "/api/prueba/:dia",

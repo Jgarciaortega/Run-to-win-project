@@ -146,7 +146,7 @@ body {
 #mainContent {
   margin-top: 45px;
   display: grid;
-  grid-template-columns: 1fr 3fr 1.5fr;
+  grid-template-columns: 1fr 3fr 1.2fr;
 }
 #mainContent #left #userData {
   height: 250px;
@@ -208,10 +208,76 @@ body {
   color: white;
 }
 #mainContent #center {
-  height: 693px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5%;
+}
+#mainContent #center .banner {
+  color: white;
+  height: 210px;
+  border-top-left-radius: 11px;
+  border-top-right-radius: 11px;
+  overflow: hidden;
+}
+#mainContent #center .banner .tituloUpDown {
+  margin-top: 23%;
+  margin-left: 2%;
+  font-size: 26px;
+  animation: tituloUpDown 2s linear;
+}
+#mainContent #center .banner .tituloDownUp {
+  margin-top: 2%;
+  margin-left: 2%;
+  font-size: 26px;
+  animation: tituloDownUp 2s linear;
+}
+#mainContent #center #inicio {
+  animation: right_left_Banner 2s linear;
+  background: url("../assets/img/carreteraInicio.jpg");
+  background-repeat: no-repeat;
+  background-position: -59px -78px;
+  background-size: 123%;
+}
+#mainContent #center #informes {
+  background: url("../assets/img/pista_atletismo.jpg");
+  animation: left_right_Banner 2s linear;
+  background-repeat: no-repeat;
+  background-position: -99px -210px;
+  background-size: 138%;
+}
+#mainContent #center #health {
+  background: url("../assets/img/salud.jpg");
+  animation: left_right_Health 2s linear;
+  background-position-x: -53px;
+  background-size: 107% 102%;
+  background-repeat: no-repeat;
+}
+#mainContent #center #rutina {
+  background: url("../assets/img/rutina.jpg");
+  animation: in-out 2s linear;
+  background-position-x: -53px;
+  background-size: 107% 102%;
+  background-repeat: no-repeat;
 }
 #mainContent #right {
   height: 250px;
+}
+#mainContent #right #statusRing {
+  width: 100%;
+}
+#mainContent #right #statusRing #statusPoints {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+#mainContent #right #statusRing h4 {
+  margin: 0px;
+}
+#mainContent #right #statusRing span {
+  margin-left: 10px;
+}
+#mainContent #right #statusRing p {
+  text-align: center;
 }
 
 /*Pie de página*/
@@ -268,9 +334,20 @@ footer li {
   border: 1px dashed black;
   margin: 5px;
 }
-#msgContent #inbox .msgTemplate .dataContent {
+#msgContent #inbox .msgTemplate .dataContent .headerMsg {
+  background: url("../assets/img/pxgray.png");
   display: grid;
-  grid-template-columns: 11fr 1fr;
+  grid-template-columns: 7fr 3fr 1fr;
+}
+#msgContent #inbox .msgTemplate .dataContent .headerMsg .senderMsg {
+  padding: 6px;
+  font-weight: bold;
+}
+#msgContent #inbox .msgTemplate .dataContent .headerMsg .dateMsg {
+  padding: 6px;
+}
+#msgContent #inbox .msgTemplate .dataContent .headerMsg .msgOptions {
+  padding: 5px;
 }
 #msgContent #inbox .msgTemplate .dataContent .msgData .msg {
   margin: 1%;
@@ -278,10 +355,6 @@ footer li {
 #msgContent #inbox .msgTemplate .dataContent .msgData .msg img {
   width: 20px;
   margin-right: 0.5%;
-}
-#msgContent #inbox .msgTemplate .dataContent .msgOptions {
-  margin-top: 1px;
-  margin-right: 1px;
 }
 #msgContent #inbox .msgTemplate .msgReply {
   display: grid;
@@ -292,18 +365,9 @@ footer li {
   animation: showReplyMsg 250ms linear;
 }
 
-@keyframes showReplyMsg {
-  from {
-    transform: translateY(-80%);
-  }
-  to {
-    transform: translateY(0%);
-    visibility: visible;
-  }
-}
 #newMessage {
-  width: 469px;
-  height: 223px;
+  width: 25%;
+  min-height: 22%;
   border: 1px solid black;
   position: absolute;
   background-color: #ece7e2;
@@ -328,13 +392,20 @@ footer li {
 #newMessage #optionsMessage {
   margin: 10px;
 }
+#newMessage #optionsMessage #para {
+  display: grid;
+  grid-template-columns: 1fr 9fr;
+  margin-right: 2%;
+  margin-top: 4%;
+}
 #newMessage #optionsMessage #para input {
   margin-left: 29px;
   margin-bottom: 14px;
 }
 #newMessage #optionsMessage #msg-txt {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  margin-right: 2%;
 }
 #newMessage #optionsMessage #msg-txt textarea {
   margin-left: 5px;
@@ -394,6 +465,74 @@ a {
 
 li {
   list-style: none;
+}
+
+/* ANIMACIONES */
+@keyframes left_right_Banner {
+  0% {
+    background-position: -4px -158px;
+  }
+  100% {
+    background-position: -99px -210px;
+  }
+}
+@keyframes right_left_Banner {
+  0% {
+    background-position: -59px -121px;
+    background-size: 107%;
+  }
+  100% {
+    background-position: -59px -78px;
+    background-size: 123%;
+  }
+}
+@keyframes tituloUpDown {
+  0% {
+    margin-top: 0%;
+    opacity: 0;
+  }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 23%;
+  }
+}
+@keyframes tituloDownUp {
+  0% {
+    opacity: 0;
+    margin-top: 29%;
+  }
+  100% {
+    margin-top: 2%;
+    opacity: 1;
+  }
+}
+@keyframes showReplyMsg {
+  from {
+    transform: translateY(-80%);
+  }
+  to {
+    transform: translateY(0%);
+    visibility: visible;
+  }
+}
+@keyframes left_right_Health {
+  from {
+    background-position-x: 0px;
+  }
+  to {
+    background-position-x: -53px;
+  }
+}
+@keyframes in-out {
+  from {
+    background-size: 168% 102%;
+  }
+  to {
+    background-size: 107% 102%;
+  }
 }
 
 /*# sourceMappingURL=user.css.map */

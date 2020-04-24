@@ -373,6 +373,7 @@ function init() {
     inputApellidos.value = '';
     inputNickname.value = '';
     inputEmail.value = '';
+    
 }
 
 window.addEventListener('keydown', function(){getKey(event)});

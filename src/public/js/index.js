@@ -23,3 +23,5 @@ function init() {
 
 window.addEventListener('scroll', fijarHeader);
 window.addEventListener('load', init);
+
+// https://www.eduardbarcelo.com/graficas-y-metricas-de-trainingpeaks/

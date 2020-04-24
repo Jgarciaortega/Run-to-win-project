@@ -1,5 +1,24 @@
 const model = require('../model/model');
 
+ exports.findByIdByClient = async (req, res) => {
+    const connection = await model.getConnection();
+    const [
+        rows,
+    ] =
+        await connection.execute("SELECT * FROM `usuario` WHERE `nickname` = ?", [req.params.nickname]);
+    connection.end();
+
+    if (rows.length) {
+        const user = parseUser(rows[0]);
+        console.log(user);
+        return res.send(user);       
+    }
+
+    return { out: false };
+    
+
+ };
+
 exports.findByNickname = async (nickname) => {
     const connection = await model.getConnection();
     const [
@@ -42,17 +61,20 @@ exports.findById = async (req, res) => {
 
 }
 
-
 exports.createUser = async (req, res) => {
     const connection = await model.getConnection();
-    const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,now())";
+    console.log(req.body);
+    
+    const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,now(),?)";
     const password = model.getEncrypted(req.body.password);
     const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
-        '/assets/user_photos/Schwarzy.jpg', 0, null, 0, 0];
+        '/assets/user_photos/Schwarzy.jpg', 0, null, 0, 0, null];
     res.send({msg: 'Antes de nada'})
    
     await connection.execute(sql, data);
 
+    // /assets/user_photos/yo.jpg
+    // /assets/user_photos/Schwarzy.jpg
  
 
 }
@@ -68,7 +90,6 @@ exports.existEmail = async (req, res) => {
         else return res.send({ msg: false });
 
     })
-
 }
 
 exports.existNickname = async (req, res) => {

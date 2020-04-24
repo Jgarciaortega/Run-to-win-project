@@ -82,18 +82,16 @@ async function sendMessageReply() {
     const id_msg = this.getAttribute('data-id');
     const mainContent = document.getElementById(id_msg);
     const txt_msg = mainContent.lastChild.firstChild;
-   
-   
+
+
     // solo permito que se haga reply a un msg si su lenght > 0
     if (txt_msg.value.length > 0) {
         // para generar nuevo mensaje obtengo todo el contenido previo
         const msgComplete = generateMsg(mainContent, txt_msg.value);
         mainContent.classList.add('noVisible');
         await updateMessage(id_msg, id_addressee, userId.id, msgComplete);
-    
+
     }
-
-
 }
 
 async function updateMessage(id_msg, addressee, sender, msgComplete) {
@@ -110,10 +108,10 @@ async function updateMessage(id_msg, addressee, sender, msgComplete) {
 
 }
 
-function generateMsg(mainContent, txt_msg, date) {
+function generateMsg(mainContent, txt_msg) {
 
     const content = mainContent.firstChild;
-    const dataContent = content.firstChild.children;
+    const dataContent = content.lastChild.children;
     let msgComplete = '';
 
     for (let i = 0; i < dataContent.length; i++) {
@@ -127,18 +125,20 @@ function generateMsg(mainContent, txt_msg, date) {
     return msgComplete;
 }
 
-async function sendMessage(id_addressee, messageTxt) {
+async function sendMessage(addressee, messageTxt) {
+    const userAddresse = await getServer('/user/findByNickname/' + addressee);
+    const message = {
+        id_addressee: userAddresse.id,
+        messageTxt,
+        user
+    };
 
-    console.log(id_addressee, messageTxt);
+    document.getElementById('newMessage').classList.add('noVisible');
+    document.querySelector('input[name="addressee"]').value = '';
+    document.querySelector('textarea[name="message"]').value = '';
+    await postServer('/api/sendMessage', message);
 
-    // console.log(document.querySelector('input[name="addressee"]'));
-    // const message = {
-    //     id_addressee,
-    //     messageTxt,
-    //     user
-    // };
-
-    // await postServer('/api/sendMessage', message);
+   
 }
 
 function divideMsg(msg) {
@@ -156,7 +156,6 @@ function showMessages(messages) {
 
         // 1 primero averiguamos el usuario que crea el mensaje
         const userSentMsg = await getServer('/user/findById/' + msg.id_usuario);
-        console.log(userSentMsg);
 
         // 2 div principal del mensaje (msg y reply msg)
         const msgTemplate = document.createElement('div');
@@ -164,38 +163,82 @@ function showMessages(messages) {
         msgTemplate.setAttribute('id', msg.id);
         inbox.appendChild(msgTemplate);
 
-
         // 2.1 div msg
         const dataContent = document.createElement('div');
         dataContent.classList.add('dataContent');
         msgTemplate.appendChild(dataContent);
 
-        // 2.1.1 div datos msg
+        // 2.1.1 header msg
+        const headerMsg = document.createElement('div');
+        headerMsg.classList.add('headerMsg');
+        dataContent.appendChild(headerMsg);
+
+        // 2.1.1.1
+        const senderMsg = document.createElement('span');
+        senderMsg.classList.add('senderMsg');
+        senderMsg.innerHTML = userSentMsg.nickname;
+        headerMsg.appendChild(senderMsg);
+
+        // 2.1.1.2
+        const dateMsg = document.createElement('span');
+        dateMsg.classList.add('dateMsg');
+        dateMsg.innerHTML = 'Last updated: ' + msg.fecha_envio;
+        headerMsg.appendChild(dateMsg);
+
+        // 2.1.1.3 botonera opciones enviar
+        const msgOptions = document.createElement('div');
+        msgOptions.classList.add('msgOptions');
+        headerMsg.appendChild(msgOptions);
+
+        // 2.1.1.4 boton contestar
+        const btnReply = document.createElement('button');
+        btnReply.innerHTML = '<i class="fas fa-reply"></i>';
+        btnReply.addEventListener('click', showReplyMessage);
+        btnReply.setAttribute('data-id', msg.id);
+        msgOptions.appendChild(btnReply);
+
+        // 2.1.1.5 boton borrar mensaje
+        const btnDelete = document.createElement('button');
+        btnDelete.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        btnDelete.addEventListener('click', deleteMessage);
+        btnDelete.setAttribute('data-id', msg.id);
+        msgOptions.appendChild(btnDelete);
+
+        // 2.1.2 div datos msg
         const msgData = document.createElement('div');
         msgData.classList.add('msgData');
         dataContent.appendChild(msgData);
 
         /* Bucle de aquí */
         let msgParts = divideMsg(msg.contenido);
-        // 2.1.1.1 div msg
+        // 2.1.2.1 div msg
         let imgMsg;
         for (let i = 0; i < msgParts.length; i++) {
 
-            if (i % 2 == 0) imgMsg = userSentMsg.imagen;
-            else imgMsg = user.imagen;
+            if (msgParts.length % 2 == 0) {
+                
+                if (i % 2 == 0) imgMsg = user.imagen;
+                else imgMsg = userSentMsg.imagen;
+
+            } else {
+
+                if (i % 2 == 0) imgMsg = userSentMsg.imagen;
+                else imgMsg = user.imagen;
+
+            }
 
             const message = document.createElement('div');
             message.classList.add('msg');
             msgData.appendChild(message);
 
-            // 2.1.1.1.1 img user envia mensaje
+            // 2.1.2.1.1 img user envia mensaje
 
             const avatar = document.createElement('img');
             avatar.setAttribute('src', imgMsg);
             avatar.setAttribute('alt', 'imagen usuario envia mensaje');
             message.appendChild(avatar);
 
-            // 2.1.1.1.2 info del msg
+            // 2.1.2.1.2 info del msg
             const msgText = document.createElement('span');
             msgText.classList.add('msgText');
             msgText.innerHTML = msgParts[i];
@@ -203,25 +246,6 @@ function showMessages(messages) {
 
         }
         /* Hasta aquí bucle */
-
-        // 2.1.2 botonera opciones enviar
-        const msgOptions = document.createElement('div');
-        msgOptions.classList.add('msgOptions');
-        dataContent.appendChild(msgOptions);
-
-        // 2.1.2.1 boton contestar
-        const btnReply = document.createElement('button');
-        btnReply.innerHTML = '<i class="fas fa-reply"></i>';
-        btnReply.addEventListener('click', showReplyMessage);
-        btnReply.setAttribute('data-id', msg.id);
-        msgOptions.appendChild(btnReply);
-
-        // 2.1.2.2 boton borrar mensaje
-        const btnDelete = document.createElement('button');
-        btnDelete.innerHTML = '<i class="fas fa-trash-alt"></i>';
-        btnDelete.addEventListener('click', deleteMessage);
-        btnDelete.setAttribute('data-id', msg.id);
-        msgOptions.appendChild(btnDelete);
 
         // 2.2 div msgReply
         const msgReply = document.createElement('div');
@@ -263,12 +287,10 @@ function deleteMessage() {
     deleteServer('/api/deleteMsg/' + this.getAttribute('data-id'));
 
     // 2º borrar en interfaz (vamos subiendo del boton a nodo padre para eliminarlo)
-    let localContent = this.parentNode;
-    let intermediateContent = localContent.parentNode;
-    let mainContent = intermediateContent.parentNode;
-
-    mainContent.classList.add('noVisible');
-    mainContent.innerHTML = '';
+    let localContent = document.getElementById(this.getAttribute('data-id'));
+   
+    localContent.classList.add('noVisible');
+    localContent.innerHTML = '';
 
 }
 
