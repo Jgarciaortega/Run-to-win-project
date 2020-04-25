@@ -298,25 +298,17 @@ body {
     /* Estilos salud*/
     #salud {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       .graficoSalud{
         border: 1px solid black;
-        
+        max-height: 200px;
       }
     }
 
     /* Fin estilos salud*/
 
     /* Estilos rutina */
-    .headerSubMenus {
-      text-align: center;
-      margin-bottom: 4%;
-      text-transform: uppercase;
-      font-family: "TrebuchetMS";
-      letter-spacing: 1px;
-      font-size: larger;
-    }
-
+    
     table,
     th,
     td {
@@ -517,6 +509,16 @@ footer {
 }
 
 /*CLASES GENERALES*/
+
+.headerSubMenus {
+  text-align: center;
+  margin-bottom: 4%;
+  text-transform: uppercase;
+  font-family: "TrebuchetMS";
+  letter-spacing: 1px;
+  font-size: larger;
+}
+
 
 .subMenu {
   margin-top: 1%;

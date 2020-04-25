@@ -265,18 +265,11 @@ body {
 }
 #mainContent #center #salud {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 #mainContent #center #salud .graficoSalud {
   border: 1px solid black;
-}
-#mainContent #center .headerSubMenus {
-  text-align: center;
-  margin-bottom: 4%;
-  text-transform: uppercase;
-  font-family: "TrebuchetMS";
-  letter-spacing: 1px;
-  font-size: larger;
+  max-height: 200px;
 }
 #mainContent #center table,
 #mainContent #center th,
@@ -456,6 +449,15 @@ footer li {
 }
 
 /*CLASES GENERALES*/
+.headerSubMenus {
+  text-align: center;
+  margin-bottom: 4%;
+  text-transform: uppercase;
+  font-family: "TrebuchetMS";
+  letter-spacing: 1px;
+  font-size: larger;
+}
+
 .subMenu {
   margin-top: 1%;
 }

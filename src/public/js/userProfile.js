@@ -1,13 +1,13 @@
 /* FUNCIONES GENERALES */
 
-function showLoadCircle(mainContainer){
+function showLoadCircle(mainContainer) {
 
     const loadContainer = document.createElement('div');
-    loadContainer.setAttribute('id','loadContainer');
+    loadContainer.setAttribute('id', 'loadContainer');
     mainContainer.appendChild(loadContainer);
 
     const loadCircle = document.createElement('div');
-    loadCircle.setAttribute('id','load');
+    loadCircle.setAttribute('id', 'load');
     loadContainer.appendChild(loadCircle);
 
     setTimeout(() => { mainContainer.removeChild(loadContainer) }, 2000)
@@ -24,7 +24,7 @@ function limpiarNodo(elemento) {
     }
 }
 
-function createDoughnut(element,data){
+function createDoughnut(element, data) {
 
     const ctx = element.getContext('2d');
 
@@ -39,42 +39,137 @@ function chart() {
     const ctx = document.getElementById('statusChart').getContext('2d');
 
     data = {
+        labels: ['Running', 'Swimming', 'Eating', 'Cycling'],
         datasets: [{
-            data: [100, 1000],
-            backgroundColor: ['rgba(36,242, 33, 1)',
-                'rgba(255, 99, 132, 0.2)'],
-            borderColor: ['rgba(36,242, 33, 1)',
-                'rgba(255, 99, 132, 0.2)'],
-            hoverBorderColor: ['rgba(2, 190, 2, 1)',
-                'rgba(242,33,33,1)']
+            data: [20, 10, 4, 2]
+        }]
+    }
 
-        }],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Tus puntos',
-            'Objetivo'
-        ]
+    options = {
+        scale: {
+            angleLines: {
+                display: false
+            },
+            ticks: {
+                suggestedMin: 50,
+                suggestedMax: 100
+            }
+        }
     };
 
-    const myDoughnutChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: data
-
+    var myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: data,
+        options: options
     });
 }
 
-function generateDataIMC(){
+function generateDataPuls() {
 
-const IMC = user.peso / user.altura;
-console.log('peso: ' + user.peso);
-console.log('altura: ' + user.altura);
+    // const pulsaciones = user.pulsaciones;
+    const pulsaciones = 59;
+    const edad = user.edad;
+    const sexo = user.sexo;
+    let mal, normal, bien, excelente;
+    let data, labels, backgroundColor, borderColor = [];
 
-console.log(IMC);
+    if (sexo == 'hombre') {
+
+        if (edad <= 29) {
+            mal = 86; normal = 70; bien = 62; excelente = 60;
+        }
+        else if (edad > 29 && edad <= 39) {
+            mal = 86; normal = 72; bien = 64; excelente = 62;
+        }
+        else if (edad > 39 && edad <= 49) {
+            mal = 90; normal = 74; bien = 66; excelente = 64;
+        }
+        else if (edad > 50) {
+            mal = 90; normal = 76; bien = 68; excelente = 66;
+        }
+    }
 
 
+    if (pulsaciones <= excelente) {
 
+        data = [pulsaciones, Math.floor(excelente-pulsaciones), Math.floor(bien-excelente), Math.floor (normal-bien), Math.floor(mal-normal)];
+        backgroundColor = [verde, morado, amarillo, naranja, rojo];
+        borderColor = [negro, lightNegro, lightNegro, lightNegro, lightNegro];
+        labels = ['tu Pulso', 'excelente', 'bien', 'normal', 'mal'];
+    }
 
+    else if (pulsaciones > excelente && pulsaciones <= bien) {
+
+        data = [pulsaciones, bien - pulsaciones, normal, mal];
+        backgroundColor = [verde, amarillo, naranja, rojo];
+        borderColor = [negro, lightNegro, lightNegro, lightNegro];
+        labels = ['tu Pulso', 'bien', 'normal', 'mal'];
+    }
+
+    data = {
+        datasets: [{
+            data,
+            backgroundColor,
+            borderColor
+        }],
+        labels
+    };
+
+    return data;
+}
+
+function generateDataIMC() {
+
+    const IMC = Math.floor(user.peso / (user.altura * user.altura));
+    let valor1 = 18.5;
+    let valor2 = 25;
+    let valor3 = 29.9;
+    let valor4 = 49.9;
+    let data, labels, backgroundColor, borderColor = [];
+
+    if (IMC <= valor1) {
+
+        data = [IMC, Math.floor(valor1-IMC), Math.floor(valor2-valor1), Math.floor(valor3-valor2), Math.floor(valor4-valor3)];
+        backgroundColor = [verde, morado, amarillo, naranja, rojo];
+        borderColor = [negro, lightNegro, lightNegro, lightNegro, lightNegro];
+        labels = ['tu IMC', 'insuficiente', 'normal', 'sobrepeso', 'obesidad'];
+    }
+
+    else if (IMC > valor1 && IMC <= valor2) {
+
+        data = [IMC, Math.floor(valor2-IMC), Math.floor(valor3-valor2), Math.floor(valor4-valor3)];
+        backgroundColor = [verde, amarillo, naranja, rojo];
+        borderColor = [negro, lightNegro, lightNegro, lightNegro];
+        labels = ['tu IMC', 'normal', 'sobrepeso', 'obesidad'];
+
+    }
+    else if (IMC > valor2 && IMC <= valor3) {
+
+        data = [IMC,  Math.floor(valor3-IMC), Math.floor(valor4-valor3)];
+        backgroundColor = [verde, naranja, rojo];
+        borderColor = [negro, lightNegro, lightNegro];
+        labels = ['tu IMC', 'sobrepeso', 'obesidad'];
+
+    }
+    else if (IMC > valor3 && IMC <= valor4) {
+
+        data = [IMC, Math.floor(valor4-IMC)];
+        backgroundColor = [verde, rojo];
+        borderColor = [negro, lightNegro];
+        labels = ['tu IMC', 'obesidad'];
+
+    }
+
+    data = {
+        datasets: [{
+            data,
+            backgroundColor,
+            borderColor
+        }],
+        labels
+    };
+   
+    return data;
 }
 
 async function sendToServer(url, data) {
@@ -121,7 +216,8 @@ function showInfoUser(user) {
     level.innerHTML = user.status;
     achievements.innerHTML = user.logros;
 
-    chart();
+    // chart();
+    generateDataIMC();
 }
 
 
@@ -202,18 +298,45 @@ function muestraSalud() {
     // contenido salud
     const dataContainer = document.createElement('div');
     dataContainer.classList.add('subMenu');
-    dataContainer.setAttribute('id','salud');
+    dataContainer.setAttribute('id', 'salud');
     mainContainer.appendChild(dataContainer);
 
     const dataIMC = document.createElement('div');
-    // dataIMC.setAttribute('id', 'IMC');
-    dataIMC.classList.add('graficoSalud');
     dataContainer.appendChild(dataIMC);
+
+    const headerIMC = document.createElement('div');
+    headerIMC.classList.add('headerSubMenus');
+    dataIMC.appendChild(headerIMC);
+
+    const titleIMC = document.createElement('p');
+    titleIMC.innerHTML = 'IMC';
+    headerIMC.appendChild(titleIMC);
+
     const canvasIMC = document.createElement('canvas');
-    canvasIMC.setAttribute('id','IMC');
+    canvasIMC.setAttribute('id', 'IMC');
+    canvasIMC.classList.add('grafico');
     dataIMC.appendChild(canvasIMC);
     let dataDoughnutIMC = generateDataIMC();
-    createDoughnut(canvasIMC,dataDoughnutIMC);
+    createDoughnut(canvasIMC, dataDoughnutIMC);
+
+    const dataPulsaciones = document.createElement('div');
+    dataContainer.appendChild(dataPulsaciones);
+
+    const headerPuls = document.createElement('div');
+    headerPuls.classList.add('headerSubMenus');
+    dataPulsaciones.appendChild(headerPuls);
+
+    const titlePuls = document.createElement('p');
+    titlePuls.innerHTML = 'PULSACIONES';
+    headerPuls.appendChild(titlePuls);
+
+    const canvasPulsaciones = document.createElement('canvas');
+    canvasPulsaciones.setAttribute('id', 'pulsaciones');
+    canvasPulsaciones.classList.add('grafico');
+    dataPulsaciones.appendChild(canvasPulsaciones);
+    let dataDoughnutPuls = generateDataPuls();
+    createDoughnut(canvasPulsaciones, dataDoughnutPuls);
+    
 
     // const dataTensionAlta = document.createElement('div');
     // dataTensionAlta.setAttribute('id','tensionAlta');
@@ -229,10 +352,7 @@ function muestraSalud() {
     // dataTensionBaja.classList.add('graficoSalud');
     // dataContainer.appendChild(dataTensionBaja);
 
-    // const dataPulsaciones = document.createElement('div');
-    // dataPulsaciones.setAttribute('id','pulsaciones');
-    // dataPulsaciones.classList.add('graficoSalud');
-    // dataContainer.appendChild(dataPulsaciones);
+
 }
 
 async function muestraRutina() {
@@ -253,58 +373,58 @@ async function muestraRutina() {
 
     // descargamos la rutina del usuario(dato estatico para realizar pruebas)
     const rutina = await loadRutine(1);
-    
+
     showLoadCircle(mainContainer);
-    
+
     setTimeout(() => {
 
-    //montamos la tabla-rutina
-    const dataContainer = document.createElement('div');
-    dataContainer.classList.add('subMenu');
-    mainContainer.appendChild(dataContainer);
+        //montamos la tabla-rutina
+        const dataContainer = document.createElement('div');
+        dataContainer.classList.add('subMenu');
+        mainContainer.appendChild(dataContainer);
 
-    const headerRoutine = document.createElement('div');
-    headerRoutine.classList.add('headerSubMenus');
-    dataContainer.appendChild(headerRoutine);
+        const headerRoutine = document.createElement('div');
+        headerRoutine.classList.add('headerSubMenus');
+        dataContainer.appendChild(headerRoutine);
 
-    const titleRoutine = document.createElement('h3');
-    titleRoutine.innerHTML = rutina.nombre;
-    headerRoutine.appendChild(titleRoutine);
+        const titleRoutine = document.createElement('h3');
+        titleRoutine.innerHTML = rutina.nombre;
+        headerRoutine.appendChild(titleRoutine);
 
-    const tabla = document.createElement('table');
-    dataContainer.appendChild(tabla);
-    const col = 4;
-    const filas = 7;
-    const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-    const ejercicios = [rutina.dia1, rutina.dia2, rutina.dia3, rutina.dia4, rutina.dia5, rutina.dia6, rutina.dia7];
+        const tabla = document.createElement('table');
+        dataContainer.appendChild(tabla);
+        const col = 4;
+        const filas = 7;
+        const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+        const ejercicios = [rutina.dia1, rutina.dia2, rutina.dia3, rutina.dia4, rutina.dia5, rutina.dia6, rutina.dia7];
 
-    for (let i = 0; i <= filas; i++) {
+        for (let i = 0; i <= filas; i++) {
 
-        const row = document.createElement('tr');
-        tabla.appendChild(row);
+            const row = document.createElement('tr');
+            tabla.appendChild(row);
 
-        for (let y = 0; y < col; y++) {
+            for (let y = 0; y < col; y++) {
 
-            const title = document.createElement('th');
-            const cell = document.createElement('td');
+                const title = document.createElement('th');
+                const cell = document.createElement('td');
 
-            if (i == 0) {
+                if (i == 0) {
 
-                (y == 0) ? title.innerHTML = '' : title.innerHTML = 'SEMANA ' + (y);
-                row.appendChild(title);
+                    (y == 0) ? title.innerHTML = '' : title.innerHTML = 'SEMANA ' + (y);
+                    row.appendChild(title);
 
-            } else {
+                } else {
 
-                (y == 0) ? cell.innerHTML = diasSemana[i - 1] : cell.innerHTML = ejercicios[i-1];
-                row.appendChild(cell);
+                    (y == 0) ? cell.innerHTML = diasSemana[i - 1] : cell.innerHTML = ejercicios[i - 1];
+                    row.appendChild(cell);
+                }
+
+
             }
 
-
         }
-
-    }
     }, 2000);
-  
+
 }
 
 async function init() {
@@ -323,7 +443,7 @@ async function init() {
     document.getElementById('rutinaEjercicios').addEventListener('click', muestraRutina);
 
     // para pruebas
-
+    chart();
 
     /* NOTA: para borrar localstorage es : localStorage.remove('user'); */
 
@@ -333,6 +453,14 @@ async function init() {
 /* VARIABLES GLOBALES*/
 // objeto user = obtiene en init todos los datos que se mostraran en su perfil
 let user;
+//Colores para graficos
+const verde = 'rgba(36,242, 33, 1)';
+const naranja = 'rgba(217,158, 98, 0.3)';
+const morado = 'rgba(217,158, 217, 0.3)';
+const amarillo = 'rgba(217,217, 98, 0.3)';
+const rojo = 'rgba(255, 99, 132, 0.3)';
+const negro = 'rgba(15, 0, 7, 1)';
+const lightNegro = 'rgba(15, 0, 7, 0.1)';
 
 
 window.addEventListener('load', init);

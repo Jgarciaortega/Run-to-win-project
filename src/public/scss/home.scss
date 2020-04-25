@@ -1,24 +1,24 @@
 /*Fuentes*/
 @font-face {
   font-family: "TrebuchetMS";
-  src: url("fonts/TrebuchetMS.ttf");
+  src: url("../assets/fonts/TrebuchetMS.ttf");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "BebasNeue";
-  src: url("fonts/BebasNeue.otf");
+  src: url("../assets/fonts/BebasNeue.otf");
   font-weight: normal;
   font-style: normal;
 }
 /*Fuente para los simbolos*/
 @font-face {
   font-family: "WebSymbolsRegular";
-  src: url("fonts/websymbols-regular-webfont-eot");
-  src: url("fonts/websymbols-regular-webfont-eot?#iefitx") format("embebed-opentype"),
-    url("fonts/websymbols-regular-webfont.woff") format("woff"),
-    url("fonts/websymbols-regular-webfont.ttf") format("truetype"),
-    url("fonts/websymbols-regular-webfont.svg#WebSymbolsRegular") format("svg");
+  src: url("../assets/fonts/websymbols-regular-webfont-eot");
+  src: url("../assets/fonts/websymbols-regular-webfont-eot?#iefitx") format("embebed-opentype"),
+    url("../assets/fonts/websymbols-regular-webfont.woff") format("woff"),
+    url("../assets/fonts/websymbols-regular-webfont.ttf") format("truetype"),
+    url("../assets/fonts/websymbols-regular-webfont.svg#WebSymbolsRegular") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -57,7 +57,7 @@ body {
 
 /*Cabecera*/
 #header {
-  width: 100%;
+  width: 99%;
   height: 100px;
   background-color: var(--bg--gray);
   font-family: Century Gothic, sans-serif;
@@ -65,6 +65,7 @@ body {
   color: white;
   overflow: hidden;
   border-bottom: 6px solid var(--bg--orange);
+  margin: 0px auto;
   #logo {
     width: 100px;
 
@@ -126,7 +127,7 @@ body {
 /*Fondo*/
 #fondo{
  
-  width: 100%;
+  width: 99%;
   margin: 0px auto;
   img{
     width: 100%;
