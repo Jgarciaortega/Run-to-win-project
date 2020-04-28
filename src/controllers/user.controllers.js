@@ -65,10 +65,10 @@ exports.createUser = async (req, res) => {
     const connection = await model.getConnection();
     console.log(req.body);
     
-    const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,now(),?)";
+    const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,now(),?)";
     const password = model.getEncrypted(req.body.password);
     const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
-        '/assets/user_photos/yo.jpg', 0, null, 79.8, 1.79, 65, 125, 85, 37,'hombre',null];
+        '/assets/user_photos/yo.jpg', 0, null, 79.8, 1.79, 65, 125, 85,100 ,37,'hombre',null];
     res.send({msg: 'Antes de nada'})
    
     await connection.execute(sql, data);
@@ -124,7 +124,8 @@ const parseUser = results => {
         tension_alta: results.tension_alta,
         tension_baja: results.tension_baja,
         sexo: results.sexo,
-        edad: results.edad
+        edad: results.edad,
+        puntuacion: results.puntuacion
     };
 
     return user;

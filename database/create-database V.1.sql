@@ -42,6 +42,7 @@ CREATE TABLE usuario (
 	pulsaciones_reposo INT(5),
 	tension_alta INT(5),
 	tension_baja INT(5),
+	puntuacion INT(11),
 	edad INT(3),
 	sexo VARCHAR(7),
 	fecha_registro timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW(),

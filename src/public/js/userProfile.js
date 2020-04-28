@@ -1,6 +1,28 @@
 /* FUNCIONES GENERALES */
 
-function showLoadCircle(mainContainer) {
+const sleep = m => new Promise(r => setTimeout(r, m))
+
+async function temp () {
+    await sleep(2000);
+}
+
+
+function clearLeftNav() {
+
+    const nav = document.getElementById('leftMenu');
+    const items = nav.children[0].children;
+
+    for (item of items) {
+
+        if (item.classList.contains('itemNavSelected')) {
+
+            item.classList.remove('itemNavSelected');
+        }
+
+    }
+}
+
+async function showLoadCircle(mainContainer) {
 
     const loadContainer = document.createElement('div');
     loadContainer.setAttribute('id', 'loadContainer');
@@ -10,7 +32,7 @@ function showLoadCircle(mainContainer) {
     loadCircle.setAttribute('id', 'load');
     loadContainer.appendChild(loadCircle);
 
-    setTimeout(() => { mainContainer.removeChild(loadContainer) }, 2000)
+    await setTimeout(() => { mainContainer.removeChild(loadContainer); return true; }, 2000)
 
 }
 
@@ -27,47 +49,25 @@ function limpiarNodo(elemento) {
 function createDoughnut(element, data) {
 
     const ctx = element.getContext('2d');
-
     const myDoughnutChart = new Chart(ctx, {
         type: 'doughnut',
-        data: data
-
-    });
-}
-
-function chart() {
-    const ctx = document.getElementById('statusChart').getContext('2d');
-
-    data = {
-        labels: ['Running', 'Swimming', 'Eating', 'Cycling'],
-        datasets: [{
-            data: [20, 10, 4, 2]
-        }]
-    }
-
-    options = {
-        scale: {
-            angleLines: {
-                display: false
-            },
-            ticks: {
-                suggestedMin: 50,
-                suggestedMax: 100
-            }
-        }
-    };
-
-    var myRadarChart = new Chart(ctx, {
-        type: 'radar',
         data: data,
-        options: options
+        options: {
+            animation: {
+                duration: 2000 // general animation time
+            },
+            hover: {
+                animationDuration: 500 // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 0 // animation duration after a resize
+        }
+
     });
 }
 
 function generateDataPuls() {
 
-    // const pulsaciones = user.pulsaciones;
-    const pulsaciones = 59;
+    const pulsaciones = user.pulsaciones;
     const edad = user.edad;
     const sexo = user.sexo;
     let mal, normal, bien, excelente;
@@ -92,10 +92,11 @@ function generateDataPuls() {
 
     if (pulsaciones <= excelente) {
 
-        data = [pulsaciones, Math.floor(excelente-pulsaciones), Math.floor(bien-excelente), Math.floor (normal-bien), Math.floor(mal-normal)];
+        data = [pulsaciones, Math.floor(excelente - pulsaciones), Math.floor(bien - excelente), Math.floor(normal - bien), Math.floor(mal - normal)];
         backgroundColor = [verde, morado, amarillo, naranja, rojo];
         borderColor = [negro, lightNegro, lightNegro, lightNegro, lightNegro];
         labels = ['tu Pulso', 'excelente', 'bien', 'normal', 'mal'];
+        user.diagnosticPuls = 'Diagnóstico : Sus pulsaciones están en un rango excelente';
     }
 
     else if (pulsaciones > excelente && pulsaciones <= bien) {
@@ -104,18 +105,37 @@ function generateDataPuls() {
         backgroundColor = [verde, amarillo, naranja, rojo];
         borderColor = [negro, lightNegro, lightNegro, lightNegro];
         labels = ['tu Pulso', 'bien', 'normal', 'mal'];
+        user.diagnosticPuls = 'Diagnóstico : Sus pulsaciones están en buen rango';
     }
 
-    data = {
-        datasets: [{
-            data,
-            backgroundColor,
-            borderColor
-        }],
-        labels
-    };
+    else if (pulsaciones > bien && pulsaciones <= normal) {
 
-    return data;
+        data = [pulsaciones, normal - pulsaciones, mal];
+        backgroundColor = [verde, naranja, rojo];
+        borderColor = [negro, lightNegro, lightNegro];
+        labels = ['tu Pulso', 'normal', 'mal'];
+        user.diagnosticPuls = 'Diagnóstico : Sus pulsaciones están en un rango normal';
+    }
+
+    else if (pulsaciones > normal && pulsaciones <= mal) {
+
+        data = [pulsaciones, mal - pulsaciones];
+        backgroundColor = [verde, rojo];
+        borderColor = [negro, lightNegro];
+        labels = ['tu Pulso', 'mal'];
+        user.diagnosticPuls = 'Diagnóstico : Sus pulsaciones están en un rango malo';
+
+    }
+
+    else if (pulsaciones > mal) {
+
+        data = [pulsaciones];
+        backgroundColor = [rojo];
+        borderColor = [negro];
+        labels = ['tu Pulso'];
+    }
+
+    return parseData(data, backgroundColor, borderColor, labels);
 }
 
 function generateDataIMC() {
@@ -129,36 +149,69 @@ function generateDataIMC() {
 
     if (IMC <= valor1) {
 
-        data = [IMC, Math.floor(valor1-IMC), Math.floor(valor2-valor1), Math.floor(valor3-valor2), Math.floor(valor4-valor3)];
+        data = [IMC, Math.floor(valor1 - IMC), Math.floor(valor2 - valor1), Math.floor(valor3 - valor2), Math.floor(valor4 - valor3)];
         backgroundColor = [verde, morado, amarillo, naranja, rojo];
         borderColor = [negro, lightNegro, lightNegro, lightNegro, lightNegro];
         labels = ['tu IMC', 'insuficiente', 'normal', 'sobrepeso', 'obesidad'];
+        user.diagnosticIMC = 'Diagnóstico: Su IMC está en rango de peso insuficiente';
     }
 
     else if (IMC > valor1 && IMC <= valor2) {
 
-        data = [IMC, Math.floor(valor2-IMC), Math.floor(valor3-valor2), Math.floor(valor4-valor3)];
+        data = [IMC, Math.floor(valor2 - IMC), Math.floor(valor3 - valor2), Math.floor(valor4 - valor3)];
         backgroundColor = [verde, amarillo, naranja, rojo];
         borderColor = [negro, lightNegro, lightNegro, lightNegro];
         labels = ['tu IMC', 'normal', 'sobrepeso', 'obesidad'];
+        user.diagnosticIMC = 'Diagnóstico: Su IMC está en el rango normal';
 
     }
     else if (IMC > valor2 && IMC <= valor3) {
 
-        data = [IMC,  Math.floor(valor3-IMC), Math.floor(valor4-valor3)];
+        data = [IMC, Math.floor(valor3 - IMC), Math.floor(valor4 - valor3)];
         backgroundColor = [verde, naranja, rojo];
         borderColor = [negro, lightNegro, lightNegro];
         labels = ['tu IMC', 'sobrepeso', 'obesidad'];
+        user.diagnosticIMC = 'Diagnóstico: Su IMC está en rango de sobrepeso';
 
     }
     else if (IMC > valor3 && IMC <= valor4) {
 
-        data = [IMC, Math.floor(valor4-IMC)];
+        data = [IMC, Math.floor(valor4 - IMC)];
         backgroundColor = [verde, rojo];
         borderColor = [negro, lightNegro];
         labels = ['tu IMC', 'obesidad'];
+        user.diagnosticIMC = 'Diagnóstico: Su IMC está en rango de obesidad';
 
     }
+
+    return parseData(data, backgroundColor, borderColor, labels);
+}
+
+function generateDataPoints() {
+
+    let rangoPuntos;
+
+    switch (user.status) {
+
+        case ('beginner'): rangoPuntos = 1000; break;
+        case ('intermediate'): rangoPuntos = 1500; break;
+        case ('pro'): rangoPuntos = 3000; break;
+
+    }
+
+    data = [user.puntuacion, rangoPuntos - user.puntuacion];
+    backgroundColor = [verde, rojo];
+    borderColor = [negro, lightNegro];
+    labels = ['tus puntos', 'nivel'];
+
+    const dataPoints = parseData(data, backgroundColor, borderColor, labels);
+    const element = document.getElementById('statusChart');
+
+    createDoughnut(element, dataPoints);
+
+}
+
+function parseData(data, backgroundColor, borderColor, labels) {
 
     data = {
         datasets: [{
@@ -168,7 +221,7 @@ function generateDataIMC() {
         }],
         labels
     };
-   
+
     return data;
 }
 
@@ -205,7 +258,8 @@ function showInfoUser(user) {
     const nickname = document.getElementById('nickname');
     const level = document.getElementById('level');
     const achievements = document.getElementById('achievements-quantity');
-    const photo = document.getElementById('photo')
+    const photo = document.getElementById('photo');
+    const points = document.getElementById('points');
 
     const imgPhoto = document.createElement('img');
     imgPhoto.setAttribute('src', user.imagen);
@@ -215,8 +269,8 @@ function showInfoUser(user) {
     nickname.innerHTML = user.nickname;
     level.innerHTML = user.status;
     achievements.innerHTML = user.logros;
+    points.innerHTML = user.puntuacion;
 
-    // chart();
     generateDataIMC();
 }
 
@@ -243,12 +297,24 @@ async function loadRutine(id_rutina) {
 
 function muestraInicio() {
 
+    // borramos primero si hay algun element del nav seleccionado
+    clearLeftNav();
+
+    /*marcamos el item del nav como seleccionado*/
+    // si el elemento viene al pulsar sobre el enlace...
+    if (this == document.getElementById('inicio')) {
+        this.classList.add('itemNavSelected');
+        // ... si se carga inicio sin pulsar el enlace(cuando carga inicialmente el perfil de usuario)    
+    } else {
+        document.getElementById('inicio').classList.add('itemNavSelected');
+    }
+
     const mainContainer = document.getElementById('center');
     limpiarNodo(mainContainer);
     // div portada inicio
     const inicioContainer = document.createElement('div');
     inicioContainer.classList.add('banner');
-    inicioContainer.setAttribute('id', 'inicio');
+    inicioContainer.setAttribute('id', 'inicioBanner');
     mainContainer.appendChild(inicioContainer);
 
     // contenido portada
@@ -261,12 +327,17 @@ function muestraInicio() {
 
 function muestraInforme() {
 
+    // borramos primero si hay algun element del nav seleccionado
+    clearLeftNav();
+    // marcamos el item del nav como seleccionado
+    this.classList.add('itemNavSelected');
+
     const mainContainer = document.getElementById('center');
     limpiarNodo(mainContainer);
     // div portada inicio
     const inicioContainer = document.createElement('div');
     inicioContainer.classList.add('banner');
-    inicioContainer.setAttribute('id', 'informes');
+    inicioContainer.setAttribute('id', 'informesBanner');
     mainContainer.appendChild(inicioContainer);
 
     // contenido portada
@@ -277,14 +348,19 @@ function muestraInforme() {
 
 }
 
-function muestraSalud() {
+async function muestraSalud() {
+
+    // borramos primero si hay algun element del nav seleccionado
+    clearLeftNav();
+    // marcamos el item del nav como seleccionado
+    this.classList.add('itemNavSelected');
 
     const mainContainer = document.getElementById('center');
     limpiarNodo(mainContainer);
     // div portada inicio
     const inicioContainer = document.createElement('div');
     inicioContainer.classList.add('banner');
-    inicioContainer.setAttribute('id', 'health');
+    inicioContainer.setAttribute('id', 'saludBanner');
     mainContainer.appendChild(inicioContainer);
 
     // contenido portada
@@ -293,76 +369,94 @@ function muestraSalud() {
     textPortada.innerHTML = 'SALUD';
     inicioContainer.appendChild(textPortada);
 
-    //showLoadCircle(mainContainer);
-
+    showLoadCircle(mainContainer);
+    await temp();
     // contenido salud
     const dataContainer = document.createElement('div');
     dataContainer.classList.add('subMenu');
-    dataContainer.setAttribute('id', 'salud');
+    dataContainer.setAttribute('id', 'mainSalud');
     mainContainer.appendChild(dataContainer);
 
-    const dataIMC = document.createElement('div');
-    dataContainer.appendChild(dataIMC);
+    const IMC = document.createElement('div');
+    dataContainer.appendChild(IMC);
 
     const headerIMC = document.createElement('div');
     headerIMC.classList.add('headerSubMenus');
-    dataIMC.appendChild(headerIMC);
+    IMC.appendChild(headerIMC);
 
     const titleIMC = document.createElement('p');
     titleIMC.innerHTML = 'IMC';
     headerIMC.appendChild(titleIMC);
 
+    const dataIMC = document.createElement('div');
+    dataIMC.classList.add('contenidoSubMenu');
+    IMC.appendChild(dataIMC);
+
+    const chartIMC = document.createElement('div');
+    chartIMC.classList.add('grafico');
+    dataIMC.appendChild(chartIMC);
+
     const canvasIMC = document.createElement('canvas');
-    canvasIMC.setAttribute('id', 'IMC');
-    canvasIMC.classList.add('grafico');
-    dataIMC.appendChild(canvasIMC);
+    chartIMC.appendChild(canvasIMC);
+
     let dataDoughnutIMC = generateDataIMC();
     createDoughnut(canvasIMC, dataDoughnutIMC);
 
-    const dataPulsaciones = document.createElement('div');
-    dataContainer.appendChild(dataPulsaciones);
+    const infoIMC = document.createElement('div');
+    dataIMC.appendChild(infoIMC);
+
+    const diagnosticIMC = document.createElement('p');
+    diagnosticIMC.classList.add('diagnosticText');
+    diagnosticIMC.innerHTML = user.diagnosticIMC;
+    infoIMC.appendChild(diagnosticIMC);
+
+    const pulsaciones = document.createElement('div');
+    dataContainer.appendChild(pulsaciones);
 
     const headerPuls = document.createElement('div');
     headerPuls.classList.add('headerSubMenus');
-    dataPulsaciones.appendChild(headerPuls);
+    pulsaciones.appendChild(headerPuls);
 
     const titlePuls = document.createElement('p');
-    titlePuls.innerHTML = 'PULSACIONES';
+    titlePuls.innerHTML = 'TUS PULSACIONES';
     headerPuls.appendChild(titlePuls);
 
+    const dataPulsaciones = document.createElement('div');
+    dataPulsaciones.classList.add('contenidoSubMenu');
+    pulsaciones.appendChild(dataPulsaciones);
+
+    const chartPulsaciones = document.createElement('div');
+    chartPulsaciones.classList.add('grafico');
+    dataPulsaciones.appendChild(chartPulsaciones);
+
     const canvasPulsaciones = document.createElement('canvas');
-    canvasPulsaciones.setAttribute('id', 'pulsaciones');
-    canvasPulsaciones.classList.add('grafico');
-    dataPulsaciones.appendChild(canvasPulsaciones);
+    chartPulsaciones.appendChild(canvasPulsaciones);
+
     let dataDoughnutPuls = generateDataPuls();
     createDoughnut(canvasPulsaciones, dataDoughnutPuls);
-    
 
-    // const dataTensionAlta = document.createElement('div');
-    // dataTensionAlta.setAttribute('id','tensionAlta');
-    // dataTensionAlta.classList.add('graficoSalud');
-    // dataContainer.appendChild(dataTensionAlta);
-    // const canvasTensionAlta = document.createElement('canvas');
-    // dataTensionAlta.appendChild(canvasTensionAlta);
-    // let dataDoughnut = generateDataDoughnut();
-    // createDoughnut(canvasTensionAlta,dataDoughnut);
+    const infoPuls = document.createElement('div');
+    dataPulsaciones.appendChild(infoPuls);
 
-    // const dataTensionBaja = document.createElement('div');
-    // dataTensionBaja.setAttribute('id','tensionBaja');
-    // dataTensionBaja.classList.add('graficoSalud');
-    // dataContainer.appendChild(dataTensionBaja);
-
-
+    const diagnosticPuls = document.createElement('p');
+    diagnosticPuls.classList.add('diagnosticText');
+    diagnosticPuls.innerHTML = user.diagnosticPuls;
+    infoPuls.appendChild(diagnosticPuls);
 }
 
 async function muestraRutina() {
+
+    // borramos primero si hay algun element del nav seleccionado
+    clearLeftNav();
+    // marcamos el item del nav como seleccionado
+    this.classList.add('itemNavSelected');
 
     const mainContainer = document.getElementById('center');
     limpiarNodo(mainContainer);
     // div portada inicio
     const inicioContainer = document.createElement('div');
     inicioContainer.classList.add('banner');
-    inicioContainer.setAttribute('id', 'rutina');
+    inicioContainer.setAttribute('id', 'rutinaBanner');
     mainContainer.appendChild(inicioContainer);
 
     // contenido portada
@@ -375,56 +469,53 @@ async function muestraRutina() {
     const rutina = await loadRutine(1);
 
     showLoadCircle(mainContainer);
+    await temp();
 
-    setTimeout(() => {
+    //montamos la tabla-rutina
+    const dataContainer = document.createElement('div');
+    dataContainer.classList.add('subMenu');
+    mainContainer.appendChild(dataContainer);
 
-        //montamos la tabla-rutina
-        const dataContainer = document.createElement('div');
-        dataContainer.classList.add('subMenu');
-        mainContainer.appendChild(dataContainer);
+    const headerRoutine = document.createElement('div');
+    headerRoutine.classList.add('headerSubMenus');
+    dataContainer.appendChild(headerRoutine);
 
-        const headerRoutine = document.createElement('div');
-        headerRoutine.classList.add('headerSubMenus');
-        dataContainer.appendChild(headerRoutine);
+    const titleRoutine = document.createElement('h3');
+    titleRoutine.innerHTML = rutina.nombre;
+    headerRoutine.appendChild(titleRoutine);
 
-        const titleRoutine = document.createElement('h3');
-        titleRoutine.innerHTML = rutina.nombre;
-        headerRoutine.appendChild(titleRoutine);
+    const tabla = document.createElement('table');
+    tabla.classList.add('contenidoSubMenu');
+    dataContainer.appendChild(tabla);
+    const col = 4;
+    const filas = 7;
+    const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+    const ejercicios = [rutina.dia1, rutina.dia2, rutina.dia3, rutina.dia4, rutina.dia5, rutina.dia6, rutina.dia7];
 
-        const tabla = document.createElement('table');
-        dataContainer.appendChild(tabla);
-        const col = 4;
-        const filas = 7;
-        const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-        const ejercicios = [rutina.dia1, rutina.dia2, rutina.dia3, rutina.dia4, rutina.dia5, rutina.dia6, rutina.dia7];
+    for (let i = 0; i <= filas; i++) {
 
-        for (let i = 0; i <= filas; i++) {
+        const row = document.createElement('tr');
+        tabla.appendChild(row);
 
-            const row = document.createElement('tr');
-            tabla.appendChild(row);
+        for (let y = 0; y < col; y++) {
 
-            for (let y = 0; y < col; y++) {
+            const title = document.createElement('th');
+            const cell = document.createElement('td');
 
-                const title = document.createElement('th');
-                const cell = document.createElement('td');
+            if (i == 0) {
 
-                if (i == 0) {
+                (y == 0) ? title.innerHTML = '' : title.innerHTML = 'SEMANA ' + (y);
+                row.appendChild(title);
 
-                    (y == 0) ? title.innerHTML = '' : title.innerHTML = 'SEMANA ' + (y);
-                    row.appendChild(title);
+            } else {
 
-                } else {
-
-                    (y == 0) ? cell.innerHTML = diasSemana[i - 1] : cell.innerHTML = ejercicios[i - 1];
-                    row.appendChild(cell);
-                }
-
-
+                (y == 0) ? cell.innerHTML = diasSemana[i - 1] : cell.innerHTML = ejercicios[i - 1];
+                row.appendChild(cell);
             }
 
         }
-    }, 2000);
 
+    }
 }
 
 async function init() {
@@ -435,15 +526,16 @@ async function init() {
     user = await loadInfoUser(localStorageInfo);
     //3º mostramos la info basica del perfil
     showInfoUser(user);
+    //4º cargamos el menu inicio
+    muestraInicio();
+    //5º carga los puntos del usuario y los muestra en grafico puntuacion
+    generateDataPoints();
 
     // listeners menu lateral
     document.getElementById('inicio').addEventListener('click', muestraInicio);
     document.getElementById('informe').addEventListener('click', muestraInforme);
     document.getElementById('salud').addEventListener('click', muestraSalud);
     document.getElementById('rutinaEjercicios').addEventListener('click', muestraRutina);
-
-    // para pruebas
-    chart();
 
     /* NOTA: para borrar localstorage es : localStorage.remove('user'); */
 
@@ -452,6 +544,7 @@ async function init() {
 
 /* VARIABLES GLOBALES*/
 // objeto user = obtiene en init todos los datos que se mostraran en su perfil
+
 let user;
 //Colores para graficos
 const verde = 'rgba(36,242, 33, 1)';

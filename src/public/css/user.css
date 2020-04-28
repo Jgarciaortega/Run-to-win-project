@@ -98,7 +98,8 @@ body {
   border: 1px solid black;
   font-size: 22px;
   background-color: #ece7e2;
-  opacity: 0.8;
+  opacity: 0.9;
+  z-index: 1000;
 }
 #header #contentHeader #profile #user #menuUser li {
   display: flex;
@@ -207,6 +208,9 @@ body {
   background-color: gray;
   color: white;
 }
+#mainContent #left #leftMenu li:active {
+  border: 1px solid gray;
+}
 #mainContent #center {
   display: flex;
   flex-direction: column;
@@ -235,41 +239,37 @@ body {
   font-size: 26px;
   animation: tituloDownUp 2s linear;
 }
-#mainContent #center #inicio {
+#mainContent #center #inicioBanner {
   animation: right_left_Banner 2s linear;
   background: url("../assets/img/carreteraInicio.jpg");
   background-repeat: no-repeat;
   background-position: -59px -78px;
   background-size: 123%;
 }
-#mainContent #center #informes {
+#mainContent #center #informesBanner {
   background: url("../assets/img/pista_atletismo.jpg");
   animation: left_right_Banner 2s linear;
   background-repeat: no-repeat;
   background-position: -99px -210px;
   background-size: 138%;
 }
-#mainContent #center #health {
+#mainContent #center #saludBanner {
   background: url("../assets/img/salud.jpg");
   animation: left_right_Health 2s linear;
   background-position-x: -53px;
   background-size: 107% 102%;
   background-repeat: no-repeat;
 }
-#mainContent #center #rutina {
+#mainContent #center #rutinaBanner {
   background: url("../assets/img/rutina.jpg");
   animation: in-out 2s linear;
   background-position-x: -53px;
   background-size: 107% 102%;
   background-repeat: no-repeat;
 }
-#mainContent #center #salud {
+#mainContent #center #mainSalud {
   display: flex;
   flex-direction: column;
-}
-#mainContent #center #salud .graficoSalud {
-  border: 1px solid black;
-  max-height: 200px;
 }
 #mainContent #center table,
 #mainContent #center th,
@@ -449,6 +449,31 @@ footer li {
 }
 
 /*CLASES GENERALES*/
+.itemNavSelected {
+  background-color: gray;
+  color: white;
+}
+
+.diagnosticText {
+  margin-top: 5%;
+  font-weight: bold;
+}
+
+.contenidoSubMenu {
+  border: 1px dashed black;
+  background-image: none;
+  background-color: white;
+  padding: 2%;
+  margin: 1%;
+}
+
+.grafico {
+  position: relative;
+  width: 70%;
+  left: 15%;
+  margin-bottom: 1%;
+}
+
 .headerSubMenus {
   text-align: center;
   margin-bottom: 4%;
@@ -487,9 +512,9 @@ footer li {
   margin-left: 2%;
   border: 1px dotted black;
   border-radius: 20px;
+  background-color: #ffffff !important;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
   background: url("../assets/img/pattern.png");
-  background-color: white;
-  box-shadow: 5px 6px 10px var(--bg--gray);
 }
 
 .noVisible {
