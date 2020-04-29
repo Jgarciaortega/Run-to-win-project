@@ -63,15 +63,24 @@ CREATE TABLE registros_entrenamiento(
 	
 );
 
+CREATE TABLE conversacion(
+	id INT(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id_usuario1 INT(11),
+	id_usuario2 INT(11)
+);
+
 CREATE TABLE mensaje(
 	id INT(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	contenido VARCHAR(255),
 	id_destinatario INT(100),
 	fecha_envio DateTime NOT NULL DEFAULT NOW() ON UPDATE NOW(), 
-	leido BOOLEAN,
+	id_conversacion INT(11),
 	id_usuario INT(11),
+	FOREIGN KEY (id_conversacion) REFERENCES conversacion (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE,
 	FOREIGN KEY (id_usuario) REFERENCES usuario (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE
 );
+
+
 
 CREATE TABLE notificaciones(
 	id INT(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,

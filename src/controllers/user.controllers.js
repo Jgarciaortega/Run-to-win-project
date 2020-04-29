@@ -1,6 +1,6 @@
 const model = require('../model/model');
 
- exports.findByIdByClient = async (req, res) => {
+ exports.findByNicknameByClient = async (req, res) => {
     const connection = await model.getConnection();
     const [
         rows,
@@ -10,7 +10,6 @@ const model = require('../model/model');
 
     if (rows.length) {
         const user = parseUser(rows[0]);
-        console.log(user);
         return res.send(user);       
     }
 
@@ -68,7 +67,7 @@ exports.createUser = async (req, res) => {
     const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,now(),?)";
     const password = model.getEncrypted(req.body.password);
     const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
-        '/assets/user_photos/yo.jpg', 0, null, 79.8, 1.79, 65, 125, 85,100 ,37,'hombre',null];
+        '/assets/user_photos/Schwarzy.jpg', 0, null, 89, 1.92, 67, 125, 85,500 ,64,'hombre',null];
     res.send({msg: 'Antes de nada'})
    
     await connection.execute(sql, data);

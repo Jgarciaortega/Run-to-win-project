@@ -64,7 +64,7 @@ router.get("/user/logOut", (req, res) => {
 
 
 router.get('/user/findById/:id', passport.authenticate('jwt', { session: false }), User.findById);
-router.get('/user/findByNickname/:nickname', passport.authenticate('jwt', { session: false }), User.findByIdByClient);
+router.get('/user/findByNickname/:nickname', passport.authenticate('jwt', { session: false }), User.findByNicknameByClient);
 router.post('/user/createUser', User.createUser);
 router.post('/user/existEmail', User.existEmail);
 router.post('/user/existNickname', User.existNickname);

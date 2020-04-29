@@ -201,7 +201,7 @@ function generateDataPoints() {
 
     data = [user.puntuacion, rangoPuntos - user.puntuacion];
     backgroundColor = [verde, rojo];
-    borderColor = [negro, lightNegro];
+    borderColor = [lightNegro, lightNegro];
     labels = ['tus puntos', 'nivel'];
 
     const dataPoints = parseData(data, backgroundColor, borderColor, labels);

@@ -4,67 +4,93 @@ const { format } = require('timeago.js');
 exports.createMessage = async (req, res) => {
     const connection = await model.getConnection();
 
-    const data = ['"'+req.body.messageTxt+'"',req.body.id_addressee,false,req.body.user.id];
+    const data = ['"' + req.body.messageTxt + '"', req.body.id_addressee, req.body.id_conversation, req.body.user.id];
 
     await connection.execute("INSERT INTO mensaje VALUES (NULL,?,?,now(),?,?)",
-    data);
+        data);
     connection.end();
 
-}
-
-exports.updateMessage = async (req, res) => {
-    const connection = await model.getConnection();
-    const sql = "UPDATE mensaje SET contenido='"+req.body.txt+"',id_destinatario="+
-    +req.body.addressee+",fecha_envio=now(),id_usuario="+req.body.sender+" WHERE id="+req.params.id;
-    
-    connection.query(sql, function (err, result){
-        if (err) throw err;
-        console.log(result.affectedRows + " record(s) updated");
-      });
-    
 }
 
 exports.getMessages = async (req, res) => {
 
-    const sqlQuery = "SELECT mensaje.id,contenido,fecha_envio,id_usuario FROM `mensaje` INNER JOIN usuario ON id_destinatario=usuario.id WHERE usuario.id= ?";
     const connection = await model.getConnection();
-    const [rows] = await connection.execute(sqlQuery,[req.params.id]);
-    parseDate(rows);
+    const sql = "SELECT * from mensaje WHERE id_conversacion=" + req.params.id + " ORDER BY fecha_envio";
+    const [rows] = await connection.execute(sql);
     connection.end();
-    res.send(rows)
+    parseDate(rows);
+    res.send(rows);
 
 }
 
-exports.deleteMessage = async (req, res) => {
+exports.createConversation = async (req, res) => {
+    const connection = await model.getConnection();
+    const data = [req.body.id_user1, req.body.id_user2];
+    const sql = "INSERT INTO conversacion (id_usuario1,id_usuario2) VALUES (" + req.body.id_user1 + " ," + req.body.id_user2 + ")";
+
+    connection.query(sql, function (err, result) {
+        if (err) throw err;
+        res.send({ id_conversation: result.insertId });
+    });
+
+}
+
+exports.getConversation = async (req, res) => {
 
     const connection = await model.getConnection();
-    let idMsg = req.params.id;
+    const sql = "SELECT * from conversacion WHERE id_usuario1=" + req.params.id + " or id_usuario2=" + req.params.id;
+    const [rows] = await connection.execute(sql);
+    connection.end();
+    res.send(rows);
 
-    let sqlQuery = "DELETE FROM mensaje WHERE id=" + idMsg;
-    console.log(sqlQuery);
+}
 
-    connection.query(sqlQuery, function (err, result) {
-        if (err) res.send({ msg: "Error al eliminar usuario"});
-        res.send({msg:"Usuario eliminado"});
-        console.log("Number of records deleted: " + result.affectedRows);
-      });
+exports.updateConversation = async (req, res) => {
 
-};
+    const connection = await model.getConnection();
+    const conversationId = req.params.id;
+    const userId = req.params.userId;
+    const sql1 = "UPDATE conversacion set id_usuario1=-1 WHERE id=" + conversationId + " and id_usuario1=" + userId;
+    const sql2 = "UPDATE conversacion set id_usuario2=-1 WHERE id=" + conversationId + " and id_usuario2=" + userId;
+    await connection.execute(sql1);
+    await connection.execute(sql2);
+
+}
+
+exports.deleteConversation = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const conversationId = req.params.id;
+    const sql1 = "SELECT id_usuario1, id_usuario2 from conversacion WHERE id= " + conversationId;
+    const sql2 = "DELETE FROM mensaje WHERE id_conversacion="+ conversationId;
+    const sql3 = "DELETE FROM conversacion WHERE id=" + conversationId;
+
+    const [rows] = await connection.execute(sql1);
+    // campo usuario a -1 es que usuario borro conversacion. Si dos a -1 nos cargamos conversacion y mensajes
+    console.log(rows[0].id_usuario1);
+    
+    if (rows[0].id_usuario1 == -1 && rows[0].id_usuario2 == -1) {
+       
+        await connection.execute(sql2)
+        await connection.execute(sql3);
+    }
+
+}
 
 exports.countMessages = async (req, res) => {
 
     const connection = await model.getConnection();
     const sqlQuery = "SELECT COUNT(id) as total FROM `mensaje` WHERE id_destinatario = ?";
-    const [rows] = await connection.execute(sqlQuery,[req.params.id]);
+    const [rows] = await connection.execute(sqlQuery, [req.params.id]);
     connection.end();
     res.send(rows[0])
 }
 
-const parseDate = (rows) =>{
+const parseDate = (rows) => {
     rows.forEach(row => {
         let timeagoFormat = format(row.fecha_envio);
         row.fecha_envio = timeagoFormat;
     });
 
-   return rows;
+    return rows;
 }

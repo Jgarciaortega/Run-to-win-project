@@ -5,6 +5,13 @@ const passport = require('passport');
 const Message = require('../controllers/messages.controllers');
 const Rutine = require('../controllers/rutines.controllers');
 
+
+router.post("/api/createConversation",
+passport.authenticate("jwt", { session: false }),Message.createConversation);
+
+router.get("/api/getConversation/:id",
+passport.authenticate("jwt", { session: false }),Message.getConversation);
+
 router.post("/api/sendMessage",
 passport.authenticate("jwt", { session: false }),Message.createMessage);
 
@@ -14,11 +21,11 @@ passport.authenticate("jwt", { session: false }),Message.getMessages);
 router.get("/api/countMessages/:id",
 passport.authenticate("jwt", { session: false }),Message.countMessages);
 
-router.delete("/api/deleteMsg/:id",
-passport.authenticate("jwt", { session: false }),Message.deleteMessage);
+router.put("/api/updateConversation/:id/:userId",
+passport.authenticate("jwt", { session: false }),Message.updateConversation);
 
-router.put("/api/updateMessage/:id",
-passport.authenticate("jwt", { session: false }),Message.updateMessage);
+router.delete("/api/deleteConversation/:id",
+passport.authenticate("jwt", { session: false }),Message.deleteConversation);
 
 router.get("/api/rutine/:id",
 passport.authenticate("jwt", { session: false }),Rutine.findRutineById);
