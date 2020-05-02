@@ -1,0 +1,64 @@
+{{>userHeader}}
+<div id="msgContent">
+    <div id="inbox">
+        <div id="inboxHeader">
+            <h2>Perfil Usuario</h2>
+        </div>
+        <div id="personalData" class="profileContent">
+            <p class="titleProfile">DATOS PERSONALES</p>
+            <div class="field">
+                <span>Nombre</span>
+                <input type="text" name="nombre" value="Arnold" readonly>
+                <i class="far fa-edit"></i>
+            </div>
+            <div class="field">
+                <span>Apellidos</span>
+                <input type="text" name="apellidos" value="Swarszeneger" readonly>
+                <i class="far fa-edit"></i>
+            </div>
+            <div class="field">
+                <span>Email</span>
+                <input type="text" name="email" value="swarzy@email.com" readonly>
+                <i class="far fa-edit"></i>
+            </div>
+        </div>
+        <div id="healthData" class="profileContent">
+            <p class="titleProfile">DATOS SALUD</p>
+            <div class="field">
+                <span>Peso</span>
+                <input type="text" name="peso" value="89" readonly>
+                <i class="far fa-edit"></i>
+            </div>
+            <div class="field">
+                <span>Altura</span>
+                <input type="text" name="altura" value="1,94" readonly>
+                <i class="far fa-edit"></i>
+            </div>
+            <div class="field">
+                <span>Pulsaciones</span>
+                <input type="text" name="pulsaciones" value="65" readonly>
+                <i class="far fa-edit"></i>
+            </div>
+        </div>
+        <div id="appData" class="profileContent">
+            <p class="titleProfile">DATOS RUNT TO WIN</p>
+            <div class="field">
+                <span>Tu reto</span>
+                <select id="challenge">
+                    <option value="10K">10K</option>
+                    <option value="Media Marathon">Media Marathon</option>
+                    <option value="Marathon">Marathon</option>
+                </select>
+            </div>
+            <div class="field">
+                <span>Puntuación</span>
+                <input type="text" name="points" value="500" readonly>
+            </div>
+            <div class="field">
+                <span>Tu status</span>
+                <input type="text" name="points" value="Beginner" readonly>
+            </div>
+        </div>
+    </div>
+</div>
+{{>userFooter}}

@@ -6,9 +6,9 @@ async function getServer(url) {
 
 }
 
-async function countMsg(){
+async function countConver(){
 
-    const url = '/api/countMessages/'+userId.id;
+    const url = '/api/countConversations/'+userId.id;
     
     const count = await getServer(url);
     document.getElementById('msgQuantity').innerHTML = count.total;
@@ -40,8 +40,8 @@ async function init() {
     document.getElementById('user').addEventListener('click', deployMenu);
     document.getElementById('menuUser').addEventListener('mouseleave', hideMenu);
 
-    //contamos mensajes / notificaciones pendientes
-    await countMsg();
+    //contamos conversaciones / notificaciones pendientes
+    await countConver();
     await countNtf();
 
     

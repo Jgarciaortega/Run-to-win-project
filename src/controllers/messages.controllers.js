@@ -6,16 +6,18 @@ exports.createMessage = async (req, res) => {
 
     const data = ['"' + req.body.messageTxt + '"', req.body.id_addressee, req.body.id_conversation, req.body.user.id];
 
-    await connection.execute("INSERT INTO mensaje VALUES (NULL,?,?,now(),?,?)",
-        data);
+    const [rows] = await connection.execute("INSERT INTO mensaje VALUES (NULL,?,?,now(),?,?)", data);
     connection.end();
 
+    if (rows.affectedRows > 0) res.send(true);
+
+    res.send(false);
 }
 
 exports.getMessages = async (req, res) => {
 
     const connection = await model.getConnection();
-    const sql = "SELECT * from mensaje WHERE id_conversacion=" + req.params.id + " ORDER BY fecha_envio";
+    const sql = "SELECT * from mensaje WHERE id_conversacion=" + req.params.id + " ORDER BY fecha_envio ASC";
     const [rows] = await connection.execute(sql);
     connection.end();
     parseDate(rows);
@@ -54,34 +56,37 @@ exports.updateConversation = async (req, res) => {
     const sql2 = "UPDATE conversacion set id_usuario2=-1 WHERE id=" + conversationId + " and id_usuario2=" + userId;
     await connection.execute(sql1);
     await connection.execute(sql2);
+    // si los dos usuarios se borran de la conversacion la borro y sus mensajes
+    await this.deleteConversation(conversationId);
 
 }
 
-exports.deleteConversation = async (req, res) => {
+exports.deleteConversation = async (conversationId) => {
 
     const connection = await model.getConnection();
-    const conversationId = req.params.id;
     const sql1 = "SELECT id_usuario1, id_usuario2 from conversacion WHERE id= " + conversationId;
-    const sql2 = "DELETE FROM mensaje WHERE id_conversacion="+ conversationId;
+    const sql2 = "DELETE FROM mensaje WHERE id_conversacion=" + conversationId;
     const sql3 = "DELETE FROM conversacion WHERE id=" + conversationId;
 
     const [rows] = await connection.execute(sql1);
-    // campo usuario a -1 es que usuario borro conversacion. Si dos a -1 nos cargamos conversacion y mensajes
-    console.log(rows[0].id_usuario1);
-    
-    if (rows[0].id_usuario1 == -1 && rows[0].id_usuario2 == -1) {
-       
-        await connection.execute(sql2)
-        await connection.execute(sql3);
-    }
 
+    // campo usuario a -1 es que usuario borro conversacion. Si dos a -1 nos cargamos conversacion y mensajes
+    if (rows[0].id_usuario1 == -1 && rows[0].id_usuario2 == -1) {
+
+        const res1 = await connection.execute(sql2)
+        const res2 = await connection.execute(sql3);
+        
+        res.send(true);
+        
+    }
+    res.send(false);
 }
 
-exports.countMessages = async (req, res) => {
+exports.countConversations = async (req, res) => {
 
     const connection = await model.getConnection();
-    const sqlQuery = "SELECT COUNT(id) as total FROM `mensaje` WHERE id_destinatario = ?";
-    const [rows] = await connection.execute(sqlQuery, [req.params.id]);
+    const sqlQuery = "SELECT COUNT(id) as total FROM `conversacion` WHERE id_usuario1=" + req.params.id + " or id_usuario2=" + req.params.id;
+    const [rows] = await connection.execute(sqlQuery);
     connection.end();
     res.send(rows[0])
 }

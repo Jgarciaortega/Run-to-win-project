@@ -91,10 +91,20 @@ async function sendMessageReply() {
             id_conversation,
             user
         };
-        await postServer('/api/sendMessage', message);
+        // si se envia ok ...
+        if (await postServer('/api/sendMessage', message)) {
+            //recargamos todo el contenido
+            mainContent.lastChild.classList.add('noVisibility');
+            mainContent.lastChild.firstChild.value = '';
+            mainContent.parentNode.removeChild(mainContent);
+            loadConversations();
+
+        } else {
+
+            alert('No se pudo enviar el mensaje');
+        }
     }
 }
-
 
 async function createNewMessage(addressee, messageTxt) {
 
@@ -142,10 +152,23 @@ function getAddresse(conversation) {
 
 }
 
+async function loadConversations() {
+
+    // averiguo las conversaciones que tiene abiertas este usuario
+    const conversations = await getServer('/api/getConversation/' + user.id);
+
+    // cargo la vista con los mensajes de cada conversacion
+    conversations.forEach(async conversation => {
+        let conversacion = await getServer('/api/getMessages/' + conversation.id);
+        showMessages(conversacion);
+    })
+}
+
+
 async function showMessages(conversation) {
 
     // del primer mensaje obtenemos la info que contendra esta conversacion
-    const senderId = conversation[0].id_usuario;
+    const senderId = getAddresse(conversation);
     const conversId = conversation[0].id_conversacion;
 
     // div principal
@@ -249,7 +272,7 @@ async function showMessages(conversation) {
     btnSend.innerHTML = '<i class="fas fa-paper-plane"></i>';
     btnSend.addEventListener('click', sendMessageReply);
     btnSend.setAttribute('data-id', conversId);
-    btnSend.setAttribute('data-addresse', getAddresse(conversation));
+    btnSend.setAttribute('data-addresse', sender.id);
     replyOptions.appendChild(btnSend);
 
     // 2.2.2.2. boton cerrar
@@ -260,20 +283,17 @@ async function showMessages(conversation) {
     replyOptions.appendChild(btnClose);
 
 }
-// borra al usuario de esta conversacion
-function deleteConversation() {
 
-    // 1º elimina al usuario de la conversacion
-    putServer('/api/updateConversation/' + this.getAttribute('data-id') + "/" + user.id);
+async function deleteConversation() {
 
-    // 2º delete conversation si los dos usuarios se han borrado de ella
-    deleteServer('/api/deleteConversation/' + this.getAttribute('data-id'));
-
-    // 3º borrar en interfaz (vamos subiendo del boton a nodo padre para eliminarlo)
+    //borrado en interfaz
     let localContent = document.getElementById(this.getAttribute('data-id'));
 
     localContent.classList.add('noVisible');
     localContent.innerHTML = '';
+
+    // elimina al usuario de la conversacion y luego compruebo si ya no hay usuarios en conversacion para borrarla
+    await putServer('/api/updateConversation/' + this.getAttribute('data-id') + "/" + user.id);
 
 }
 
@@ -289,7 +309,7 @@ async function putServer(url) {
     const res = await fetch(url, body);
     const data = await res.json();
 
-    console.log(data);
+    return data;
 
 }
 
@@ -324,7 +344,7 @@ async function deleteServer(url) {
     const res = await fetch(url, body);
     const data = await res.json();
 
-    console.log(data);
+    return data;
 
 }
 
@@ -344,14 +364,8 @@ async function init() {
     userId = JSON.parse(localStorage.getItem('user'));
     user = await getServer('/user/findById/' + userId.id);
 
-    // averiguo las conversaciones que tiene abiertas este usuario
-    const conversations = await getServer('/api/getConversation/' + userId.id);
-
-    // cargo la vista con los mensajes de cada conversacion
-    conversations.forEach(async conversation => {
-        let conversacion = await getServer('/api/getMessages/' + conversation.id);
-        showMessages(conversacion);
-    })
+    // 
+    loadConversations();
 
     // Listeners ventana mensaje nuevo
     document.getElementById('btn-send').addEventListener('click', function () {

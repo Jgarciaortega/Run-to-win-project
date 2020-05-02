@@ -36,6 +36,14 @@ router.get('/user/notifications', (req, res) => {
     });
 })
 
+router.get('/user/userConfiguration', (req, res) => {
+    res.render('user/userConfiguration', {
+        style: '/css/user.css',
+        js1: '/js/userHeader.js',
+        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    });
+})
+
 router.post("/user/logIn", (req, res, next) => {
     passport.authenticate(
         "local-login",

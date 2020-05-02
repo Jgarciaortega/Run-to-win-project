@@ -52,9 +52,9 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE registros_entrenamiento(
-	id INT(100) NOT NULL PRIMARY KEY,
+	id INT(11)NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	distancia FLOAT(22),
-	tiempo_empleado FLOAT(22),
+	tiempo_empleado INT(22),
 	fecha timestamp NOT NULL DEFAULT current_timestamp,
 	velocidad_media FLOAT(11),
 	velocidad_max FLOAT(11),

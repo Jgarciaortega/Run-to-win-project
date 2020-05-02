@@ -15,7 +15,6 @@ const model = require('../model/model');
 
     return { out: false };
     
-
  };
 
 exports.findByNickname = async (nickname) => {

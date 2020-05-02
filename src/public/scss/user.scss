@@ -201,7 +201,6 @@ body {
           top: -28px;
           margin-bottom: -3%;
           left: -7px;
-      
         }
 
         .containerStatus {
@@ -512,7 +511,39 @@ footer {
   }
 }
 
+/* Vista configuracion perfil usuario */
+
+.profileContent {
+  padding: 1%;
+  margin: 1%;
+
+  input {
+    padding-left: 0.5%;
+    font-size: 89%;
+  }
+}
+
 /*CLASES GENERALES*/
+
+.field {
+  display: grid;
+  grid-template-columns: 0.8fr 5fr 1fr;
+  column-gap: 5px;
+  margin-bottom: 1%;
+  width: 90%;
+  margin: 0px auto;
+  margin-bottom: 1%;
+}
+.titleProfile {
+  text-align: center;
+  font-family: "TrebuchetMS";
+  letter-spacing: 1px;
+  font-size: larger;
+}
+
+.profileContent {
+  border: 1px dashed black;
+}
 
 .itemNavSelected {
   background-color: gray;
@@ -526,8 +557,6 @@ footer {
 
 .contenidoSubMenu {
   border: 1px dashed black;
-  background-image: none;
-  background-color: white;
   padding: 2%;
   margin: 1%;
 }
@@ -550,7 +579,6 @@ footer {
 
 .subMenu {
   margin-top: 1%;
-
 }
 
 .circulo {
@@ -580,9 +608,8 @@ footer {
   border-radius: 20px;
   background-color: white !important;
   // background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
-  background-image: url('../assets/img/pattern.png');
+  background-image: url("../assets/img/pattern.png");
   box-shadow: 2px 2px var(--bg--gray);
- 
 }
 
 .noVisible {
@@ -626,25 +653,18 @@ li {
 @keyframes tituloUpDown {
   0% {
     margin-top: 0%;
-    opacity: 0;
-  }
-  0% {
-    opacity: 0;
   }
   100% {
-    opacity: 1;
     margin-top: 23%;
   }
 }
 
 @keyframes tituloDownUp {
   0% {
-    opacity: 0;
     margin-top: 29%;
   }
   100% {
     margin-top: 2%;
-    opacity: 1;
   }
 }
 

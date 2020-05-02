@@ -1,11 +1,4 @@
-/* FUNCIONES GENERALES */
-
-const sleep = m => new Promise(r => setTimeout(r, m))
-
-async function temp () {
-    await sleep(2000);
-}
-
+/* Funciones Generales */
 
 function clearLeftNav() {
 
@@ -22,21 +15,7 @@ function clearLeftNav() {
     }
 }
 
-async function showLoadCircle(mainContainer) {
-
-    const loadContainer = document.createElement('div');
-    loadContainer.setAttribute('id', 'loadContainer');
-    mainContainer.appendChild(loadContainer);
-
-    const loadCircle = document.createElement('div');
-    loadCircle.setAttribute('id', 'load');
-    loadContainer.appendChild(loadCircle);
-
-    await setTimeout(() => { mainContainer.removeChild(loadContainer); return true; }, 2000)
-
-}
-
-function limpiarNodo(elemento) {
+function clearNode(elemento) {
 
     if (elemento.hasChildNodes()) {
 
@@ -44,6 +23,76 @@ function limpiarNodo(elemento) {
             elemento.removeChild(elemento.firstChild);
         }
     }
+}
+
+function returnMonth(num) {
+
+    let month = '';
+
+    switch (num) {
+        case ('01'): month = '-Ene-'; break;
+        case ('02'): month = '-Feb-'; break;
+        case ('03'): month = '-Mar-'; break;
+        case ('04'): month = '-Abr-'; break;
+        case ('05'): month = '-May-'; break;
+        case ('06'): month = '-Jun-'; break;
+        case ('07'): month = '-Jul-'; break;
+        case ('08'): month = '-Ago-'; break;
+        case ('09'): month = '-Sep-'; break;
+        case ('10'): month = '-Oct-'; break;
+        case ('11'): month = '-Nov-'; break;
+        case ('12'): month = '-Dic-'; break;
+    }
+
+    return month;
+}
+
+function parseDate(date) {
+
+    const separator1 = 'T';
+    const separator2 = '-';
+
+    let newDate = date.split(separator1);
+    newDate = newDate[0].split(separator2);
+
+    let newFormat = '';
+
+    for (let i = newDate.length - 1; i >= 0; i--) {
+
+        (i != 1) ? newFormat += newDate[i] : newFormat += returnMonth(newDate[i]);
+
+    }
+
+    return newFormat;
+}
+
+
+/* Funciones de gráficos */
+
+function createBar(element, data) {
+    const ctx = element.getContext('2d');
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            animation: {
+                duration: 3200 // general animation time
+            },
+            hover: {
+                animationDuration: 500 // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 0 // animation duration after a resize
+
+        }
+
+    });
 }
 
 function createDoughnut(element, data) {
@@ -54,7 +103,7 @@ function createDoughnut(element, data) {
         data: data,
         options: {
             animation: {
-                duration: 2000 // general animation time
+                duration: 3200 // general animation time
             },
             hover: {
                 animationDuration: 500 // duration of animations when hovering an item
@@ -135,7 +184,40 @@ function generateDataPuls() {
         labels = ['tu Pulso'];
     }
 
-    return parseData(data, backgroundColor, borderColor, labels);
+    return parseDataIMC(data, backgroundColor, borderColor, labels);
+}
+
+
+function generateDataBar(training) {
+
+    let data = [];
+    let labels = [];
+
+    for (season of training) {
+
+        let distance = season.distancia / 1000;
+        data.push(distance.toFixed(2));
+
+        labels.push(parseDate(season.fecha));
+    }
+
+    const backgroundColor = ['rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)'];
+
+    const borderColor = [
+        'rgba(255, 99, 132, 5)',
+        'rgba(54, 162, 235, 5)',
+        'rgba(255, 206, 86, 5)',
+        'rgba(75, 192, 192, 5)',
+        'rgba(153, 102, 255, 5)',
+        'rgba(255, 159, 64, 5)'
+    ];
+
+    return parseDataTraining(data, backgroundColor, borderColor, labels);
 }
 
 function generateDataIMC() {
@@ -145,7 +227,7 @@ function generateDataIMC() {
     let valor2 = 25;
     let valor3 = 29.9;
     let valor4 = 49.9;
-    let data, labels, backgroundColor, borderColor = [];
+
 
     if (IMC <= valor1) {
 
@@ -184,7 +266,7 @@ function generateDataIMC() {
 
     }
 
-    return parseData(data, backgroundColor, borderColor, labels);
+    return parseDataIMC(data, backgroundColor, borderColor, labels);
 }
 
 function generateDataPoints() {
@@ -204,14 +286,34 @@ function generateDataPoints() {
     borderColor = [lightNegro, lightNegro];
     labels = ['tus puntos', 'nivel'];
 
-    const dataPoints = parseData(data, backgroundColor, borderColor, labels);
+    const dataPoints = parseDataIMC(data, backgroundColor, borderColor, labels);
     const element = document.getElementById('statusChart');
 
     createDoughnut(element, dataPoints);
 
 }
 
-function parseData(data, backgroundColor, borderColor, labels) {
+function parseDataTraining(data, backgroundColor, borderColor, labels) {
+
+    data = {
+        labels,
+        datasets: [{
+            label: 'km recorridos',
+            data,
+            backgroundColor,
+            borderColor
+        }],
+        borderWidth: 1
+    }
+
+
+    return data;
+
+}
+
+
+
+function parseDataIMC(data, backgroundColor, borderColor, labels) {
 
     data = {
         datasets: [{
@@ -225,7 +327,8 @@ function parseData(data, backgroundColor, borderColor, labels) {
     return data;
 }
 
-async function sendToServer(url, data) {
+/* Funciones Servidor */
+async function postServer(url, data) {
 
     let body = {
         method: 'POST',
@@ -242,7 +345,7 @@ async function sendToServer(url, data) {
 
 }
 
-async function getFromServer(url) {
+async function getServer(url) {
 
     const res = await fetch(url);
     const data = await res.json();
@@ -251,7 +354,7 @@ async function getFromServer(url) {
 
 }
 
-/* FUNCIONES RELACIONADAS CON DATOS DEL USUARIO*/
+/* Funciones Datos del Usuario*/
 
 function showInfoUser(user) {
 
@@ -278,23 +381,28 @@ function showInfoUser(user) {
 async function loadInfoUser(localStorage) {
 
     const url = '/user/findById/' + localStorage.id;
-    const user = await getFromServer(url);
+    const user = await getServer(url);
 
     return user;
 
 }
 
+async function getTraining() {
+
+    const url = '/api/getTraining/' + user.id;
+    return await getServer(url);
+}
+
 async function loadRutine(id_rutina) {
 
     const url = '/api/rutine/' + id_rutina;
-    const actividades = await getFromServer(url);
+    const actividades = await getServer(url);
 
     return actividades;
 
 }
 
-/* FUNCIONES MENU LATERAL */
-
+/* Funciones Left Nav */
 function muestraInicio() {
 
     // borramos primero si hay algun element del nav seleccionado
@@ -310,7 +418,7 @@ function muestraInicio() {
     }
 
     const mainContainer = document.getElementById('center');
-    limpiarNodo(mainContainer);
+    clearNode(mainContainer);
     // div portada inicio
     const inicioContainer = document.createElement('div');
     inicioContainer.classList.add('banner');
@@ -325,7 +433,7 @@ function muestraInicio() {
 
 }
 
-function muestraInforme() {
+async function muestraInforme() {
 
     // borramos primero si hay algun element del nav seleccionado
     clearLeftNav();
@@ -333,7 +441,7 @@ function muestraInforme() {
     this.classList.add('itemNavSelected');
 
     const mainContainer = document.getElementById('center');
-    limpiarNodo(mainContainer);
+    clearNode(mainContainer);
     // div portada inicio
     const inicioContainer = document.createElement('div');
     inicioContainer.classList.add('banner');
@@ -346,6 +454,39 @@ function muestraInforme() {
     textPortada.innerHTML = 'INFORMES';
     inicioContainer.appendChild(textPortada);
 
+    const data = await getTraining();
+
+    // contenido informes
+    const dataContainer = document.createElement('div');
+    dataContainer.classList.add('subMenu');
+    dataContainer.setAttribute('id', 'mainInformes');
+    mainContainer.appendChild(dataContainer);
+
+    const training = document.createElement('div');
+    dataContainer.appendChild(training);
+
+    const headerTraining = document.createElement('div');
+    headerTraining.classList.add('headerSubMenus');
+    training.appendChild(headerTraining);
+
+    const titleTraining = document.createElement('p');
+    titleTraining.innerHTML = 'Tus últimos entrenamientos';
+    headerTraining.appendChild(titleTraining);
+
+    const dataTraining = document.createElement('div');
+    dataTraining.classList.add('contenidoSubMenu');
+    training.appendChild(dataTraining);
+
+    const chartTraining = document.createElement('div');
+    chartTraining.classList.add('grafico');
+    dataTraining.appendChild(chartTraining);
+
+    const canvasTraining = document.createElement('canvas');
+    chartTraining.appendChild(canvasTraining);
+
+    let dataBar = generateDataBar(data);
+    createBar(canvasTraining, dataBar);
+
 }
 
 async function muestraSalud() {
@@ -356,7 +497,7 @@ async function muestraSalud() {
     this.classList.add('itemNavSelected');
 
     const mainContainer = document.getElementById('center');
-    limpiarNodo(mainContainer);
+    clearNode(mainContainer);
     // div portada inicio
     const inicioContainer = document.createElement('div');
     inicioContainer.classList.add('banner');
@@ -369,8 +510,6 @@ async function muestraSalud() {
     textPortada.innerHTML = 'SALUD';
     inicioContainer.appendChild(textPortada);
 
-    showLoadCircle(mainContainer);
-    await temp();
     // contenido salud
     const dataContainer = document.createElement('div');
     dataContainer.classList.add('subMenu');
@@ -452,7 +591,7 @@ async function muestraRutina() {
     this.classList.add('itemNavSelected');
 
     const mainContainer = document.getElementById('center');
-    limpiarNodo(mainContainer);
+    clearNode(mainContainer);
     // div portada inicio
     const inicioContainer = document.createElement('div');
     inicioContainer.classList.add('banner');
@@ -467,9 +606,6 @@ async function muestraRutina() {
 
     // descargamos la rutina del usuario(dato estatico para realizar pruebas)
     const rutina = await loadRutine(1);
-
-    showLoadCircle(mainContainer);
-    await temp();
 
     //montamos la tabla-rutina
     const dataContainer = document.createElement('div');
@@ -544,7 +680,6 @@ async function init() {
 
 /* VARIABLES GLOBALES*/
 // objeto user = obtiene en init todos los datos que se mostraran en su perfil
-
 let user;
 //Colores para graficos
 const verde = 'rgba(36,242, 33, 1)';
