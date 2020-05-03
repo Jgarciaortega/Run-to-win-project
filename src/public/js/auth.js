@@ -286,7 +286,6 @@ async function createUser() {
         let urlCreate = '/user/createUser';
 
         if (validationOk) {
-
             await sendToServer(urlCreate, newUser);
             login(newUser.nickname, newUser.password);
         }
@@ -309,11 +308,6 @@ async function sendToServer(url, data) {
 
     return res2;
 
-}
-
-function getKey(event){
-    console.log(event.key);
-    
 }
 
 async function login(user, pass) {
@@ -376,5 +370,5 @@ function init() {
     
 }
 
-window.addEventListener('keydown', function(){getKey(event)});
+// window.addEventListener('keydown', function(){getKey(event)});
 window.addEventListener('load', init);

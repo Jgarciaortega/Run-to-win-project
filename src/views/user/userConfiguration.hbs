@@ -1,62 +1,68 @@
 {{>userHeader}}
-<div id="msgContent">
-    <div id="inbox">
-        <div id="inboxHeader">
-            <h2>Perfil Usuario</h2>
+<div id="dataView">
+    <div id="mainDataView">
+        <div id="dataHeader">
+            <h2>Mi Perfil</h2>
         </div>
         <div id="personalData" class="profileContent">
-            <p class="titleProfile">DATOS PERSONALES</p>
-            <div class="field">
-                <span>Nombre</span>
-                <input type="text" name="nombre" value="Arnold" readonly>
-                <i class="far fa-edit"></i>
+            <div id="generalData" class="nodeProfile">
+                <i class="far fa-3x fa-address-card"></i>
+                <div class="field">
+                    <span>Nombre</span>
+                    <input type="text" name="nombre" disabled>
+                </div>
+                <div class="field">
+                    <span>Apellidos</span>
+                    <input type="text" name="apellidos"  disabled>
+                </div>
+                 <div class="field">
+                    <span>Nickname</span>
+                    <input type="text" name="nickname"  disabled>
+                </div>
+                <div class="field">
+                    <span>Email</span>
+                    <input type="text" name="email"  readonly>
+                    <i class="far fa-edit"></i>
+                </div>
             </div>
-            <div class="field">
-                <span>Apellidos</span>
-                <input type="text" name="apellidos" value="Swarszeneger" readonly>
-                <i class="far fa-edit"></i>
-            </div>
-            <div class="field">
-                <span>Email</span>
-                <input type="text" name="email" value="swarzy@email.com" readonly>
-                <i class="far fa-edit"></i>
-            </div>
-        </div>
-        <div id="healthData" class="profileContent">
-            <p class="titleProfile">DATOS SALUD</p>
-            <div class="field">
-                <span>Peso</span>
-                <input type="text" name="peso" value="89" readonly>
-                <i class="far fa-edit"></i>
-            </div>
-            <div class="field">
-                <span>Altura</span>
-                <input type="text" name="altura" value="1,94" readonly>
-                <i class="far fa-edit"></i>
-            </div>
-            <div class="field">
-                <span>Pulsaciones</span>
-                <input type="text" name="pulsaciones" value="65" readonly>
-                <i class="far fa-edit"></i>
+            <div id="healthData" class="nodeProfile">
+                <i class="fas fa-3x fa-heartbeat"></i>
+                <div class="field">
+                    <span>Peso</span>
+                    <input type="text" name="peso"  readonly>
+                    <i class="far fa-edit"></i>
+                </div>
+                <div class="field">
+                    <span>Altura</span>
+                    <input type="text" name="altura" readonly>
+                    <i class="far fa-edit"></i>
+                </div>
+                <div class="field">
+                    <span>Pulsaciones</span>
+                    <input type="text" name="pulsaciones_reposo" readonly>
+                    <i class="far fa-edit"></i>
+                </div>
             </div>
         </div>
         <div id="appData" class="profileContent">
-            <p class="titleProfile">DATOS RUNT TO WIN</p>
-            <div class="field">
-                <span>Tu reto</span>
-                <select id="challenge">
-                    <option value="10K">10K</option>
-                    <option value="Media Marathon">Media Marathon</option>
-                    <option value="Marathon">Marathon</option>
-                </select>
-            </div>
-            <div class="field">
-                <span>Puntuación</span>
-                <input type="text" name="points" value="500" readonly>
-            </div>
-            <div class="field">
-                <span>Tu status</span>
-                <input type="text" name="points" value="Beginner" readonly>
+            <div class="nodeProfile">
+                <img src="../assets/img/Run to Win Logo.png" alt="">
+                <div class="field">
+                    <span>Tu reto</span>
+                    <select id="challenge">
+                        <option value="10K">10K</option>
+                        <option value="Media Marathon">Media Marathon</option>
+                        <option value="Marathon">Marathon</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <span>Puntuación</span>
+                    <input type="text" name="puntuacion" disabled>
+                </div>
+                <div class="field">
+                    <span>Tu status</span>
+                    <input type="text" name="status"  disabled>
+                </div>
             </div>
         </div>
     </div>

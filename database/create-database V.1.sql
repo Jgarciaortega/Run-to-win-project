@@ -40,11 +40,10 @@ CREATE TABLE usuario (
 	peso FLOAT(11),
 	altura FLOAT(11),
 	pulsaciones_reposo INT(5),
-	tension_alta INT(5),
-	tension_baja INT(5),
 	puntuacion INT(11),
 	edad INT(3),
 	sexo VARCHAR(7),
+	reto VARCHAR(11),
 	fecha_registro timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW(),
 	id_rutina INT(11),
 	FOREIGN KEY (id_rutina) REFERENCES rutinas_ejercicios (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE

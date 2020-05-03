@@ -451,34 +451,64 @@ footer li {
 }
 
 /* Vista configuracion perfil usuario */
-.profileContent {
-  padding: 1%;
-  margin: 1%;
+#dataView {
+  margin-top: 45px;
+  width: 900px;
+  margin: 0px auto;
+  min-height: 590px;
 }
-.profileContent input {
-  padding-left: 0.5%;
-  font-size: 89%;
+#dataView #mainDataView #dataHeader {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px solid black;
+  justify-content: space-between;
+  height: 55px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+#personalData {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#personalData .far,
+#personalData .fas {
+  color: var(--bg--gray);
+  margin-bottom: 3%;
+}
+
+#appData img {
+  display: block;
+  margin: 0px auto;
+  width: 15%;
 }
 
 /*CLASES GENERALES*/
-.field {
-  display: grid;
-  grid-template-columns: 0.8fr 5fr 1fr;
-  column-gap: 5px;
-  margin-bottom: 1%;
-  width: 90%;
-  margin: 0px auto;
-  margin-bottom: 1%;
+.fa-edit {
+  cursor: pointer;
 }
 
-.titleProfile {
-  text-align: center;
-  font-family: "TrebuchetMS";
-  letter-spacing: 1px;
-  font-size: larger;
+.nodeProfile {
+  padding: 3%;
+  margin-left: 1%;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 0.7fr 1.5fr 0.5fr;
+}
+.field input,
+.field select {
+  margin: 1%;
+}
+.field .fa-edit {
+  margin-top: 7%;
+  margin-left: 3%;
 }
 
 .profileContent {
+  padding: 1%;
+  margin: 1%;
   border: 1px dashed black;
 }
 

@@ -60,16 +60,23 @@ exports.findById = async (req, res) => {
 }
 
 exports.createUser = async (req, res) => {
-    const connection = await model.getConnection();
-    console.log(req.body);
     
-    const sql = "INSERT INTO usuario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,now(),?)";
+    const connection = await model.getConnection();
     const password = model.getEncrypted(req.body.password);
-    const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
-        '/assets/user_photos/Schwarzy.jpg', 0, null, 89, 1.92, 67, 125, 85,500 ,64,'hombre',null];
-    res.send({msg: 'Antes de nada'})
+    const sql = 'INSERT INTO usuario (id, nombre, apellidos, email, password, status, nickname, imagen, logros, puntuacion) ' +
+    'VALUES (null,"'+ req.body.nombre + '","' + req.body.apellidos + '","' + req.body.email + '","' + password + '","BEGINNER","' +
+    req.body.nickname + '", "/assets/user_photos/yo.jpg",0,0)' ;
+
+    await connection.execute(sql);
+
+    
+    
+    
+    // const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
+    //     '/assets/user_photos/yo.jpg', 0, null, null, null, null,0,null,null,null,null];
+    // res.send({msg: 'Antes de nada'})
    
-    await connection.execute(sql, data);
+    // await connection.execute(sql, data);
 
     // /assets/user_photos/yo.jpg
     // /assets/user_photos/Schwarzy.jpg
@@ -90,7 +97,6 @@ exports.existEmail = async (req, res) => {
 }
 
 exports.existNickname = async (req, res) => {
-
     const connection = await model.getConnection();
     let sql = `SELECT * FROM usuario WHERE nickname ='${req.body.nickname}'`;
 
@@ -102,6 +108,21 @@ exports.existNickname = async (req, res) => {
     })
 
 }
+
+exports.updateUser = async (req, res) =>{
+
+    const connection = await model.getConnection();
+    const sql = "UPDATE usuario set "+ req.body.name + "=" + req.body.value + " WHERE id=" + req.params.id;
+    const rows = await connection.execute(sql);
+
+    console.log(rows);
+    
+    if(rows.affectedRows > 0) res.send(true);
+    else res.send(false);
+    
+}
+
+
 const parseUser = results => {
 
     let user = {

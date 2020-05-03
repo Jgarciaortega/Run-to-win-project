@@ -40,6 +40,7 @@ router.get('/user/userConfiguration', (req, res) => {
     res.render('user/userConfiguration', {
         style: '/css/user.css',
         js1: '/js/userHeader.js',
+        js2: '/js/confProfile.js',
         chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
     });
 })
@@ -76,6 +77,7 @@ router.get('/user/findByNickname/:nickname', passport.authenticate('jwt', { sess
 router.post('/user/createUser', User.createUser);
 router.post('/user/existEmail', User.existEmail);
 router.post('/user/existNickname', User.existNickname);
+router.put('/user/updateUser/:id', User.updateUser);
 
 
 module.exports = router;
