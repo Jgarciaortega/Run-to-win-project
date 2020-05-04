@@ -1,6 +1,6 @@
 const model = require('../model/model');
 
- exports.findByNicknameByClient = async (req, res) => {
+exports.findByNicknameByClient = async (req, res) => {
     const connection = await model.getConnection();
     const [
         rows,
@@ -10,12 +10,12 @@ const model = require('../model/model');
 
     if (rows.length) {
         const user = parseUser(rows[0]);
-        return res.send(user);       
+        return res.send(user);
     }
 
     return { out: false };
-    
- };
+
+};
 
 exports.findByNickname = async (nickname) => {
     const connection = await model.getConnection();
@@ -52,35 +52,30 @@ exports.findByIdByPassport = async (id) => {
 }
 
 exports.findById = async (req, res) => {
- 
+
     const user = await this.findByIdByPassport(req.params.id);
-    user.password='';
+    user.password = '';
     res.send(user);
 
 }
 
 exports.createUser = async (req, res) => {
-    
+
     const connection = await model.getConnection();
     const password = model.getEncrypted(req.body.password);
     const sql = 'INSERT INTO usuario (id, nombre, apellidos, email, password, status, nickname, imagen, logros, puntuacion) ' +
-    'VALUES (null,"'+ req.body.nombre + '","' + req.body.apellidos + '","' + req.body.email + '","' + password + '","BEGINNER","' +
-    req.body.nickname + '", "/assets/user_photos/yo.jpg",0,0)' ;
+        'VALUES (null,"' + req.body.nombre + '","' + req.body.apellidos + '","' + req.body.email + '","' + password + '","BEGINNER","' +
+        req.body.nickname + '", "/assets/user_photos/yo.jpg",0,0)';
 
-    await connection.execute(sql);
+    const rows = await connection.execute(sql);
 
-    
-    
-    
-    // const data = [req.body.nombre, req.body.apellidos, req.body.email, password, 'beginner', req.body.nickname,
-    //     '/assets/user_photos/yo.jpg', 0, null, null, null, null,0,null,null,null,null];
-    // res.send({msg: 'Antes de nada'})
-   
-    // await connection.execute(sql, data);
+    if (rows.affectedRows > 0) res.send(true);
+    else res.send(false);
 
     // /assets/user_photos/yo.jpg
     // /assets/user_photos/Schwarzy.jpg
- 
+
+
 }
 
 exports.existEmail = async (req, res) => {
@@ -109,17 +104,17 @@ exports.existNickname = async (req, res) => {
 
 }
 
-exports.updateUser = async (req, res) =>{
+exports.updateUser = async (req, res) => {
 
     const connection = await model.getConnection();
-    const sql = "UPDATE usuario set "+ req.body.name + "=" + req.body.value + " WHERE id=" + req.params.id;
+    const sql = "UPDATE usuario set " + req.body.name + "=" + req.body.value + " WHERE id=" + req.params.id;
     const rows = await connection.execute(sql);
 
     console.log(rows);
-    
-    if(rows.affectedRows > 0) res.send(true);
+
+    if (rows.affectedRows > 0) res.send(true);
     else res.send(false);
-    
+
 }
 
 

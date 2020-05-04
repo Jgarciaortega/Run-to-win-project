@@ -374,7 +374,6 @@ function showInfoUser(user) {
     achievements.innerHTML = user.logros;
     points.innerHTML = user.puntuacion;
 
-    generateDataIMC();
 }
 
 
@@ -454,38 +453,49 @@ async function muestraInforme() {
     textPortada.innerHTML = 'INFORMES';
     inicioContainer.appendChild(textPortada);
 
-    const data = await getTraining();
-
-    // contenido informes
     const dataContainer = document.createElement('div');
     dataContainer.classList.add('subMenu');
     dataContainer.setAttribute('id', 'mainInformes');
     mainContainer.appendChild(dataContainer);
 
-    const training = document.createElement('div');
-    dataContainer.appendChild(training);
+    // obtenemos entrenamientos
+    const data = await getTraining();
 
-    const headerTraining = document.createElement('div');
-    headerTraining.classList.add('headerSubMenus');
-    training.appendChild(headerTraining);
+    // si no hay entrenamientos...
+    if (!data) {
 
-    const titleTraining = document.createElement('p');
-    titleTraining.innerHTML = 'Tus últimos entrenamientos';
-    headerTraining.appendChild(titleTraining);
+        console.log('no hay datos para descargar');
 
-    const dataTraining = document.createElement('div');
-    dataTraining.classList.add('contenidoSubMenu');
-    training.appendChild(dataTraining);
+        // ... si hay entrenamientos
+    } else {
 
-    const chartTraining = document.createElement('div');
-    chartTraining.classList.add('grafico');
-    dataTraining.appendChild(chartTraining);
+        // contenido informes
+        const training = document.createElement('div');
+        dataContainer.appendChild(training);
 
-    const canvasTraining = document.createElement('canvas');
-    chartTraining.appendChild(canvasTraining);
+        const headerTraining = document.createElement('div');
+        headerTraining.classList.add('headerSubMenus');
+        training.appendChild(headerTraining);
 
-    let dataBar = generateDataBar(data);
-    createBar(canvasTraining, dataBar);
+        const titleTraining = document.createElement('p');
+        titleTraining.innerHTML = 'Tus últimos entrenamientos';
+        headerTraining.appendChild(titleTraining);
+
+        const dataTraining = document.createElement('div');
+        dataTraining.classList.add('contenidoSubMenu');
+        training.appendChild(dataTraining);
+
+        const chartTraining = document.createElement('div');
+        chartTraining.classList.add('grafico');
+        dataTraining.appendChild(chartTraining);
+
+        const canvasTraining = document.createElement('canvas');
+        chartTraining.appendChild(canvasTraining);
+
+        let dataBar = generateDataBar(data);
+        createBar(canvasTraining, dataBar);
+
+    }
 
 }
 
@@ -516,71 +526,86 @@ async function muestraSalud() {
     dataContainer.setAttribute('id', 'mainSalud');
     mainContainer.appendChild(dataContainer);
 
-    const IMC = document.createElement('div');
-    dataContainer.appendChild(IMC);
+    if (user.peso != null && user.altura != null) {
 
-    const headerIMC = document.createElement('div');
-    headerIMC.classList.add('headerSubMenus');
-    IMC.appendChild(headerIMC);
+        const IMC = document.createElement('div');
+        dataContainer.appendChild(IMC);
 
-    const titleIMC = document.createElement('p');
-    titleIMC.innerHTML = 'IMC';
-    headerIMC.appendChild(titleIMC);
+        const headerIMC = document.createElement('div');
+        headerIMC.classList.add('headerSubMenus');
+        IMC.appendChild(headerIMC);
 
-    const dataIMC = document.createElement('div');
-    dataIMC.classList.add('contenidoSubMenu');
-    IMC.appendChild(dataIMC);
+        const titleIMC = document.createElement('p');
+        titleIMC.innerHTML = 'IMC';
+        headerIMC.appendChild(titleIMC);
 
-    const chartIMC = document.createElement('div');
-    chartIMC.classList.add('grafico');
-    dataIMC.appendChild(chartIMC);
+        const dataIMC = document.createElement('div');
+        dataIMC.classList.add('contenidoSubMenu');
+        IMC.appendChild(dataIMC);
 
-    const canvasIMC = document.createElement('canvas');
-    chartIMC.appendChild(canvasIMC);
+        const chartIMC = document.createElement('div');
+        chartIMC.classList.add('grafico');
+        dataIMC.appendChild(chartIMC);
 
-    let dataDoughnutIMC = generateDataIMC();
-    createDoughnut(canvasIMC, dataDoughnutIMC);
+        const canvasIMC = document.createElement('canvas');
+        chartIMC.appendChild(canvasIMC);
 
-    const infoIMC = document.createElement('div');
-    dataIMC.appendChild(infoIMC);
+        let dataDoughnutIMC = generateDataIMC();
+        createDoughnut(canvasIMC, dataDoughnutIMC);
 
-    const diagnosticIMC = document.createElement('p');
-    diagnosticIMC.classList.add('diagnosticText');
-    diagnosticIMC.innerHTML = user.diagnosticIMC;
-    infoIMC.appendChild(diagnosticIMC);
+        const infoIMC = document.createElement('div');
+        dataIMC.appendChild(infoIMC);
 
-    const pulsaciones = document.createElement('div');
-    dataContainer.appendChild(pulsaciones);
+        const diagnosticIMC = document.createElement('p');
+        diagnosticIMC.classList.add('diagnosticText');
+        diagnosticIMC.innerHTML = user.diagnosticIMC;
+        infoIMC.appendChild(diagnosticIMC);
 
-    const headerPuls = document.createElement('div');
-    headerPuls.classList.add('headerSubMenus');
-    pulsaciones.appendChild(headerPuls);
+    } else {
 
-    const titlePuls = document.createElement('p');
-    titlePuls.innerHTML = 'TUS PULSACIONES';
-    headerPuls.appendChild(titlePuls);
+        console.log('altura y peso no configurados');
 
-    const dataPulsaciones = document.createElement('div');
-    dataPulsaciones.classList.add('contenidoSubMenu');
-    pulsaciones.appendChild(dataPulsaciones);
+    }
 
-    const chartPulsaciones = document.createElement('div');
-    chartPulsaciones.classList.add('grafico');
-    dataPulsaciones.appendChild(chartPulsaciones);
+    if (user.pulsaciones != null && user.sexo != null && user.edad != null) {
 
-    const canvasPulsaciones = document.createElement('canvas');
-    chartPulsaciones.appendChild(canvasPulsaciones);
+        const pulsaciones = document.createElement('div');
+        dataContainer.appendChild(pulsaciones);
 
-    let dataDoughnutPuls = generateDataPuls();
-    createDoughnut(canvasPulsaciones, dataDoughnutPuls);
+        const headerPuls = document.createElement('div');
+        headerPuls.classList.add('headerSubMenus');
+        pulsaciones.appendChild(headerPuls);
 
-    const infoPuls = document.createElement('div');
-    dataPulsaciones.appendChild(infoPuls);
+        const titlePuls = document.createElement('p');
+        titlePuls.innerHTML = 'TUS PULSACIONES';
+        headerPuls.appendChild(titlePuls);
 
-    const diagnosticPuls = document.createElement('p');
-    diagnosticPuls.classList.add('diagnosticText');
-    diagnosticPuls.innerHTML = user.diagnosticPuls;
-    infoPuls.appendChild(diagnosticPuls);
+        const dataPulsaciones = document.createElement('div');
+        dataPulsaciones.classList.add('contenidoSubMenu');
+        pulsaciones.appendChild(dataPulsaciones);
+
+        const chartPulsaciones = document.createElement('div');
+        chartPulsaciones.classList.add('grafico');
+        dataPulsaciones.appendChild(chartPulsaciones);
+
+        const canvasPulsaciones = document.createElement('canvas');
+        chartPulsaciones.appendChild(canvasPulsaciones);
+
+        let dataDoughnutPuls = generateDataPuls();
+        createDoughnut(canvasPulsaciones, dataDoughnutPuls);
+
+        const infoPuls = document.createElement('div');
+        dataPulsaciones.appendChild(infoPuls);
+
+        const diagnosticPuls = document.createElement('p');
+        diagnosticPuls.classList.add('diagnosticText');
+        diagnosticPuls.innerHTML = user.diagnosticPuls;
+        infoPuls.appendChild(diagnosticPuls);
+
+    } else {
+
+        console.log('pulsaciones no configurados');
+    }
 }
 
 async function muestraRutina() {
@@ -676,7 +701,6 @@ async function init() {
     /* NOTA: para borrar localstorage es : localStorage.remove('user'); */
 
 }
-
 
 /* VARIABLES GLOBALES*/
 // objeto user = obtiene en init todos los datos que se mostraran en su perfil

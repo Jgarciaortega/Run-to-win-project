@@ -476,6 +476,10 @@ footer li {
   color: var(--bg--gray);
   margin-bottom: 3%;
 }
+#personalData #btnsPersonalData {
+  display: flex;
+  justify-content: end;
+}
 
 #appData img {
   display: block;

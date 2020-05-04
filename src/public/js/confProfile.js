@@ -16,6 +16,24 @@ async function putServer(url,newValue) {
 
 }
 
+function saveChanges(){
+
+    const sex = document.getElementById('sexo').value;
+    const age = document.querySelector('input[name="edad"]').value;
+    const email =  document.querySelector('input[name="email"]').value;
+    const weight = document.querySelector('input[name="peso"]').value;
+    const height = document.querySelector('input[name="altura"]').value;
+    const pulsations = document.querySelector('input[name="pulsaciones_reposo"]').value;
+
+    console.log('sexo: ' + sex);
+    console.log('age: ' + age);
+    console.log('email: ' + email);
+    console.log('weight: ' + weight);
+    console.log('height: ' + height);
+    console.log('pulsations: ' + pulsations);
+    
+}
+
 
 function modifyField(){
 
@@ -53,7 +71,7 @@ function loadInfoUser(user){
     document.querySelector('input[name="nickname"]').value = user.nickname;
     document.querySelector('input[name="email"]').value = user.email;
     document.querySelector('input[name="peso"]').value = user.peso;
-    document.querySelector('input[name="altura"]').value = user.altura.toFixed(2);
+    if(user.altura != null )  document.querySelector('input[name="altura"]').value = user.altura.toFixed(2);
     document.querySelector('input[name="pulsaciones_reposo"]').value = user.pulsaciones;
     document.querySelector('input[name="puntuacion"]').value = user.puntuacion;
     document.querySelector('input[name="status"]').value = user.status;
@@ -74,12 +92,9 @@ async function init(){
       Array.from(edit).forEach(button => {
           button.addEventListener('click', editField);
       });
-      // listener field
-      const field = document.querySelectorAll('input');
-      Array.from(field).forEach(input => {
-          input.addEventListener('blur', modifyField);
-      })
-      
+      // listener save changes
+      document.getElementById('btnPersonalData').addEventListener('click', saveChanges);
+        
 }
 
 window.addEventListener('load', init);

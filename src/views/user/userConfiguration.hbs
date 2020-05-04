@@ -13,15 +13,28 @@
                 </div>
                 <div class="field">
                     <span>Apellidos</span>
-                    <input type="text" name="apellidos"  disabled>
+                    <input type="text" name="apellidos" disabled>
                 </div>
-                 <div class="field">
+                <div class="field">
                     <span>Nickname</span>
-                    <input type="text" name="nickname"  disabled>
+                    <input type="text" name="nickname" disabled>
+                </div>
+                <div class="field">
+                    <span>Sexo</span>
+                    <select name="sexo" id="sexo">
+                        <option value=""></option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <span>Edad</span>
+                    <input type="text" name="edad" readonly>
+                    <i class="far fa-edit"></i>
                 </div>
                 <div class="field">
                     <span>Email</span>
-                    <input type="text" name="email"  readonly>
+                    <input type="text" name="email" readonly>
                     <i class="far fa-edit"></i>
                 </div>
             </div>
@@ -29,7 +42,7 @@
                 <i class="fas fa-3x fa-heartbeat"></i>
                 <div class="field">
                     <span>Peso</span>
-                    <input type="text" name="peso"  readonly>
+                    <input type="text" name="peso" readonly>
                     <i class="far fa-edit"></i>
                 </div>
                 <div class="field">
@@ -42,6 +55,9 @@
                     <input type="text" name="pulsaciones_reposo" readonly>
                     <i class="far fa-edit"></i>
                 </div>
+            </div>
+            <div id="btnsPersonalData">
+                <button id="btnPersonalData">GUARDAR CAMBIOS</button>
             </div>
         </div>
         <div id="appData" class="profileContent">
@@ -61,7 +77,7 @@
                 </div>
                 <div class="field">
                     <span>Tu status</span>
-                    <input type="text" name="status"  disabled>
+                    <input type="text" name="status" disabled>
                 </div>
             </div>
         </div>

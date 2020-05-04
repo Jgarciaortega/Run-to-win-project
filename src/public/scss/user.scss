@@ -540,6 +540,13 @@ footer {
     color: var(--bg--gray);
     margin-bottom: 3%;
   }
+
+  #btnsPersonalData{
+    display: flex;
+    justify-content: end;
+  }
+
+
 }
 
 #appData {

@@ -6,6 +6,6 @@ exports.getTraining = async (req, res) => {
     const [rows] = await connection.execute(sql);
 
     if (rows.length) res.send(rows);
-    else res.send({ msg: 'Error al descargar entrenamientos' })
+    else res.send(false);
 
 };
