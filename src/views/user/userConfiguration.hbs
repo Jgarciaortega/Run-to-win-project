@@ -9,15 +9,15 @@
                 <i class="far fa-3x fa-address-card"></i>
                 <div class="field">
                     <span>Nombre</span>
-                    <input type="text" name="nombre" disabled>
+                    <input type="text" name="nombre" id="nombre" disabled>
                 </div>
                 <div class="field">
                     <span>Apellidos</span>
-                    <input type="text" name="apellidos" disabled>
+                    <input type="text" name="apellidos" id="apellidos" disabled>
                 </div>
                 <div class="field">
                     <span>Nickname</span>
-                    <input type="text" name="nickname" disabled>
+                    <input type="text" name="nickname" id="nickname" disabled>
                 </div>
                 <div class="field">
                     <span>Sexo</span>
@@ -27,37 +27,38 @@
                         <option value="mujer">Mujer</option>
                     </select>
                 </div>
+                <div id="error-sexo" class="msgError"></div>
                 <div class="field">
                     <span>Edad</span>
-                    <input type="text" name="edad" readonly>
-                    <i class="far fa-edit"></i>
+                    <input type="text" name="edad" id="edad">
                 </div>
+                <div id="error-edad" class="msgError"></div>
                 <div class="field">
                     <span>Email</span>
-                    <input type="text" name="email" readonly>
-                    <i class="far fa-edit"></i>
+                    <input type="text" name="email" id="email">
                 </div>
+                <div id="error-email" class="msgError"> </div>
             </div>
             <div id="healthData" class="nodeProfile">
                 <i class="fas fa-3x fa-heartbeat"></i>
                 <div class="field">
                     <span>Peso</span>
-                    <input type="text" name="peso" readonly>
-                    <i class="far fa-edit"></i>
+                    <input type="text" name="peso" id="peso">
                 </div>
+                <div id="error-peso" class="msgError"></div>
                 <div class="field">
                     <span>Altura</span>
-                    <input type="text" name="altura" readonly>
-                    <i class="far fa-edit"></i>
+                    <input type="text" name="altura" id="altura">
                 </div>
+                <div id="error-altura" class="msgError"> </div>
                 <div class="field">
                     <span>Pulsaciones</span>
-                    <input type="text" name="pulsaciones_reposo" readonly>
-                    <i class="far fa-edit"></i>
+                    <input type="text" name="pulsaciones_reposo" id="pulsaciones_reposo">
                 </div>
-            </div>
-            <div id="btnsPersonalData">
-                <button id="btnPersonalData">GUARDAR CAMBIOS</button>
+                <div id="error-pulsaciones_reposo" class="msgError"></div>
+                <div id="btnsPersonalData">
+                    <button id="btnPersonalData">GUARDAR</button>
+                </div>
             </div>
         </div>
         <div id="appData" class="profileContent">

@@ -106,8 +106,9 @@ exports.existNickname = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
 
-    const connection = await model.getConnection();
+    const connection = await model.getConnection();   
     const sql = "UPDATE usuario set " + req.body.name + "=" + req.body.value + " WHERE id=" + req.params.id;
+    console.log(sql);
     const rows = await connection.execute(sql);
 
     console.log(rows);

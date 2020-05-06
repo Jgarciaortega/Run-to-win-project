@@ -51,20 +51,42 @@ body {
     #logo img {
       width: 101px;
     }
-
     #mainNav {
       margin-top: 3%;
       margin-right: 5%;
       display: grid;
       grid-template-columns: 4fr 1fr;
 
-      ul li {
-        display: inline;
+      #menuSup {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
 
         a {
           color: white;
           font-size: x-large;
           padding: 3%;
+        }
+
+        .desplegable {
+          position: relative;
+          padding: 7px;
+          top: 17%;
+          border: 1px solid black;
+          font-size: 22px;
+          background-color: #ece7e2;
+          opacity: 0.9;
+          z-index: 1000;
+
+          li {
+            display: flex;
+            justify-content: flex-start;
+            padding: 5px;
+      
+            i {
+              margin-right: 2%;
+            }
+          }
         }
       }
     }
@@ -102,8 +124,8 @@ body {
         #menuUser {
           padding: 0px;
           position: absolute;
-          left: 1406px;
-          top: 112px;
+          left: 74%;
+          top: 24%;
           border: 1px solid black;
           font-size: 22px;
           background-color: #ece7e2;
@@ -541,12 +563,17 @@ footer {
     margin-bottom: 3%;
   }
 
-  #btnsPersonalData{
-    display: flex;
-    justify-content: end;
+  #btnPersonalData {
+    margin-top: 11%;
+    border-radius: 5px;
+    width: 23%;
+    height: 28px;
+    font-size: 15px;
+    background-color: #404040;
+    color: white;
+    border: 1px dashed #404040;
+    margin-left: 57%;
   }
-
-
 }
 
 #appData {
@@ -558,9 +585,23 @@ footer {
 }
 
 /*CLASES GENERALES*/
+.error {
+  border: 1px solid var(--bg--error);
+}
 
-.fa-edit{
-  cursor: pointer;
+.msgError {
+  color: var(--bg--error);
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 1%;
+  font-weight: bold;
+  font-size: 13px;
+  padding-left: 27%;
+}
+
+.fa-exclamation-triangle {
+  color: var(--bg--error) !important;
+  padding-right: 2px;
+  font-size: 12px;
 }
 
 .nodeProfile {
