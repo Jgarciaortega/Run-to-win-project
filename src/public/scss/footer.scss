@@ -1,0 +1,30 @@
+/*Pie de página*/
+footer {
+    background: url("../assets/img/pxgray.png");
+    display: flex;
+    flex-direction: column;
+    margin-top: 4%;
+    justify-content: center;
+    align-items: center;
+  
+    p {
+      font-size: 130%;
+      text-decoration: none;
+    }
+    ul {
+      display: flex;
+      flex-direction: row;
+      width: 30%;
+    }
+  
+    a {
+      font-size: 250%;
+      color: #f2e9e9;
+      text-shadow: 0.1em 0.1em #333;
+    }
+  
+    li {
+      margin: 0 auto;
+      list-style: none;
+    }
+  }

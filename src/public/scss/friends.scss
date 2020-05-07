@@ -1,0 +1,23 @@
+#mainContent {
+    margin-top: 45px;
+    width: 900px;
+    margin: 0px auto;
+    min-height: 590px;
+    #headerFriends{
+        display: flex;
+        flex-direction: row;
+        border-bottom: 2px solid black;
+        justify-content: space-between;
+        height: 55px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+    #contentFriends{
+        .content{
+            margin-bottom: 2%;
+            border: 1px solid black;
+            padding: 2%;
+        }
+    }
+}

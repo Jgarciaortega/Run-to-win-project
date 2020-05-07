@@ -21,7 +21,19 @@ async function countNtf() {
 
 
 function deployMenu() {
- 
+
+    const desplegables = document.getElementsByClassName('desplegable');
+    const elementName = this.getAttribute('id');
+
+    Array.from(desplegables).forEach(element => {
+
+        if (element.getAttribute('id') != elementName) {
+
+            element.classList.add('noVisibility');
+        }
+    });
+
+
     if (this.getAttribute('id') == 'user') {
         this.parentNode.lastElementChild.classList.remove('noVisibility');
     } else

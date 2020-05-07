@@ -13,6 +13,8 @@ router.get('/user/profile', passport.authenticate('jwt', { session: false }),
     (req, res) => {
         res.render('user/userProfile', {
             style: '/css/user.css',
+            style2: '/css/header.css',
+            style3: '/css/footer.css',
             js1: '/js/userHeader.js',
             js2: '/js/userProfile.js',
             chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
@@ -22,6 +24,9 @@ router.get('/user/profile', passport.authenticate('jwt', { session: false }),
 router.get('/user/messages', (req, res) => {
     res.render('user/messages', {
         style: '/css/user.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
+        style4: '/css/message.css',
         js1: '/js/userHeader.js',
         js2: '/js/message.js',
         chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
@@ -31,6 +36,9 @@ router.get('/user/messages', (req, res) => {
 router.get('/user/notifications', (req, res) => {
     res.render('user/notifications', {
         style: '/css/user.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
+        style4: '/css/message.css',
         js1: '/js/userHeader.js',
         chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
     });
@@ -39,8 +47,31 @@ router.get('/user/notifications', (req, res) => {
 router.get('/user/userConfiguration', (req, res) => {
     res.render('user/userConfiguration', {
         style: '/css/user.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
         js1: '/js/userHeader.js',
         js2: '/js/confProfile.js',
+        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    });
+})
+
+router.get('/user/suscription', (req, res) => {
+    res.render('user/suscription', {
+        style: '/css/suscription.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
+        js1: '/js/userHeader.js',
+        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    });
+})
+
+router.get('/user/friends', (req, res) => {
+    res.render('user/friends', {
+        style: '/css/friends.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
+        js1: '/js/userHeader.js',
+        js2: '/js/friends.js',
         chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
     });
 })
