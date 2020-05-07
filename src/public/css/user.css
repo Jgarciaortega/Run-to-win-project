@@ -60,28 +60,33 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
 }
-#header #contentHeader #mainNav #menuSup a {
+#header #contentHeader #mainNav #menuSup .linkPrincipal {
   color: white;
   font-size: x-large;
   padding: 3%;
 }
-#header #contentHeader #mainNav #menuSup .desplegable {
-  position: relative;
-  padding: 7px;
-  top: 17%;
-  border: 1px solid black;
-  font-size: 22px;
-  background-color: #ece7e2;
-  opacity: 0.9;
-  z-index: 1000;
-}
 #header #contentHeader #mainNav #menuSup .desplegable li {
   display: flex;
+  background-color: #ece7e2;
   justify-content: flex-start;
   padding: 5px;
+  border: 1px solid black;
 }
-#header #contentHeader #mainNav #menuSup .desplegable li i {
-  margin-right: 2%;
+#header #contentHeader #mainNav #menuSup .desplegable li:first-child {
+  padding-top: 12px;
+}
+#header #contentHeader #mainNav #menuSup .desplegable li:hover {
+  background-color: gray;
+}
+#header #contentHeader #mainNav #menuSup .desplegable i,
+#header #contentHeader #mainNav #menuSup .desplegable a {
+  color: black;
+}
+#header #contentHeader #mainNav #menuSup .desplegable a {
+  padding: 10px;
+}
+#header #contentHeader #mainNav #menuSup .desplegable i {
+  padding-right: 7px;
 }
 #header #contentHeader #btn-strava {
   width: 90%;
@@ -110,43 +115,38 @@ body {
 #header #contentHeader #profile #user .fa-user {
   font-size: 33px;
 }
-#header #contentHeader #profile #user #menuUser {
-  padding: 0px;
-  position: absolute;
-  left: 74%;
-  top: 24%;
-  border: 1px solid black;
-  font-size: 22px;
-  background-color: #ece7e2;
-  opacity: 0.9;
-  z-index: 1000;
+#header #contentHeader #profile #menuUser {
+  top: 17%;
+  left: -42%;
 }
-#header #contentHeader #profile #user #menuUser li {
+#header #contentHeader #profile #menuUser li {
   display: flex;
   justify-content: flex-start;
   padding: 5px;
   border: 1px solid black;
+  background-color: #ece7e2;
 }
-#header #contentHeader #profile #user #menuUser li:first-child {
+#header #contentHeader #profile #menuUser li:first-child {
   padding-top: 12px;
 }
-#header #contentHeader #profile #user #menuUser li:hover {
+#header #contentHeader #profile #menuUser li:hover {
   background-color: gray;
 }
-#header #contentHeader #profile #user #menuUser i,
-#header #contentHeader #profile #user #menuUser a {
+#header #contentHeader #profile #menuUser i,
+#header #contentHeader #profile #menuUser a {
   color: black;
 }
-#header #contentHeader #profile #user #menuUser a {
+#header #contentHeader #profile #menuUser a {
   padding: 10px;
 }
-#header #contentHeader #profile #user #menuUser i {
+#header #contentHeader #profile #menuUser i {
   padding-right: 7px;
 }
 #header #contentHeader #message,
 #header #contentHeader #notification {
   padding-left: 1px;
   margin-top: 5px;
+  margin-right: 4%;
 }
 #header #contentHeader #message i,
 #header #contentHeader #notification i {
@@ -515,6 +515,15 @@ footer li {
 }
 
 /*CLASES GENERALES*/
+.desplegable {
+  position: relative;
+  padding: 7px;
+  top: 8%;
+  font-size: 22px;
+  opacity: 0.9;
+  z-index: 1000;
+}
+
 .error {
   border: 1px solid var(--bg--error);
 }

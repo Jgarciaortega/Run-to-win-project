@@ -6,45 +6,55 @@ async function getServer(url) {
 
 }
 
-async function countConver(){
+async function countConver() {
 
-    const url = '/api/countConversations/'+userId.id;
-    
+    const url = '/api/countConversations/' + userId.id;
+
     const count = await getServer(url);
     document.getElementById('msgQuantity').innerHTML = count.total;
-    
+
 }
 
-async function countNtf(){
+async function countNtf() {
 
 }
 
 
 function deployMenu() {
-    document.getElementById('menuUser').classList.remove('noVisible');
+ 
+    if (this.getAttribute('id') == 'user') {
+        this.parentNode.lastElementChild.classList.remove('noVisibility');
+    } else
+        this.nextElementSibling.classList.remove('noVisibility');
+
 }
 
 function hideMenu() {
-    document.getElementById('menuUser').classList.add('noVisible');
+    this.classList.add('noVisibility');
 }
 
 async function init() {
 
     // Obtenemos el id del usuario
-    userId = JSON.parse(localStorage.getItem('user')); 
+    userId = JSON.parse(localStorage.getItem('user'));
 
     //1º peticion a strava de los datos del usuario
     document.getElementById('btn-strava').addEventListener('click', connectToStrava);
 
     //listeners para desplegar/plegar menus
     document.getElementById('user').addEventListener('click', deployMenu);
+    document.getElementById('retos').addEventListener('click', deployMenu);
+    document.getElementById('amigos').addEventListener('click', deployMenu);
+    document.getElementById('suscripcion').addEventListener('click', deployMenu);
+    document.getElementById('menuRetos').addEventListener('mouseleave', hideMenu);
+    document.getElementById('menuAmigos').addEventListener('mouseleave', hideMenu);
+    document.getElementById('menuSuscripcion').addEventListener('mouseleave', hideMenu);
     document.getElementById('menuUser').addEventListener('mouseleave', hideMenu);
 
     //contamos conversaciones / notificaciones pendientes
     await countConver();
     await countNtf();
 
-    
 }
 
 //Variables Globales
