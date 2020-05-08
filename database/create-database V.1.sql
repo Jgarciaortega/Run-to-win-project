@@ -92,6 +92,16 @@ CREATE TABLE notificaciones(
 );
 
 
+CREATE TABLE amigos(
+	id1 INT(11) NOT NULL,
+	id2 INT(11) NOT NULL,
+	primary key(id1,id2),
+	FOREIGN KEY (id1) REFERENCES usuario (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE,
+	FOREIGN KEY (id2) REFERENCES usuario (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE
+
+);
+
+
 
 
 

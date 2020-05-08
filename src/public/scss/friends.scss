@@ -1,9 +1,18 @@
+/*VARIABLES*/
+:root {
+    --bg--error: rgb(197, 0, 0);
+    --bg--red: #d91a1a;
+    --bg--gray: #404040;
+    --bg--orange: #f27405;
+    --bg--strava: #f9511c;
+}
+
 #mainContent {
     margin-top: 45px;
     width: 900px;
     margin: 0px auto;
     min-height: 590px;
-    #headerFriends{
+    #headerFriends {
         display: flex;
         flex-direction: row;
         border-bottom: 2px solid black;
@@ -12,12 +21,56 @@
         margin-top: 20px;
         margin-bottom: 15px;
     }
+    #contentFriends {
+        #friendsFinder {
+           display: flex;
+           justify-content: end;
+           font-size: 17px;
+           #finder{
+               font-size: 17px;
+           }
+            #searchResults{
+                position: absolute;
+                top: 233px;
+                left: 1210px;
+                z-index: 1;
+                background-color: white;    
+                min-width: 198px;
+                border: 1px solid black;
+                border-radius: 5px;
+                .name{
 
-    #contentFriends{
-        .content{
-            margin-bottom: 2%;
-            border: 1px solid black;
-            padding: 2%;
+                    p{
+                        margin: 3px;
+                    }
+                }
+                .name:hover{
+                    background-color: rgb(223, 223, 223);
+                }
+            }
+        }
+        .containerFriends {
+            display: flex;
+            flex-direction: row;
+            margin-top: 1%;
+            .friend {
+                width: 448px;
+                height: 160px;
+                border: 1px solid black;
+                display: flex;
+                margin-right: 0.25%;
+                margin-left: 0.25%;
+                flex-direction: row;
+                img {
+                    height: 95%;
+                }
+                .infoFriend {
+                }
+            }
         }
     }
 }
+
+
+/* CLASES GENERALES */
+

@@ -17,6 +17,15 @@ exports.findByNicknameByClient = async (req, res) => {
 
 };
 
+exports.findByLetters = async (req, res) => {
+    const connection = await model.getConnection();
+    const sql = 'SELECT id,nombre,apellidos,nickname FROM usuario WHERE nombre LIKE "' + req.params.letters + '%"';
+    const [rows] = await connection.execute(sql);
+
+    res.send(rows);
+
+}
+
 exports.findByNickname = async (nickname) => {
     const connection = await model.getConnection();
     const [
@@ -106,17 +115,40 @@ exports.existNickname = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
 
-    const connection = await model.getConnection();   
+    const connection = await model.getConnection();
     const sql = "UPDATE usuario set " + req.body.name + "=" + req.body.value + " WHERE id=" + req.params.id;
-    console.log(sql);
     const rows = await connection.execute(sql);
-
-    console.log(rows);
 
     if (rows.affectedRows > 0) res.send(true);
     else res.send(false);
 
 }
+
+
+exports.createFriendship = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const sql = 'INSERT INTO amistad VALUES (id1 , id2)';
+
+    console.log(req.body);
+
+
+
+}
+
+exports.getFriends = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const sql = 'SELECT * FROM amigos WHERE id1=' + req.params.id + ' OR id2=' + req.params.id;
+
+    const rows = await connection.execute(sql);
+
+    if (rows.affectedRows > 0) res.send(true);
+    else res.send(false);
+
+
+}
+
 
 
 const parseUser = results => {

@@ -102,9 +102,12 @@ router.get("/user/logOut", (req, res) => {
     return res.status(200).redirect('/');
   });
 
-
+router.get('/user/getFriends/:id', passport.authenticate('jwt', { session: false }), User.getFriends);
 router.get('/user/findById/:id', passport.authenticate('jwt', { session: false }), User.findById);
 router.get('/user/findByNickname/:nickname', passport.authenticate('jwt', { session: false }), User.findByNicknameByClient);
+router.get('/user/findByLetters/:letters', passport.authenticate('jwt', { session: false }), User.findByLetters);
+router.post('/user/createFriendship', passport.authenticate('jwt', { session: false }), User.createFriendship);
+
 router.post('/user/createUser', User.createUser);
 router.post('/user/existEmail', User.existEmail);
 router.post('/user/existNickname', User.existNickname);
