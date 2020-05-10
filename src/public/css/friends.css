@@ -27,34 +27,34 @@
 
 #contentFriends #findYourFriend {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   font-size: 17px;
 }
 #contentFriends #findYourFriend #finder {
   font-size: 17px;
 }
-#contentFriends .containerFriends {
-  display: flex;
-  flex-direction: row;
+#contentFriends #containerFriends {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   margin-top: 1%;
 }
-#contentFriends .containerFriends .friend {
+#contentFriends #containerFriends .friend {
   width: 448px;
   height: 160px;
   border: 1px solid black;
   display: flex;
-  margin-right: 0.25%;
-  margin-left: 0.25%;
+  margin-right: 0.5%;
+  margin-left: 0.5%;
   flex-direction: row;
 }
-#contentFriends .containerFriends .friend img {
+#contentFriends #containerFriends .friend img {
   height: 95%;
 }
 
 /* Conecta */
 #contentRequest #friendsFinder {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   font-size: 17px;
 }
 #contentRequest #friendsFinder #countRequest {
@@ -84,40 +84,40 @@
   border: 1px solid black;
   border-radius: 5px;
 }
-#contentRequest #friendsFinder #searchResults .name p {
+#contentRequest #friendsFinder #searchResults .userData p {
   margin: 3px;
 }
 #contentRequest #friendsFinder #searchResults .name:hover {
   background-color: #dfdfdf;
 }
-#contentRequest .containerRequest {
+#contentRequest #containerRequest {
   margin-top: 2%;
 }
-#contentRequest .containerRequest .request {
+#contentRequest #containerRequest .request {
   height: 90px;
   border: 1px dashed black;
   margin-top: 1%;
   display: flex;
   justify-content: space-between;
 }
-#contentRequest .containerRequest .request img {
+#contentRequest #containerRequest .request img {
   height: 95%;
 }
-#contentRequest .containerRequest .request .infoRequest {
+#contentRequest #containerRequest .request .infoRequest {
   width: 90%;
   display: flex;
   flex-direction: row;
 }
-#contentRequest .containerRequest .request .infoRequest .name {
+#contentRequest #containerRequest .request .infoRequest .name {
   width: 30%;
 }
-#contentRequest .containerRequest .request .infoRequest .botoneraRequest {
-  width: 70%;
+#contentRequest #containerRequest .request .infoRequest .buttonsRequest {
+  width: 78%;
   display: flex;
   flex-direction: row;
   justify-content: end;
 }
-#contentRequest .containerRequest .request .infoRequest .botoneraRequest .btnRequest {
+#contentRequest #containerRequest .request .infoRequest .buttonsRequest .btnRequest {
   border-radius: 5px;
   font-size: 17px;
   align-self: flex-end;
@@ -126,13 +126,16 @@
   margin-right: 1%;
   margin-bottom: 1%;
 }
-#contentRequest .containerRequest .request .infoRequest .botoneraRequest .btnAccept {
+#contentRequest #containerRequest .request .infoRequest .buttonsRequest .btnAccept {
   background-color: #0040ff;
 }
-#contentRequest .containerRequest .request .infoRequest .botoneraRequest .btnReject {
+#contentRequest #containerRequest .request .infoRequest .buttonsRequest .btnReject {
   background-color: #ff4d4d;
 }
 
 /* CLASES GENERALES */
+.noVisible {
+  display: none !important;
+}
 
 /*# sourceMappingURL=friends.css.map */

@@ -51,7 +51,7 @@ async function createFriendship() {
 
 }
 
-async function requestFriendship(){
+async function requestFriendship() {
 
     data = {
         contenido: 'Ha recibido una solicitud de amistad de ' + user.nickname,
@@ -59,16 +59,55 @@ async function requestFriendship(){
         tipo: 'Amigos'
     }
 
-    const response = await postServer('/api/createNotification',data);
-    
-    if(response) alert('Petición de amistad enviada')
+    const response = await postServer('/api/createNotification', data);
+
+    if (response) alert('Petición de amistad enviada')
     else alert('La petición de amistad no se envió')
-    
+
 }
 
 async function loadFriends() {
 
     const friends = await getServer('/user/getFriends/' + user.id);
+    const mainContainer = document.getElementById('containerFriends');
+
+    for (element of friends) {
+
+        let id;
+
+        if (element.id1 == user.id) id = element.id2;
+        else id = element.id1;
+
+        const userFriend = await getServer('/user/findById/' + id)
+        const friend = document.createElement('div');
+        friend.classList.add('friend');
+        mainContainer.appendChild(friend);
+
+        const photoFriend = document.createElement('img');
+        photoFriend.setAttribute('src', userFriend.imagen);
+        photoFriend.setAttribute('alt', 'Imagen amigo');
+        friend.appendChild(photoFriend);
+
+        const infoFriend = document.createElement('div');
+        infoFriend.classList.add('infoFriend');
+        friend.appendChild(infoFriend);
+
+        const name = document.createElement('p');
+        name.innerHTML = userFriend.nombre + " " + userFriend.apellidos;
+        infoFriend.appendChild(name);
+
+        const nickname = document.createElement('p');
+        nickname.innerHTML = userFriend.nickname;
+        infoFriend.appendChild(nickname);
+
+        const sendMsg = document.createElement('button');
+        sendMsg.innerHTML = 'Enviar mensaje'
+        infoFriend.appendChild(sendMsg);
+
+
+
+    }
+
 }
 
 async function findYourFriends() {
@@ -89,8 +128,8 @@ async function findYourFriends() {
 
                 const nameContainer = document.createElement('div');
                 nameContainer.classList.add('name');
-                nameContainer.setAttribute('data-id',friend.id);
-                nameContainer.addEventListener('click', requestFriendship );
+                nameContainer.setAttribute('data-id', friend.id);
+                nameContainer.addEventListener('click', requestFriendship);
                 mainContainer.appendChild(nameContainer);
 
                 const name = document.createElement('p');
@@ -116,8 +155,7 @@ async function init() {
     // listener buscar amigo
     document.getElementById('finder').addEventListener('keyup', findYourFriends);
 
-    // loadFriends();
-    // createFriendship();
+    loadFriends();
 
 }
 

@@ -3,13 +3,14 @@ const { format } = require('timeago.js');
 
 exports.createNotification = async (req, res) => {
     const connection = await model.getConnection(); 
-    const data = ['"' + req.body.contenido + '"', req.body.id_destinatario, '"' + req.body.tipo + '"'];
-    const [rows] = await connection.execute("INSERT INTO notificaciones VALUES (NULL,?,?,?,now())",data);
+    const data = [req.body.contenido , req.body.id_destinatario,  req.body.tipo , req.body.id_remitente];
+    const [rows] = await connection.execute("INSERT INTO notificaciones VALUES (NULL,?,?,?,now(),?)",data);
     
     connection.end();
 
     if(rows.affectedRows > 0) res.send(true);
     else res.send(false);
+   
     
 }
 
@@ -110,7 +111,7 @@ exports.deleteNotification = async (req, res) => {
     const [rows] = await connection.execute(sql);
     connection.end();
 
-    console.log(rows);
+    if(rows.affectedRows > 0) res.send({msg: 'borrada'});
     
 }
 

@@ -27,23 +27,23 @@
 #contentFriends {
     #findYourFriend {
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         font-size: 17px;
         #finder {
             font-size: 17px;
         }
     }
-    .containerFriends {
-        display: flex;
-        flex-direction: row;
+    #containerFriends {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         margin-top: 1%;
         .friend {
             width: 448px;
             height: 160px;
             border: 1px solid black;
             display: flex;
-            margin-right: 0.25%;
-            margin-left: 0.25%;
+            margin-right: 0.5%;
+            margin-left: 0.5%;
             flex-direction: row;
             img {
                 height: 95%;
@@ -56,7 +56,7 @@
 #contentRequest {
     #friendsFinder {
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         font-size: 17px;
         #countRequest {
             border-radius: 10px black;
@@ -84,7 +84,7 @@
             min-width: 198px;
             border: 1px solid black;
             border-radius: 5px;
-            .name {
+            .userData {
                 p {
                     margin: 3px;
                 }
@@ -94,7 +94,7 @@
             }
         }
     }
-    .containerRequest {
+    #containerRequest {
         margin-top: 2%;
         .request {
             height: 90px;
@@ -112,8 +112,8 @@
                 .name {
                     width: 30%;
                 }
-                .botoneraRequest {
-                    width: 70%;
+                .buttonsRequest {
+                    width: 78%;
                     display: flex;
                     flex-direction: row;
                     justify-content: end;
@@ -140,3 +140,7 @@
 }
 
 /* CLASES GENERALES */
+
+.noVisible{
+    display: none !important;
+}

@@ -128,12 +128,13 @@ exports.updateUser = async (req, res) => {
 exports.createFriendship = async (req, res) => {
 
     const connection = await model.getConnection();
-    const sql = 'INSERT INTO amistad VALUES (id1 , id2)';
+    const sql = 'INSERT INTO amigos VALUES (?, ?)';
+    const data = [req.body.id1, req.body.id2];
 
-    console.log(req.body);
+    const rows = await connection.execute(sql,data);
 
-
-
+    if(rows.affectedRows > 0) res.send({msg: 'Amistad creada'})
+    
 }
 
 exports.getFriends = async (req, res) => {
@@ -142,14 +143,9 @@ exports.getFriends = async (req, res) => {
     const sql = 'SELECT * FROM amigos WHERE id1=' + req.params.id + ' OR id2=' + req.params.id;
 
     const rows = await connection.execute(sql);
-
-    if (rows.affectedRows > 0) res.send(true);
-    else res.send(false);
-
+    res.send(rows[0]);
 
 }
-
-
 
 const parseUser = results => {
 
