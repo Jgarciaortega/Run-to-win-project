@@ -17,6 +17,10 @@ async function countConver() {
 
 async function countNtf() {
 
+    const url = '/api/countNotifications/' + userId.id;
+
+    const count = await getServer(url);
+    document.getElementById('ntfQuantity').innerHTML = count.total;
 }
 
 

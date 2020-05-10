@@ -9,7 +9,6 @@ function clearNode(elemento) {
     }
 }
 
-
 /* Funciones Servidor */
 async function postServer(url, data) {
 
@@ -38,40 +37,7 @@ async function getServer(url) {
 }
 
 /* Funciones Amigos */
-async function createFriendship() {
-
-    const id = user.id;
-
-    data = {
-        id1: id,
-        id2: 2
-    }
-
-    await postServer('/user/createFriendship', data);
-
-}
-
-async function requestFriendship(){
-
-    data = {
-        contenido: 'Ha recibido una solicitud de amistad de ' + user.nickname,
-        id_destinatario: this.getAttribute('data-id'),
-        tipo: 'Amigos'
-    }
-
-    const response = await postServer('/api/createNotification',data);
-    
-    if(response) alert('Petición de amistad enviada')
-    else alert('La petición de amistad no se envió')
-    
-}
-
-async function loadFriends() {
-
-    const friends = await getServer('/user/getFriends/' + user.id);
-}
-
-async function findYourFriends() {
+async function findNewFriends() {
 
     const letters = this.value;
     const mainContainer = document.getElementById('searchResults');
@@ -89,8 +55,8 @@ async function findYourFriends() {
 
                 const nameContainer = document.createElement('div');
                 nameContainer.classList.add('name');
-                nameContainer.setAttribute('data-id',friend.id);
-                nameContainer.addEventListener('click', requestFriendship );
+                nameContainer.setAttribute('data-id', friend.id);
+                nameContainer.addEventListener('click', requestFriendship);
                 mainContainer.appendChild(nameContainer);
 
                 const name = document.createElement('p');
@@ -98,12 +64,38 @@ async function findYourFriends() {
                 nameContainer.appendChild(name);
 
             }
+
         }
+
     } else {
 
         mainContainer.classList.add('noVisibility');
     }
+}
 
+async function requestFriendship(){
+
+    data = {
+        contenido: 'Ha recibido una solicitud de amistad de ' + user.nickname,
+        id_destinatario: this.getAttribute('data-id'),
+        tipo: 'Amistad'
+    }
+
+    const response = await postServer('/api/createNotification',data);
+    
+    if(response) alert('Petición de amistad enviada')
+    else alert('La petición de amistad no se envió')
+  
+}
+
+
+/* Funciones Notificaciones */
+async function getFriendRequest() {
+
+    const notifications = await getServer('/api/getNotificationsByType/' + user.id + '/' + 'Amistad');
+    // loadRequest(notications);
+    console.log(notifications);
+    
 }
 
 async function init() {
@@ -114,10 +106,9 @@ async function init() {
     user = await getServer('/user/findById/' + localStorageInfo.id);
 
     // listener buscar amigo
-    document.getElementById('finder').addEventListener('keyup', findYourFriends);
+    document.getElementById('finder').addEventListener('keyup', findNewFriends);
 
-    // loadFriends();
-    // createFriendship();
+    getFriendRequest();
 
 }
 

@@ -39,6 +39,17 @@
 #msgContent #inbox .msgTemplate .dataContent .headerMsg .msgOptions {
   padding: 5px;
 }
+#msgContent #inbox .msgTemplate .dataContent .headerNtf {
+  display: flex;
+  justify-content: space-between;
+  background: url("../assets/img/pxgray.png");
+}
+#msgContent #inbox .msgTemplate .dataContent .headerNtf .dateMsg {
+  padding: 4px;
+}
+#msgContent #inbox .msgTemplate .dataContent .headerNtf .msgOptions {
+  padding: 4px;
+}
 #msgContent #inbox .msgTemplate .dataContent .msgData .msg {
   margin: 1%;
 }
@@ -109,5 +120,7 @@
   width: 72px;
   height: 35px;
 }
+
+/* Clases Generales */
 
 /*# sourceMappingURL=message.css.map */

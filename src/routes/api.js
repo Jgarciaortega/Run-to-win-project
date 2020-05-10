@@ -19,6 +19,22 @@ passport.authenticate("jwt", { session: false }),Message.countConversations);
 router.put("/api/updateConversation/:id/:userId",
 passport.authenticate("jwt", { session: false }),Message.updateConversation);
 
+/* Rutas Notificaciones */
+router.post("/api/createNotification",
+passport.authenticate("jwt", { session: false }),Message.createNotification);
+
+router.get("/api/countNotifications/:id",
+passport.authenticate("jwt", { session: false }),Message.countNotifications);
+
+router.get("/api/getNotifications/:id",
+passport.authenticate("jwt", { session: false }),Message.getNotifications);
+
+router.get("/api/getNotificationsByType/:id/:tipo",
+passport.authenticate("jwt", { session: false }),Message.getNotificationByType);
+
+router.delete("/api/deleteNotification/:id",
+passport.authenticate("jwt", { session: false }),Message.deleteNotification);
+
 /* Rutas Mensajes */
 router.post("/api/sendMessage",
 passport.authenticate("jwt", { session: false }),Message.createMessage);

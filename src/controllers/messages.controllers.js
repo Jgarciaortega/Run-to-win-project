@@ -1,6 +1,18 @@
 const model = require('../model/model');
 const { format } = require('timeago.js');
 
+exports.createNotification = async (req, res) => {
+    const connection = await model.getConnection(); 
+    const data = ['"' + req.body.contenido + '"', req.body.id_destinatario, '"' + req.body.tipo + '"'];
+    const [rows] = await connection.execute("INSERT INTO notificaciones VALUES (NULL,?,?,?,now())",data);
+    
+    connection.end();
+
+    if(rows.affectedRows > 0) res.send(true);
+    else res.send(false);
+    
+}
+
 exports.createMessage = async (req, res) => {
     const connection = await model.getConnection();
 
@@ -75,9 +87,9 @@ exports.deleteConversation = async (conversationId) => {
 
         const res1 = await connection.execute(sql2)
         const res2 = await connection.execute(sql3);
-        
+
         res.send(true);
-        
+
     }
     res.send(false);
 }
@@ -88,7 +100,50 @@ exports.countConversations = async (req, res) => {
     const sqlQuery = "SELECT COUNT(id) as total FROM `conversacion` WHERE id_usuario1=" + req.params.id + " or id_usuario2=" + req.params.id;
     const [rows] = await connection.execute(sqlQuery);
     connection.end();
+    res.send(rows[0]);
+}
+
+exports.deleteNotification = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const sql = "DELETE FROM notificaciones WHERE id=" + req.params.id;
+    const [rows] = await connection.execute(sql);
+    connection.end();
+
+    console.log(rows);
+    
+}
+
+exports.countNotifications = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const sqlQuery = "SELECT COUNT(id) as total FROM `notificaciones` WHERE id_destinatario=" + req.params.id;
+    const [rows] = await connection.execute(sqlQuery);
+    connection.end();
     res.send(rows[0])
+}
+
+exports.getNotifications = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const sql = "SELECT * from notificaciones WHERE id_destinatario=" + req.params.id;
+    const [rows] = await connection.execute(sql);
+    connection.end();
+    parseDate(rows);
+    res.send(rows);
+
+}
+
+exports.getNotificationByType = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const sql = 'SELECT * from notificaciones WHERE id_destinatario=' + req.params.id + ' and tipo="' + req.params.tipo + '"'; 
+    console.log(sql);
+    
+    const [rows] = await connection.execute(sql);
+    connection.end();
+    parseDate(rows);
+    res.send(rows);
 }
 
 const parseDate = (rows) => {

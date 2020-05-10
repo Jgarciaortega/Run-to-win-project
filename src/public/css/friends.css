@@ -13,7 +13,9 @@
   margin: 0px auto;
   min-height: 590px;
 }
-#mainContent #headerFriends {
+
+/* Amigos */
+#headerFriends {
   display: flex;
   flex-direction: row;
   border-bottom: 2px solid black;
@@ -22,15 +24,57 @@
   margin-top: 20px;
   margin-bottom: 15px;
 }
-#mainContent #contentFriends #friendsFinder {
+
+#contentFriends #findYourFriend {
   display: flex;
   justify-content: end;
   font-size: 17px;
 }
-#mainContent #contentFriends #friendsFinder #finder {
+#contentFriends #findYourFriend #finder {
   font-size: 17px;
 }
-#mainContent #contentFriends #friendsFinder #searchResults {
+#contentFriends .containerFriends {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1%;
+}
+#contentFriends .containerFriends .friend {
+  width: 448px;
+  height: 160px;
+  border: 1px solid black;
+  display: flex;
+  margin-right: 0.25%;
+  margin-left: 0.25%;
+  flex-direction: row;
+}
+#contentFriends .containerFriends .friend img {
+  height: 95%;
+}
+
+/* Conecta */
+#contentRequest #friendsFinder {
+  display: flex;
+  justify-content: end;
+  font-size: 17px;
+}
+#contentRequest #friendsFinder #countRequest {
+  border-radius: 10px black;
+  margin-right: 1%;
+  margin-top: 2px;
+  text-decoration: underline;
+}
+#contentRequest #friendsFinder #countRequest #titleRequest {
+  font-weight: bold;
+  font-size: 18px;
+}
+#contentRequest #friendsFinder #countRequest #requestQnt {
+  font-weight: bold;
+  font-size: 18px;
+}
+#contentRequest #friendsFinder #finder {
+  font-size: 17px;
+}
+#contentRequest #friendsFinder #searchResults {
   position: absolute;
   top: 233px;
   left: 1210px;
@@ -40,29 +84,55 @@
   border: 1px solid black;
   border-radius: 5px;
 }
-#mainContent #contentFriends #friendsFinder #searchResults .name p {
+#contentRequest #friendsFinder #searchResults .name p {
   margin: 3px;
 }
-#mainContent #contentFriends #friendsFinder #searchResults .name:hover {
+#contentRequest #friendsFinder #searchResults .name:hover {
   background-color: #dfdfdf;
 }
-#mainContent #contentFriends .containerFriends {
-  display: flex;
-  flex-direction: row;
+#contentRequest .containerRequest {
+  margin-top: 2%;
+}
+#contentRequest .containerRequest .request {
+  height: 90px;
+  border: 1px dashed black;
   margin-top: 1%;
-}
-#mainContent #contentFriends .containerFriends .friend {
-  width: 448px;
-  height: 160px;
-  border: 1px solid black;
   display: flex;
-  margin-right: 0.25%;
-  margin-left: 0.25%;
-  flex-direction: row;
+  justify-content: space-between;
 }
-#mainContent #contentFriends .containerFriends .friend img {
+#contentRequest .containerRequest .request img {
   height: 95%;
 }
+#contentRequest .containerRequest .request .infoRequest {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+}
+#contentRequest .containerRequest .request .infoRequest .name {
+  width: 30%;
+}
+#contentRequest .containerRequest .request .infoRequest .botoneraRequest {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+#contentRequest .containerRequest .request .infoRequest .botoneraRequest .btnRequest {
+  border-radius: 5px;
+  font-size: 17px;
+  align-self: flex-end;
+  height: 33%;
+  color: white;
+  margin-right: 1%;
+  margin-bottom: 1%;
+}
+#contentRequest .containerRequest .request .infoRequest .botoneraRequest .btnAccept {
+  background-color: #0040ff;
+}
+#contentRequest .containerRequest .request .infoRequest .botoneraRequest .btnReject {
+  background-color: #ff4d4d;
+}
+
 /* CLASES GENERALES */
 
 /*# sourceMappingURL=friends.css.map */

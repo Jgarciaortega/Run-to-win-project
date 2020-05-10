@@ -40,6 +40,7 @@ router.get('/user/notifications', (req, res) => {
         style3: '/css/footer.css',
         style4: '/css/message.css',
         js1: '/js/userHeader.js',
+        js2: '/js/notifications.js',
         chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
     });
 })
@@ -72,6 +73,17 @@ router.get('/user/friends', (req, res) => {
         style3: '/css/footer.css',
         js1: '/js/userHeader.js',
         js2: '/js/friends.js',
+        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    });
+})
+
+router.get('/user/conecta', (req, res) => {
+    res.render('user/conecta', {
+        style: '/css/friends.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
+        js1: '/js/userHeader.js',
+        js2: '/js/connect.js',
         chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
     });
 })

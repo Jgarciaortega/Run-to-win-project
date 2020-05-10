@@ -85,10 +85,8 @@ CREATE TABLE notificaciones(
 	id INT(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	contenido VARCHAR(255),
 	id_destinatario INT(100),
-	fecha_envio timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW(), 
-	leido BOOLEAN,
-	id_usuario INT(11),
-	FOREIGN KEY (id_usuario) REFERENCES usuario (id) ON UPDATE  NO ACTION  ON DELETE  CASCADE
+	tipo VARCHAR(255),
+	fecha_envio timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW()
 );
 
 

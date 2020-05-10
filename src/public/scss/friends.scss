@@ -12,65 +12,131 @@
     width: 900px;
     margin: 0px auto;
     min-height: 590px;
-    #headerFriends {
+}
+
+/* Amigos */
+#headerFriends {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid black;
+    justify-content: space-between;
+    height: 55px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+#contentFriends {
+    #findYourFriend {
+        display: flex;
+        justify-content: end;
+        font-size: 17px;
+        #finder {
+            font-size: 17px;
+        }
+    }
+    .containerFriends {
         display: flex;
         flex-direction: row;
-        border-bottom: 2px solid black;
-        justify-content: space-between;
-        height: 55px;
-        margin-top: 20px;
-        margin-bottom: 15px;
-    }
-    #contentFriends {
-        #friendsFinder {
-           display: flex;
-           justify-content: end;
-           font-size: 17px;
-           #finder{
-               font-size: 17px;
-           }
-            #searchResults{
-                position: absolute;
-                top: 233px;
-                left: 1210px;
-                z-index: 1;
-                background-color: white;    
-                min-width: 198px;
-                border: 1px solid black;
-                border-radius: 5px;
-                .name{
-
-                    p{
-                        margin: 3px;
-                    }
-                }
-                .name:hover{
-                    background-color: rgb(223, 223, 223);
-                }
+        margin-top: 1%;
+        .friend {
+            width: 448px;
+            height: 160px;
+            border: 1px solid black;
+            display: flex;
+            margin-right: 0.25%;
+            margin-left: 0.25%;
+            flex-direction: row;
+            img {
+                height: 95%;
             }
         }
-        .containerFriends {
-            display: flex;
-            flex-direction: row;
-            margin-top: 1%;
-            .friend {
-                width: 448px;
-                height: 160px;
-                border: 1px solid black;
-                display: flex;
-                margin-right: 0.25%;
-                margin-left: 0.25%;
-                flex-direction: row;
-                img {
-                    height: 95%;
+    }
+}
+
+/* Conecta */
+#contentRequest {
+    #friendsFinder {
+        display: flex;
+        justify-content: end;
+        font-size: 17px;
+        #countRequest {
+            border-radius: 10px black;
+            margin-right: 1%;
+            margin-top: 2px;
+            text-decoration: underline;
+            #titleRequest {
+                font-weight: bold;
+                font-size: 18px;
+            }
+            #requestQnt {
+                font-weight: bold;
+                font-size: 18px;
+            }
+        }
+        #finder {
+            font-size: 17px;
+        }
+        #searchResults {
+            position: absolute;
+            top: 233px;
+            left: 1210px;
+            z-index: 1;
+            background-color: white;
+            min-width: 198px;
+            border: 1px solid black;
+            border-radius: 5px;
+            .name {
+                p {
+                    margin: 3px;
                 }
-                .infoFriend {
+            }
+            .name:hover {
+                background-color: rgb(223, 223, 223);
+            }
+        }
+    }
+    .containerRequest {
+        margin-top: 2%;
+        .request {
+            height: 90px;
+            border: 1px dashed black;
+            margin-top: 1%;
+            display: flex;
+            justify-content: space-between;
+            img {
+                height: 95%;
+            }
+            .infoRequest {
+                width: 90%;
+                display: flex;
+                flex-direction: row;
+                .name {
+                    width: 30%;
+                }
+                .botoneraRequest {
+                    width: 70%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: end;
+                    .btnRequest {
+                        border-radius: 5px;
+                        font-size: 17px;
+                        align-self: flex-end;
+                        height: 33%;
+                        color: white;
+                        margin-right: 1%;
+                        margin-bottom: 1%;
+                    }
+                    .btnAccept {
+                        background-color: #0040ff;
+                    }
+
+                    .btnReject {
+                        background-color: #ff4d4d;
+                    }
                 }
             }
         }
     }
 }
 
-
 /* CLASES GENERALES */
-
