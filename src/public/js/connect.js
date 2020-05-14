@@ -75,6 +75,7 @@ async function findNewFriends() {
                 mainContainer.appendChild(nameContainer);
 
                 const name = document.createElement('p');
+                name.classList.add('nameSearch')
                 name.innerHTML = friend.nombre + " " + friend.apellidos;
                 nameContainer.appendChild(name);
 
@@ -142,15 +143,20 @@ async function getFriendRequest() {
 
     for (notification of notifications) {
 
+        const friend = await getServer('/user/findById/'+ notification.id_remitente);
+     
         const request = document.createElement('div');
         request.classList.add('request');
         request.setAttribute('id', notification.id);
         mainContent.appendChild(request);
 
+        const contentPhoto = document.createElement('div');
+        request.appendChild(contentPhoto);
+
         const userPhoto = document.createElement('img');
-        userPhoto.setAttribute('src', '/assets/user_photos/yo.jpg');
+        userPhoto.setAttribute('src', friend.imagen);
         userPhoto.setAttribute('alt', 'Foto usuario peticion amistad');
-        request.appendChild(userPhoto);
+        contentPhoto.appendChild(userPhoto);
 
         const infoRequest = document.createElement('div');
         infoRequest.classList.add('infoRequest');
@@ -161,11 +167,11 @@ async function getFriendRequest() {
         infoRequest.appendChild(userData);
 
         const name = document.createElement('p');
-        name.innerHTML = 'JAVIER GARCIA PEREZ';
+        name.innerHTML = friend.nombre + " " + friend.apellidos;
         userData.appendChild(name);
 
         const nickname = document.createElement('p');
-        nickname.innerHTML = 'JAGAROCK';
+        nickname.innerHTML = friend.nickname;
         userData.appendChild(nickname);
 
         const buttonsRequest = document.createElement('div');

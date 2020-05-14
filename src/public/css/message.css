@@ -112,13 +112,13 @@
   margin-left: 5px;
 }
 #newMessage #optionsMessage #btn-send {
-  margin-top: 3%;
-  background: var(--bg--strava);
+  font-size: 15px;
+  align-self: flex-end;
   color: white;
-  border: 1px solid var(--bg--gray);
-  border-radius: 5px;
-  width: 72px;
-  height: 35px;
+  margin-right: 1%;
+  height: 19%;
+  background-color: #fa8574;
+  padding: 1% 2%;
 }
 
 /* Clases Generales */

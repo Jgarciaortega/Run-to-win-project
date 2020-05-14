@@ -37,21 +37,103 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         margin-top: 1%;
+        column-gap: 3px;
         .friend {
-            width: 448px;
-            height: 160px;
-            border: 1px solid black;
-            display: flex;
+            border: 1px dashed black;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
             margin-right: 0.5%;
             margin-left: 0.5%;
             flex-direction: row;
             img {
-                height: 95%;
+                height: 150px;
+                padding: 5px;
+            }
+
+            .infoFriend {
+                margin-top: 10%;
+                .name {
+                    color: #385898;
+                    font-weight: bolder;
+                }
+            }
+
+            .sendButton {
+                display: flex;
+                align-items: center;
+
+                button {
+                    margin-bottom: 7%;
+                    border-radius: 5px;
+                    font-size: 15px;
+                    align-self: flex-end;
+                    color: white;
+                    margin-right: 1%;
+                    height: 19%;
+                    background-color: #fa8574;
+                }
             }
         }
     }
 }
 
+#newMessage {
+    width: 25%;
+    min-height: 22%;
+    border: 1px solid black;
+    position: absolute;
+    background-color: #ece7e2;
+
+    #msg-top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: var(--bg--gray);
+        color: white;
+        h4 {
+            margin: 0;
+            padding-left: 3px;
+            align-self: center;
+        }
+        i {
+            margin: 1%;
+            align-self: center;
+            font-size: 20px;
+        }
+    }
+
+    #optionsMessage {
+        margin: 10px;
+        #para {
+            display: grid;
+            grid-template-columns: 1fr 9fr;
+            margin-right: 2%;
+            margin-top: 4%;
+            input {
+                margin-left: 29px;
+                margin-bottom: 14px;
+            }
+        }
+        #msg-txt {
+            display: grid;
+            grid-template-columns: 1fr 6fr;
+            margin-right: 2%;
+            textarea {
+                margin-left: 5px;
+            }
+        }
+
+        #btn-send {
+            font-size: 15px;
+            align-self: flex-end;
+            color: white;
+            margin-right: 1%;
+            height: 19%;
+            background-color: #fa8574;
+            padding: 1% 2%;
+        }
+    }
+}
 /* Conecta */
 #contentRequest {
     #friendsFinder {
@@ -92,23 +174,27 @@
             .name:hover {
                 background-color: rgb(223, 223, 223);
             }
+
+            .nameSearch {
+                margin: 4px;
+            }
         }
     }
     #containerRequest {
         margin-top: 2%;
         .request {
-            height: 90px;
             border: 1px dashed black;
             margin-top: 1%;
             display: flex;
             justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 8fr;
             img {
-                height: 95%;
+                width: 75px;
             }
             .infoRequest {
-                width: 90%;
                 display: flex;
-                flex-direction: row;
+                justify-content: space-between;
                 .name {
                     width: 30%;
                 }
@@ -129,7 +215,6 @@
                     .btnAccept {
                         background-color: #0040ff;
                     }
-
                     .btnReject {
                         background-color: #ff4d4d;
                     }
@@ -141,6 +226,6 @@
 
 /* CLASES GENERALES */
 
-.noVisible{
+.noVisible {
     display: none !important;
 }

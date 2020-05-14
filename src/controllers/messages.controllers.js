@@ -23,8 +23,8 @@ exports.createMessage = async (req, res) => {
     connection.end();
 
     if (rows.affectedRows > 0) res.send(true);
-
-    res.send(false);
+    else  res.send(false);
+   
 }
 
 exports.getMessages = async (req, res) => {

@@ -84,7 +84,6 @@ exports.createUser = async (req, res) => {
     // /assets/user_photos/yo.jpg
     // /assets/user_photos/Schwarzy.jpg
 
-
 }
 
 exports.existEmail = async (req, res) => {

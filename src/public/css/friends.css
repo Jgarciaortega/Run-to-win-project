@@ -37,18 +37,95 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: 1%;
+  column-gap: 3px;
 }
 #contentFriends #containerFriends .friend {
-  width: 448px;
-  height: 160px;
-  border: 1px solid black;
-  display: flex;
+  border: 1px dashed black;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
   margin-right: 0.5%;
   margin-left: 0.5%;
   flex-direction: row;
 }
 #contentFriends #containerFriends .friend img {
-  height: 95%;
+  height: 150px;
+  padding: 5px;
+}
+#contentFriends #containerFriends .friend .infoFriend {
+  margin-top: 10%;
+}
+#contentFriends #containerFriends .friend .infoFriend .name {
+  color: #385898;
+  font-weight: bolder;
+}
+#contentFriends #containerFriends .friend .sendButton {
+  display: flex;
+  align-items: center;
+}
+#contentFriends #containerFriends .friend .sendButton button {
+  margin-bottom: 7%;
+  border-radius: 5px;
+  font-size: 15px;
+  align-self: flex-end;
+  color: white;
+  margin-right: 1%;
+  height: 19%;
+  background-color: #fa8574;
+}
+
+#newMessage {
+  width: 25%;
+  min-height: 22%;
+  border: 1px solid black;
+  position: absolute;
+  background-color: #ece7e2;
+}
+#newMessage #msg-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: var(--bg--gray);
+  color: white;
+}
+#newMessage #msg-top h4 {
+  margin: 0;
+  padding-left: 3px;
+  align-self: center;
+}
+#newMessage #msg-top i {
+  margin: 1%;
+  align-self: center;
+  font-size: 20px;
+}
+#newMessage #optionsMessage {
+  margin: 10px;
+}
+#newMessage #optionsMessage #para {
+  display: grid;
+  grid-template-columns: 1fr 9fr;
+  margin-right: 2%;
+  margin-top: 4%;
+}
+#newMessage #optionsMessage #para input {
+  margin-left: 29px;
+  margin-bottom: 14px;
+}
+#newMessage #optionsMessage #msg-txt {
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  margin-right: 2%;
+}
+#newMessage #optionsMessage #msg-txt textarea {
+  margin-left: 5px;
+}
+#newMessage #optionsMessage #btn-send {
+  font-size: 15px;
+  align-self: flex-end;
+  color: white;
+  margin-right: 1%;
+  height: 19%;
+  background-color: #fa8574;
+  padding: 1% 2%;
 }
 
 /* Conecta */
@@ -90,23 +167,26 @@
 #contentRequest #friendsFinder #searchResults .name:hover {
   background-color: #dfdfdf;
 }
+#contentRequest #friendsFinder #searchResults .nameSearch {
+  margin: 4px;
+}
 #contentRequest #containerRequest {
   margin-top: 2%;
 }
 #contentRequest #containerRequest .request {
-  height: 90px;
   border: 1px dashed black;
   margin-top: 1%;
   display: flex;
   justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 8fr;
 }
 #contentRequest #containerRequest .request img {
-  height: 95%;
+  width: 75px;
 }
 #contentRequest #containerRequest .request .infoRequest {
-  width: 90%;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
 }
 #contentRequest #containerRequest .request .infoRequest .name {
   width: 30%;
