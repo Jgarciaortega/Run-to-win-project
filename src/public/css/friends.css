@@ -79,6 +79,7 @@
   border: 1px solid black;
   position: absolute;
   background-color: #ece7e2;
+  min-width: 458px;
 }
 #newMessage #msg-top {
   display: flex;
@@ -107,6 +108,7 @@
   margin-top: 4%;
 }
 #newMessage #optionsMessage #para input {
+  padding-left: -1px;
   margin-left: 29px;
   margin-bottom: 14px;
 }
@@ -164,7 +166,7 @@
 #contentRequest #friendsFinder #searchResults .userData p {
   margin: 3px;
 }
-#contentRequest #friendsFinder #searchResults .name:hover {
+#contentRequest #friendsFinder #searchResults .nameContainer:hover {
   background-color: #dfdfdf;
 }
 #contentRequest #friendsFinder #searchResults .nameSearch {
@@ -189,7 +191,13 @@
   justify-content: space-between;
 }
 #contentRequest #containerRequest .request .infoRequest .name {
-  width: 30%;
+  color: #385898;
+  font-weight: bolder;
+  font-size: large;
+  margin-top: 31%;
+}
+#contentRequest #containerRequest .request .infoRequest .nickname {
+  font-size: large;
 }
 #contentRequest #containerRequest .request .infoRequest .buttonsRequest {
   width: 78%;

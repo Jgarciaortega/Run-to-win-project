@@ -132,8 +132,8 @@ exports.createFriendship = async (req, res) => {
 
     const rows = await connection.execute(sql,data);
 
-    if(rows.affectedRows > 0) res.send({msg: 'Amistad creada'})
-    
+    if(rows[0].affectedRows > 0) res.send(true)
+    else res.send(false)
 }
 
 exports.getFriends = async (req, res) => {

@@ -20,6 +20,18 @@ router.put("/api/updateConversation/:id/:userId",
 passport.authenticate("jwt", { session: false }),Message.updateConversation);
 
 /* Rutas Notificaciones */
+router.get('/api/notifications', (req, res) => {
+    res.render('api/notifications', {
+        style: '/css/user.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
+        style4: '/css/message.css',
+        js1: '/js/userHeader.js',
+        js2: '/js/notifications.js',
+        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    });
+})
+
 router.post("/api/createNotification",
 passport.authenticate("jwt", { session: false }),Message.createNotification);
 
@@ -36,6 +48,18 @@ router.delete("/api/deleteNotification/:id",
 passport.authenticate("jwt", { session: false }),Message.deleteNotification);
 
 /* Rutas Mensajes */
+router.get('/api/messages', (req, res) => {
+    res.render('api/messages', {
+        style: '/css/user.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
+        style4: '/css/message.css',
+        js1: '/js/userHeader.js',
+        js2: '/js/message.js',
+        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    });
+})
+
 router.post("/api/sendMessage",
 passport.authenticate("jwt", { session: false }),Message.createMessage);
 

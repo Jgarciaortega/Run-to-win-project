@@ -9,6 +9,30 @@ function clearNode(elemento) {
     }
 }
 
+// primera letra palabra mayuscula el resto en minusculas
+function modifyStyle(word) {
+
+    let newWord = '';
+    let char;
+    let words = word.split(' ');
+
+    for (let i = 0; i < words.length; i++) {
+
+        for (let y = 0; y < words[i].length; y++) {
+
+            char = words[i].charAt(y);
+
+            if (y == 0) char = ' ' + char.toUpperCase();
+            else char = char.toLowerCase();
+
+            newWord += char;
+        }
+    }
+
+    return newWord;
+}
+
+
 /* Funciones Servidor */
 async function postServer(url, data) {
 
@@ -69,14 +93,16 @@ async function findNewFriends() {
             for (friend of friends) {
 
                 const nameContainer = document.createElement('div');
-                nameContainer.classList.add('name');
+                nameContainer.classList.add('nameContainer');
                 nameContainer.setAttribute('data-id', friend.id);
                 nameContainer.addEventListener('click', requestFriendship);
                 mainContainer.appendChild(nameContainer);
 
                 const name = document.createElement('p');
                 name.classList.add('nameSearch')
-                name.innerHTML = friend.nombre + " " + friend.apellidos;
+                let newName = modifyStyle(friend.nombre);
+                let newSurname = modifyStyle(friend.apellidos);
+                name.innerHTML = newName + " " + newSurname;
                 nameContainer.appendChild(name);
 
             }
@@ -107,25 +133,29 @@ async function requestFriendship() {
 async function acceptFriendship() {
 
     const id_remitente = this.getAttribute('data-remitente');
+    const divRequest = document.getElementById(this.getAttribute('data-id'));
     const data = {
         id1: id_remitente,
         id2: user.id
     }
 
-    const response = await postServer('/user/createFriendship',data);
+    const response = await postServer('/user/createFriendship', data);
 
-    if(response.msg === 'Amistad creada'){
+    if (response == true) {
         alert('Ya sois amigos');
         await deleteNotification(this.getAttribute('data-id'));
         document.getElementById(this.getAttribute('data-id')).classList.add('noVisible');
-    } 
+        divRequest.classList.add('noVisible');
+    }
+
+
 }
 async function rejectFriendship() {
 
     const idRequest = this.getAttribute('data-id');
     const divRequest = document.getElementById(idRequest);
     const response = await deleteNotification(idRequest);
-   
+
     if (response.msg === 'borrada') alert('Petición rechazada')
 
     divRequest.classList.add('noVisible');
@@ -143,8 +173,8 @@ async function getFriendRequest() {
 
     for (notification of notifications) {
 
-        const friend = await getServer('/user/findById/'+ notification.id_remitente);
-     
+        const friend = await getServer('/user/findById/' + notification.id_remitente);
+
         const request = document.createElement('div');
         request.classList.add('request');
         request.setAttribute('id', notification.id);
@@ -167,10 +197,12 @@ async function getFriendRequest() {
         infoRequest.appendChild(userData);
 
         const name = document.createElement('p');
+        name.classList.add('name');
         name.innerHTML = friend.nombre + " " + friend.apellidos;
         userData.appendChild(name);
 
         const nickname = document.createElement('p');
+        nickname.classList.add('nickname');
         nickname.innerHTML = friend.nickname;
         userData.appendChild(nickname);
 
@@ -198,7 +230,7 @@ async function getFriendRequest() {
     }
 }
 
-async function deleteNotification(id){
+async function deleteNotification(id) {
 
     const response = await deleteServer('/api/deleteNotification/' + id);
     return response;

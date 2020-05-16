@@ -1,3 +1,74 @@
+/* MÉTODOS CONEXION SERVIDOR */
+async function putServer(url) {
+
+    let body = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    const res = await fetch(url, body);
+    const data = await res.json();
+
+    return data;
+
+}
+
+
+async function postServer(url, data) {
+
+    let body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+
+    const res1 = await fetch(url, body);
+    const res2 = await res1.json();
+
+    return res2;
+
+}
+
+async function deleteServer(url) {
+
+    let body = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const res = await fetch(url, body);
+    const data = await res.json();
+
+    return data;
+
+}
+
+async function getServer(url) {
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    return data;
+
+}
+/* FIN METODOS CONEXION SERVIDOR */
+
+/* Funciones Generales */
+function clearNode(elemento) {
+
+    if (elemento.hasChildNodes()) {
+
+        while (elemento.childNodes.length >= 1) {
+            elemento.removeChild(elemento.firstChild);
+        }
+    }
+}
 
 function fijarHeader() {
     // Get the header
@@ -12,6 +83,30 @@ function fijarHeader() {
         header.classList.remove("sticky");
     }
 }
+// primera letra palabra mayuscula el resto en minusculas
+function modifyStyle(word) {
+
+    let newWord = '';
+    let char;
+    let words = word.split(' ');
+
+    for (let i = 0; i < words.length; i++) {
+
+        for (let y = 0; y < words[i].length; y++) {
+
+            char = words[i].charAt(y);
+          
+            if (y == 0)  char = ' ' + char.toUpperCase();
+            else char = char.toLowerCase();
+
+            newWord += char;
+        }
+    }
+    
+    return newWord;
+}
+
+
 /* INICIO DRAG AND DROP */
 function allowDrop(ev) {
     ev.preventDefault();
@@ -56,6 +151,7 @@ function showWindowSend() {
 
 function closeNewMessage() {
     document.getElementById('newMessage').classList.add('noVisible');
+    document.querySelector('input[name="addressee"]').value = '';
 }
 
 function closeReplyMessage() {
@@ -91,6 +187,7 @@ async function sendMessageReply() {
             id_conversation,
             user
         };
+        
         // si se envia ok ...
         if (await postServer('/api/sendMessage', message)) {
             //recargamos todo el contenido
@@ -106,14 +203,15 @@ async function sendMessageReply() {
     }
 }
 
-async function createNewMessage(addressee, messageTxt) {
+async function createNewMessage() {
 
     // 1º obtenemos user que va a recibir el mensaje
-    const userAddresse = await getServer('/user/findByNickname/' + addressee);
-
+    const userAddresseId = this.getAttribute('data-id');
+    const messageTxt = document.querySelector('textarea[name="message"]').value;
+  
     // 2º creamos el objeto que generara la conversacion y la creamos
     const conversationData = {
-        id_user1: userAddresse.id,
+        id_user1: userAddresseId,
         id_user2: user.id
     }
 
@@ -123,7 +221,7 @@ async function createNewMessage(addressee, messageTxt) {
 
     //4º creamos objeto mensaje al cual incluimos el id de la conversacion generada
     const message = {
-        id_addressee: userAddresse.id,
+        id_addressee: userAddresseId,
         messageTxt,
         id_conversation,
         user
@@ -297,66 +395,96 @@ async function deleteConversation() {
 
 }
 
-/* MÉTODOS CONEXION SERVIDOR */
-async function putServer(url) {
+async function getFriends(relationships) {
 
-    let body = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
+    let localFriends = [];
+
+    for (relationship of relationships) {
+
+        let friend_id;
+        if (relationship.id1 == user.id) friend_id = relationship.id2;
+        else friend_id = relationship.id1;
+
+        let userFriend = await getServer('/user/findById/' + friend_id);
+        localFriends.push(userFriend);
+    }
+
+    // ordeno el listado alfabeticamente segun su atributo nombre
+    localFriends.sort(function (a, b) {
+        if (a.nombre > b.nombre) {
+            return 1;
         }
-    };
-    const res = await fetch(url, body);
-    const data = await res.json();
-
-    return data;
-
-}
-
-
-async function postServer(url, data) {
-
-    let body = {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
+        if (a.nombre < b.nombre) {
+            return -1;
         }
-    };
 
+        return 0;
+    })
 
-    const res1 = await fetch(url, body);
-    const res2 = await res1.json();
-
-    return res2;
-
+    return localFriends;
 }
 
-async function deleteServer(url) {
+function getNameAddressee(){
 
-    let body = {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
+    const para = document.querySelector('input[name="addressee"]');
+    const id_addressee = this.getAttribute('data-id');
+    const containerAddresse = document.getElementById('addresseFriend');
 
-    const res = await fetch(url, body);
-    const data = await res.json();
+    clearNode(containerAddresse);
+    containerAddresse.classList.add('noVisible');
+    para.value = this.value;
 
-    return data;
-
+    document.getElementById('btn-send').setAttribute('data-id',id_addressee);
+    
 }
 
-async function getServer(url) {
+function clearInput(){
 
-    const res = await fetch(url);
-    const data = await res.json();
+    const containerAddresse = document.getElementById('addresseFriend');
 
-    return data;
+    this.value = '';
+    clearNode(containerAddresse);
+}
+
+function showNameFriends() {
+
+    const containerAddresse = document.getElementById('addresseFriend');
+    const selectionAddresse = document.createElement('selection');
+    let letters = this.value.toUpperCase();
+
+    clearNode(containerAddresse);
+    containerAddresse.appendChild(selectionAddresse);
+
+    if (letters.length > 0) {
+
+        let friendsSearch = [];
+
+        friends.forEach(friend => {
+
+            if (friend.nombre.startsWith(letters)) friendsSearch.push(friend);
+        })
+
+        if (friendsSearch.length > 0) {
+
+            friendsSearch.forEach(friend => {
+
+                let name = document.createElement('option');
+                let newName = modifyStyle(friend.nombre);
+                let newSurname = modifyStyle(friend.apellidos);
+                name.innerHTML = newName + " " + newSurname;
+                name.classList.add('name');
+                name.setAttribute('data-id',friend.id);
+                name.addEventListener('click', getNameAddressee);
+                selectionAddresse.appendChild(name);
+            })
+
+            containerAddresse.classList.remove('noVisible');
+
+        } else containerAddresse.classList.add('noVisible');
+
+    } else containerAddresse.classList.add('noVisible');
 
 }
-/* FIN METODOS CONEXION SERVIDOR */
 
 async function init() {
 
@@ -367,14 +495,16 @@ async function init() {
     // 
     loadConversations();
 
+    // obtenemos los amigos del usuario
+    const relationships = await getServer('/user/getFriends/' + user.id);
+    friends = await getFriends(relationships);
+
     // Listeners ventana mensaje nuevo
-    document.getElementById('btn-send').addEventListener('click', function () {
-        createNewMessage(
-            document.querySelector('input[name="addressee"]').value,
-            document.querySelector('textarea[name="message"]').value)
-    });
+    document.getElementById('btn-send').addEventListener('click', createNewMessage);
     document.getElementById('close-newMsg').addEventListener('click', closeNewMessage);
     document.getElementById('btn-newMsg').addEventListener('click', showWindowSend);
+    document.querySelector('input[name="addressee"]').addEventListener('keyup', showNameFriends);
+    document.querySelector('input[name="addressee"]').addEventListener('click', clearInput);
 
     // Drag and drop listeners
     let newMessage = document.getElementById('newMessage');
@@ -387,6 +517,7 @@ async function init() {
 
 /* Variables globales */
 let user;
+let friends;
 
 
 window.addEventListener('load', init);

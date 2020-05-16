@@ -9,6 +9,8 @@ const optsCookie = {
     httpOnly: true,
 };
 
+/* VISTAS */
+
 router.get('/user/profile', passport.authenticate('jwt', { session: false }),
     (req, res) => {
         res.render('user/userProfile', {
@@ -20,30 +22,6 @@ router.get('/user/profile', passport.authenticate('jwt', { session: false }),
             chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
         });
     })
-
-router.get('/user/messages', (req, res) => {
-    res.render('user/messages', {
-        style: '/css/user.css',
-        style2: '/css/header.css',
-        style3: '/css/footer.css',
-        style4: '/css/message.css',
-        js1: '/js/userHeader.js',
-        js2: '/js/message.js',
-        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-    });
-})
-
-router.get('/user/notifications', (req, res) => {
-    res.render('user/notifications', {
-        style: '/css/user.css',
-        style2: '/css/header.css',
-        style3: '/css/footer.css',
-        style4: '/css/message.css',
-        js1: '/js/userHeader.js',
-        js2: '/js/notifications.js',
-        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-    });
-})
 
 router.get('/user/userConfiguration', (req, res) => {
     res.render('user/userConfiguration', {
@@ -88,6 +66,19 @@ router.get('/user/conecta', (req, res) => {
     });
 })
 
+
+router.get('/user/retos', (req, res) => {
+    res.render('user/retos', {
+        style: '/css/retos.css',
+        style2: '/css/header.css',
+        style3: '/css/footer.css',
+        js1: '/js/userHeader.js',
+        js2: '/js/retos.js',
+        chart: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    });
+})
+
+/* OTRAS RUTAS */
 router.post("/user/logIn", (req, res, next) => {
     passport.authenticate(
         "local-login",

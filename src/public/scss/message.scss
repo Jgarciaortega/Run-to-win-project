@@ -44,10 +44,10 @@
           display: flex;
           justify-content: space-between;
           background: url("../assets/img/pxgray.png");
-          .dateMsg{
+          .dateMsg {
             padding: 4px;
           }
-          .msgOptions{
+          .msgOptions {
             padding: 4px;
           }
         }
@@ -79,7 +79,8 @@
   border: 1px solid black;
   position: absolute;
   background-color: #ece7e2;
-
+  max-height: 257px;
+  min-width: 458px;
   #msg-top {
     display: flex;
     flex-direction: row;
@@ -100,35 +101,85 @@
 
   #optionsMessage {
     margin: 10px;
+    display: grid;
+    grid-template-areas: "soloyo";
+
+    #para,
+    #addresseFriend,
+    #msg-txt,
+    #btns {
+      grid-area: soloyo;
+    }
+
     #para {
+      align-self: flex-start;
       display: grid;
       grid-template-columns: 1fr 9fr;
       margin-right: 2%;
       margin-top: 4%;
+      z-index: 1;
       input {
         margin-left: 29px;
         margin-bottom: 14px;
       }
     }
+
+    #addresseFriend {
+      margin-top: 8.8%;
+      margin-left: 16%;
+      border: 1px solid black;
+      background-color: white;
+      width: 80.5%;
+      z-index: 1;
+      padding-left: 4px;
+      overflow-y: scroll;
+     height: 23%;
+
+      selection{
+        display: flex;
+        flex-direction: column;
+      }
+      .name:first-child{
+        padding-top: 11px;
+      }
+      .name{
+        margin: 7px 0px;
+      }
+      
+      .name:hover {
+        background-color: rgb(223, 223, 223);
+      }
+    }
+
     #msg-txt {
+      align-self: stretch;
+      margin-top: 56px;
       display: grid;
       grid-template-columns: 1fr 6fr;
       margin-right: 2%;
+      margin-bottom: 31px;
+      max-height: 120px;
       textarea {
         margin-left: 5px;
       }
     }
+    #btns {
+      align-self: stretch;
+      margin-left: 2px;
+      margin-top: 179px;
+      #btn-send {
+        font-size: 15px;
+        color: white;
+        margin-right: 1%;
 
-    #btn-send {
-      font-size: 15px;
-      align-self: flex-end;
-      color: white;
-      margin-right: 1%;
-      height: 19%;
-      background-color: #fa8574;
-      padding: 1% 2%;
+        background-color: #fa8574;
+        padding: 1% 2%;
+      }
     }
   }
 }
 
 /* Clases Generales */
+.noVisible {
+  display: none !important;
+}

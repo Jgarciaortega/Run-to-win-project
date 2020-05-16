@@ -9,6 +9,29 @@ function clearNode(elemento) {
     }
 }
 
+// primera letra palabra mayuscula el resto en minusculas
+function modifyStyle(word) {
+
+    let newWord = '';
+    let char;
+    let words = word.split(' ');
+
+    for (let i = 0; i < words.length; i++) {
+
+        for (let y = 0; y < words[i].length; y++) {
+
+            char = words[i].charAt(y);
+          
+            if (y == 0) char.toUpperCase();
+            else char = char.toLowerCase();
+
+            newWord += char;
+        }
+    }
+    
+    return newWord;
+}
+
 
 /* Funciones Servidor */
 async function postServer(url, data) {
@@ -70,8 +93,7 @@ async function loadFriends(userFriends) {
 
     const mainContainer = document.getElementById('containerFriends');
     clearNode(mainContainer);
-    console.log(userFriends);
-
+   
     for (userFriend of userFriends) {
 
         const contentFriend = document.createElement('div');
@@ -99,11 +121,12 @@ async function loadFriends(userFriends) {
         const buttons = document.createElement('div');
         buttons.classList.add('sendButton')
         contentFriend.appendChild(buttons);
-
+        
         const sendMsg = document.createElement('button');
         sendMsg.innerHTML = 'Enviar mensaje';
         sendMsg.setAttribute('data-id', userFriend.id);
-        sendMsg.setAttribute('nickname', userFriend.nickname);
+        sendMsg.setAttribute('name', userFriend.nombre);
+        sendMsg.setAttribute('surname', userFriend.apellidos);
         sendMsg.addEventListener('click', sendMessage);
         buttons.appendChild(sendMsg);
     }
@@ -128,7 +151,11 @@ function sendMessage() {
 
     //3º Destinatario mensaje
     const para = document.querySelector('input[name="addressee"]');
-    para.value = this.getAttribute('nickname');
+    let name = this.getAttribute('name');
+    let surname = this.getAttribute('surname');
+    name = modifyStyle(name);
+    surname = modifyStyle(surname);
+    para.value = name + " " + surname;
     para.setAttribute('readonly', true);
     document.getElementById('btn-send').setAttribute('data-id', this.getAttribute('data-id'));
 

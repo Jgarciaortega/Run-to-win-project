@@ -72,6 +72,8 @@
   border: 1px solid black;
   position: absolute;
   background-color: #ece7e2;
+  max-height: 257px;
+  min-width: 458px;
 }
 #newMessage #msg-top {
   display: flex;
@@ -92,35 +94,79 @@
 }
 #newMessage #optionsMessage {
   margin: 10px;
+  display: grid;
+  grid-template-areas: "soloyo";
+}
+#newMessage #optionsMessage #para,
+#newMessage #optionsMessage #addresseFriend,
+#newMessage #optionsMessage #msg-txt,
+#newMessage #optionsMessage #btns {
+  grid-area: soloyo;
 }
 #newMessage #optionsMessage #para {
+  align-self: flex-start;
   display: grid;
   grid-template-columns: 1fr 9fr;
   margin-right: 2%;
   margin-top: 4%;
+  z-index: 1;
 }
 #newMessage #optionsMessage #para input {
   margin-left: 29px;
   margin-bottom: 14px;
 }
+#newMessage #optionsMessage #addresseFriend {
+  margin-top: 8.8%;
+  margin-left: 16%;
+  border: 1px solid black;
+  background-color: white;
+  width: 80.5%;
+  z-index: 1;
+  padding-left: 4px;
+  overflow-y: scroll;
+  height: 23%;
+}
+#newMessage #optionsMessage #addresseFriend selection {
+  display: flex;
+  flex-direction: column;
+}
+#newMessage #optionsMessage #addresseFriend .name:first-child {
+  padding-top: 11px;
+}
+#newMessage #optionsMessage #addresseFriend .name {
+  margin: 7px 0px;
+}
+#newMessage #optionsMessage #addresseFriend .name:hover {
+  background-color: #dfdfdf;
+}
 #newMessage #optionsMessage #msg-txt {
+  align-self: stretch;
+  margin-top: 56px;
   display: grid;
   grid-template-columns: 1fr 6fr;
   margin-right: 2%;
+  margin-bottom: 31px;
+  max-height: 120px;
 }
 #newMessage #optionsMessage #msg-txt textarea {
   margin-left: 5px;
 }
-#newMessage #optionsMessage #btn-send {
+#newMessage #optionsMessage #btns {
+  align-self: stretch;
+  margin-left: 2px;
+  margin-top: 179px;
+}
+#newMessage #optionsMessage #btns #btn-send {
   font-size: 15px;
-  align-self: flex-end;
   color: white;
   margin-right: 1%;
-  height: 19%;
   background-color: #fa8574;
   padding: 1% 2%;
 }
 
 /* Clases Generales */
+.noVisible {
+  display: none !important;
+}
 
 /*# sourceMappingURL=message.css.map */
