@@ -1,3 +1,67 @@
+/*VARIABLES*/
+:root {
+  --bg--error: rgb(197, 0, 0);
+  --bg--red: #d91a1a;
+  --bg--gray: #404040;
+  --bg--orange: #f27405;
+  --bg--strava: #f9511c;
+}
 
+#mainContent {
+  margin-top: 45px;
+  width: 900px;
+  margin: 0px auto;
+  min-height: 590px;
+}
+#mainContent #headerRetos {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px solid black;
+  justify-content: space-between;
+  height: 55px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+#mainContent .reto {
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: 1.5fr 4fr 2fr;
+  margin: 1%;
+}
+#mainContent .reto .retoName {
+  padding: 1% 2%;
+  font-size: large;
+  border-right: 1px solid black;
+  text-align: center;
+}
+#mainContent .reto #diezK {
+  background-color: rgba(36, 242, 33, 0.2);
+}
+#mainContent .reto #media {
+  background-color: rgba(217, 217, 98, 0.2);
+}
+#mainContent .reto #marathon {
+  background-color: rgba(217, 158, 98, 0.3);
+}
+#mainContent .reto #trail {
+  background-color: rgba(255, 99, 132, 0.2);
+}
+#mainContent .reto .infoReto li {
+  list-style: square;
+}
+#mainContent .reto .btnsReto {
+  display: flex;
+}
+#mainContent .reto .btnsReto button {
+  align-self: flex-end;
+  margin-bottom: 5%;
+  border-radius: 5px;
+  font-size: 15px;
+  align-self: flex-end;
+  color: white;
+  background-color: var(--bg--gray);
+  min-height: 31px;
+  margin-left: 32%;
+}
 
 /*# sourceMappingURL=retos.css.map */

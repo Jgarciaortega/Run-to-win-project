@@ -66,6 +66,33 @@ function parseDate(date) {
     return newFormat;
 }
 
+/* Funciones Servidor */
+async function postServer(url, data) {
+
+    let body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const res1 = await fetch(url, body);
+    const res2 = await res1.json();
+
+    return res2;
+
+}
+
+async function getServer(url) {
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    return data;
+
+}
+
 
 /* Funciones de gráficos */
 
@@ -327,32 +354,7 @@ function parseDataIMC(data, backgroundColor, borderColor, labels) {
     return data;
 }
 
-/* Funciones Servidor */
-async function postServer(url, data) {
 
-    let body = {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    const res1 = await fetch(url, body);
-    const res2 = await res1.json();
-
-    return res2;
-
-}
-
-async function getServer(url) {
-
-    const res = await fetch(url);
-    const data = await res.json();
-
-    return data;
-
-}
 
 /* Funciones Datos del Usuario*/
 
@@ -675,7 +677,6 @@ async function muestraRutina() {
             }
 
         }
-
     }
 }
 

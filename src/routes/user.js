@@ -115,6 +115,7 @@ router.post('/user/createUser', User.createUser);
 router.post('/user/existEmail', User.existEmail);
 router.post('/user/existNickname', User.existNickname);
 router.put('/user/updateUser/:id', User.updateUser);
+router.put('/user/saveChallenge/:id/:challenge', User.saveChallenge);
 
 
 module.exports = router;

@@ -146,6 +146,17 @@ exports.getFriends = async (req, res) => {
 
 }
 
+exports.saveChallenge = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const sql = 'UPDATE usuario set reto="' + req.params.challenge + '" WHERE id=' + req.params.id;
+    const rows = await connection.execute(sql);
+
+    if(rows[0].affectedRows > 0) res.send(true);
+    else res.send(false);
+    
+}
+
 const parseUser = results => {
 
     let user = {
@@ -167,7 +178,8 @@ const parseUser = results => {
         tension_baja: results.tension_baja,
         sexo: results.sexo,
         edad: results.edad,
-        puntuacion: results.puntuacion
+        puntuacion: results.puntuacion,
+        reto: results.reto
     };
 
     return user;

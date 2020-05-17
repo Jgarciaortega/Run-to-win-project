@@ -223,6 +223,7 @@ function modifyField(elements) {
 
 function loadInfoUser(user) {
 
+
     document.querySelector('input[name="nombre"]').value = user.nombre;
     document.querySelector('input[name="apellidos"]').value = user.apellidos;
     document.querySelector('input[name="nickname"]').value = user.nickname;
@@ -231,6 +232,7 @@ function loadInfoUser(user) {
     document.querySelector('input[name="peso"]').value = user.peso;
     if (user.altura != null) document.querySelector('input[name="altura"]').value = user.altura.toFixed(2);
     document.querySelector('input[name="pulsaciones_reposo"]').value = user.pulsaciones;
+    document.querySelector('input[name="challenge"]').value = user.reto;
     document.querySelector('input[name="puntuacion"]').value = user.puntuacion;
     document.querySelector('input[name="status"]').value = user.status;
     document.querySelector('option[value="' + user.sexo + '"]').setAttribute('selected', 'true');
