@@ -37,7 +37,6 @@ body {
   background-color: #ececec;
 }
 
-
 /* Contenido */
 #mainContent {
   margin-top: 45px;
@@ -257,16 +256,47 @@ body {
     margin-bottom: 3%;
   }
 
-  #btnPersonalData {
-    margin-top: 11%;
+  #foto {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  label[for="foto"] {
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+    background-color:var(--bg--gray);
+    display: inline-block;
+    transition: all 0.5s;
+    cursor: pointer;
+    padding: 7px 40px !important;
+    text-transform: uppercase;
+    text-align: center;
     border-radius: 5px;
-    width: 23%;
-    height: 28px;
-    font-size: 15px;
-    background-color: #404040;
-    color: white;
-    border: 1px dashed #404040;
-    margin-left: 57%;
+    .fa-upload {
+      color: #fff;
+      margin-right: 3%;
+      margin-bottom: 1%;
+    }
+  }
+
+  #btnPersonalData {
+    margin-top: 20%;
+    border-radius: 5px;
+    width: 41%;
+    height: 32px;
+    font-size: 14px;
+    background-color: #106ba0;
+    color: #fff;
+    border: 1px dashed  #106ba0;
+    margin-left: 40%;
+    .fa-save{
+      color: #fff;
+      margin-right: 4%;
+    }
   }
 }
 

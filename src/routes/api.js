@@ -6,18 +6,22 @@ const Message = require('../controllers/messages.controllers');
 const Rutine = require('../controllers/rutines.controllers');
 const Training = require('../controllers/trainings.controllers');
 
-/* Rutas Conversaciones */ 
+
+/* Rutas Subir Archivos */
+router.post('/api/uploadPhoto', Message.uploadPhoto);
+
+/* Rutas Conversaciones */
 router.post("/api/createConversation",
-passport.authenticate("jwt", { session: false }),Message.createConversation);
+    passport.authenticate("jwt", { session: false }), Message.createConversation);
 
 router.get("/api/getConversation/:id",
-passport.authenticate("jwt", { session: false }),Message.getConversation);
+    passport.authenticate("jwt", { session: false }), Message.getConversation);
 
 router.get("/api/countConversations/:id",
-passport.authenticate("jwt", { session: false }),Message.countConversations);
+    passport.authenticate("jwt", { session: false }), Message.countConversations);
 
 router.put("/api/updateConversation/:id/:userId",
-passport.authenticate("jwt", { session: false }),Message.updateConversation);
+    passport.authenticate("jwt", { session: false }), Message.updateConversation);
 
 /* Rutas Notificaciones */
 router.get('/api/notifications', (req, res) => {
@@ -33,19 +37,19 @@ router.get('/api/notifications', (req, res) => {
 })
 
 router.post("/api/createNotification",
-passport.authenticate("jwt", { session: false }),Message.createNotification);
+    passport.authenticate("jwt", { session: false }), Message.createNotification);
 
 router.get("/api/countNotifications/:id",
-passport.authenticate("jwt", { session: false }),Message.countNotifications);
+    passport.authenticate("jwt", { session: false }), Message.countNotifications);
 
 router.get("/api/getNotifications/:id",
-passport.authenticate("jwt", { session: false }),Message.getNotifications);
+    passport.authenticate("jwt", { session: false }), Message.getNotifications);
 
 router.get("/api/getNotificationsByType/:id/:tipo",
-passport.authenticate("jwt", { session: false }),Message.getNotificationByType);
+    passport.authenticate("jwt", { session: false }), Message.getNotificationByType);
 
 router.delete("/api/deleteNotification/:id",
-passport.authenticate("jwt", { session: false }),Message.deleteNotification);
+    passport.authenticate("jwt", { session: false }), Message.deleteNotification);
 
 /* Rutas Mensajes */
 router.get('/api/messages', (req, res) => {
@@ -61,18 +65,17 @@ router.get('/api/messages', (req, res) => {
 })
 
 router.post("/api/sendMessage",
-passport.authenticate("jwt", { session: false }),Message.createMessage);
+    passport.authenticate("jwt", { session: false }), Message.createMessage);
 
 router.get("/api/getMessages/:id",
-passport.authenticate("jwt", { session: false }),Message.getMessages);
+    passport.authenticate("jwt", { session: false }), Message.getMessages);
 
 /* Rutas Rutinas */
 router.get("/api/rutine/:id",
-passport.authenticate("jwt", { session: false }),Rutine.findRutineById);
+    passport.authenticate("jwt", { session: false }), Rutine.findRutineById);
 
 /* Rutas Informes Entrenamiento */
 router.get("/api/getTraining/:id",
-passport.authenticate("jwt", { session: false }),Training.getTraining);
-
+    passport.authenticate("jwt", { session: false }), Training.getTraining);
 
 module.exports = router;

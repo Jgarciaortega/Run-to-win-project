@@ -1,5 +1,7 @@
 const model = require('../model/model');
 const { format } = require('timeago.js');
+const multer = require('multer');
+const path = require('path');
 
 exports.createNotification = async (req, res) => {
     const connection = await model.getConnection(); 
@@ -146,6 +148,25 @@ exports.getNotificationByType = async (req, res) => {
     parseDate(rows);
     res.send(rows);
 }
+
+/* Upload Image */
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './src/public/assets/user_photos')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage });
+
+exports.uploadPhoto = upload.single('file'), (req, res) => {
+
+    console.log(`Storage location is ${req.hostname}/${req.file.path}`);
+    res.send(req.file);
+
+}
+
 
 const parseDate = (rows) => {
     rows.forEach(row => {

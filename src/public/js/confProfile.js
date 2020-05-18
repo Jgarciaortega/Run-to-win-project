@@ -14,6 +14,24 @@ async function putServer(url, newValue) {
     return data;
 }
 
+async function postServer(url, data) {
+
+    let body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const res1 = await fetch(url, body);
+    const res2 = await res1.json();
+
+    return res2;
+
+}
+
+
 /* Funciones Validacion Campos */
 function validEmail(email) {
 
@@ -45,7 +63,7 @@ function validSex(sexo) {
 function validAge(edad) {
 
     let isValid = true;
- 
+
     if (edad.value == '') {
 
         showError(edad.getAttribute('name'), 'Debe rellenar este campo');
@@ -133,10 +151,10 @@ function validPulsations(pulsaciones) {
 
 function deleteErrorMsg() {
 
-    let nameElement = 'error-' + this.getAttribute('id');
-    let errorElement = document.getElementById(nameElement);
-    errorElement.innerHTML = '';
-    this.classList.remove('error');
+    // let nameElement = 'error-' + this.getAttribute('id');
+    // let errorElement = document.getElementById(nameElement);
+    // errorElement.innerHTML = '';
+    // this.classList.remove('error');
 }
 
 function showError(inputName, message) {
@@ -160,7 +178,19 @@ function showError(inputName, message) {
     }
 }
 
-function saveChanges() {
+function showFileName() {
+
+    const parts = this.value.split('\\');
+    const fileName = parts[parts.length - 1];
+
+    document.querySelector('label[for="foto"]').innerHTML = fileName;
+
+    // console.log(this.files);
+    
+}
+
+
+async function saveChanges() {
 
     let elements = [];
     let validationOk = true;
@@ -171,6 +201,7 @@ function saveChanges() {
     const peso = document.querySelector('input[name="peso"]');
     const altura = document.querySelector('input[name="altura"]');
     const pulsaciones = document.querySelector('input[name="pulsaciones_reposo"]');
+    const filePhoto = document.querySelector('input[name="foto"]').files;
 
     if (validSex(sexo)) elements.push(sexo);
     else validationOk = false;
@@ -192,6 +223,25 @@ function saveChanges() {
 
     if (validationOk) modifyField(elements);
 
+    if(filePhoto.length > 0){
+
+        let formData = new FormData();
+        formData.append('file', filePhoto[0]);
+       
+        let body = {
+            method: 'POST',
+            body: formData
+           
+        };
+    
+        const res1 = await fetch('/api/uploadPhoto', body);
+        const res2 = await res1.json();
+
+        console.log(res2);
+        
+        
+    }
+    
 }
 
 function modifyField(elements) {
@@ -221,21 +271,43 @@ function modifyField(elements) {
 
 }
 
+// primera letra palabra mayuscula el resto en minusculas
+function modifyStyle(word) {
+
+    let newWord = '';
+    let char;
+    let words = word.split(' ');
+
+    for (let i = 0; i < words.length; i++) {
+
+        for (let y = 0; y < words[i].length; y++) {
+
+            char = words[i].charAt(y);
+
+            if (y == 0) char = ' ' + char.toUpperCase();
+            else char = char.toLowerCase();
+
+            newWord += char;
+        }
+    }
+
+    return newWord;
+}
+
 function loadInfoUser(user) {
 
-
-    document.querySelector('input[name="nombre"]').value = user.nombre;
-    document.querySelector('input[name="apellidos"]').value = user.apellidos;
-    document.querySelector('input[name="nickname"]').value = user.nickname;
+    document.querySelector('input[name="nombre"]').value = modifyStyle(user.nombre);
+    document.querySelector('input[name="apellidos"]').value = modifyStyle(user.apellidos);
+    document.querySelector('input[name="nickname"]').value = modifyStyle(user.nickname);
     document.querySelector('input[name="edad"]').value = user.edad;
     document.querySelector('input[name="email"]').value = user.email;
     document.querySelector('input[name="peso"]').value = user.peso;
     if (user.altura != null) document.querySelector('input[name="altura"]').value = user.altura.toFixed(2);
     document.querySelector('input[name="pulsaciones_reposo"]').value = user.pulsaciones;
-    document.querySelector('input[name="challenge"]').value = user.reto;
+    document.querySelector('input[name="challenge"]').value = modifyStyle(user.reto);
     document.querySelector('input[name="puntuacion"]').value = user.puntuacion;
-    document.querySelector('input[name="status"]').value = user.status;
-    document.querySelector('option[value="' + user.sexo + '"]').setAttribute('selected', 'true');
+    document.querySelector('input[name="status"]').value = modifyStyle(user.status);
+    if (user.sexo != null) document.querySelector('option[value="' + user.sexo + '"]').setAttribute('selected', 'true');
 
 }
 
@@ -253,6 +325,8 @@ async function init() {
         element.addEventListener('blur', deleteErrorMsg);
     })
     document.getElementById('sexo').addEventListener('blur', deleteErrorMsg);
+
+    document.querySelector('input[name="foto"]').addEventListener('change', showFileName);
 
     // listener save changes
     document.getElementById('btnPersonalData').addEventListener('click', saveChanges);
