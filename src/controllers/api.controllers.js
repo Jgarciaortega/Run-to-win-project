@@ -1,8 +1,7 @@
 const model = require('../model/model');
 const { format } = require('timeago.js');
-const multer = require('multer');
-const path = require('path');
 
+/* Messages Metods */
 exports.createNotification = async (req, res) => {
     const connection = await model.getConnection(); 
     const data = [req.body.contenido , req.body.id_destinatario,  req.body.tipo , req.body.id_remitente];
@@ -40,6 +39,7 @@ exports.getMessages = async (req, res) => {
 
 }
 
+/* Conversation Metods */
 exports.createConversation = async (req, res) => {
     const connection = await model.getConnection();
     const data = [req.body.id_user1, req.body.id_user2];
@@ -106,6 +106,7 @@ exports.countConversations = async (req, res) => {
     res.send(rows[0]);
 }
 
+/* Notification Metods */
 exports.deleteNotification = async (req, res) => {
 
     const connection = await model.getConnection();
@@ -150,22 +151,38 @@ exports.getNotificationByType = async (req, res) => {
 }
 
 /* Upload Image */
-let storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './src/public/assets/user_photos')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
-const upload = multer({ storage });
-
-exports.uploadPhoto = upload.single('file'), (req, res) => {
+exports.uploadPhoto = (req, res) => {
 
     console.log(`Storage location is ${req.hostname}/${req.file.path}`);
     res.send(req.file);
 
 }
+
+/* Rutines Metods */
+exports.findRutineById = async (req, res) => {
+    const connection = await model.getConnection();
+    const [
+        rows,
+    ] =
+        await connection.execute("SELECT * FROM `rutinas_ejercicios` WHERE `id` = ?", [req.params.id]);
+    connection.end();
+  
+    if (rows.length) {
+        return res.send(rows[0]);       
+    }
+    return { out: false }; 
+}
+
+/* Training Metods */
+exports.getTraining = async (req, res) => {
+    const connection = await model.getConnection();
+    const sql = "SELECT * from registros_entrenamiento WHERE id_usuario=" + req.params.id;
+    const [rows] = await connection.execute(sql);
+
+    if (rows.length) res.send(rows);
+    else res.send(false);
+
+};
 
 
 const parseDate = (rows) => {

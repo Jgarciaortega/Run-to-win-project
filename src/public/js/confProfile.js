@@ -31,6 +31,24 @@ async function postServer(url, data) {
 
 }
 
+async function uploadServer(url, file){
+
+    let formData = new FormData();
+    formData.append('file', file);
+   
+    let body = {
+        method: 'POST',
+        body: formData
+       
+    };
+
+    const res1 = await fetch('/api/uploadPhoto', body);
+    const res2 = await res1.json();
+
+    return res2;
+
+}
+
 
 /* Funciones Validacion Campos */
 function validEmail(email) {
@@ -180,13 +198,13 @@ function showError(inputName, message) {
 
 function showFileName() {
 
-    const parts = this.value.split('\\');
-    const fileName = parts[parts.length - 1];
+    let parts = this.value.split('\\');
+    let fileName = parts[parts.length - 1];
+
+    fileName = fileName.toLowerCase();
 
     document.querySelector('label[for="foto"]').innerHTML = fileName;
 
-    // console.log(this.files);
-    
 }
 
 
@@ -201,7 +219,7 @@ async function saveChanges() {
     const peso = document.querySelector('input[name="peso"]');
     const altura = document.querySelector('input[name="altura"]');
     const pulsaciones = document.querySelector('input[name="pulsaciones_reposo"]');
-    const filePhoto = document.querySelector('input[name="foto"]').files;
+    const filePhoto = document.querySelector('input[name="foto"]');
 
     if (validSex(sexo)) elements.push(sexo);
     else validationOk = false;
@@ -223,23 +241,20 @@ async function saveChanges() {
 
     if (validationOk) modifyField(elements);
 
-    if(filePhoto.length > 0){
+    if(filePhoto.files.length > 0){
 
-        let formData = new FormData();
-        formData.append('file', filePhoto[0]);
-       
-        let body = {
-            method: 'POST',
-            body: formData
-           
-        };
-    
-        const res1 = await fetch('/api/uploadPhoto', body);
-        const res2 = await res1.json();
+        const res = await uploadServer('/api/uploadPhoto',filePhoto.files[0]);
 
+        const data = {
+            name: 'imagen',
+            value: '"/assets/user_photos/' + res.filename + '"'
+        }
+
+        console.log(data);
+        
+        const res2 = await putServer('/user/updateUser/' + user.id, data);
         console.log(res2);
-        
-        
+            
     }
     
 }

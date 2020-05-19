@@ -1,27 +1,36 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const multer = require('multer');
+const path = require('path');
 
-const Message = require('../controllers/messages.controllers');
-const Rutine = require('../controllers/rutines.controllers');
-const Training = require('../controllers/trainings.controllers');
-
+const Api = require('../controllers/api.controllers');
 
 /* Rutas Subir Archivos */
-router.post('/api/uploadPhoto', Message.uploadPhoto);
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './src/public/assets/user_photos')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage });
+router.post('/api/uploadPhoto',
+passport.authenticate("jwt", { session: false }), upload.single('file'), Api.uploadPhoto);
 
 /* Rutas Conversaciones */
 router.post("/api/createConversation",
-    passport.authenticate("jwt", { session: false }), Message.createConversation);
+    passport.authenticate("jwt", { session: false }), Api.createConversation);
 
 router.get("/api/getConversation/:id",
-    passport.authenticate("jwt", { session: false }), Message.getConversation);
+    passport.authenticate("jwt", { session: false }), Api.getConversation);
 
 router.get("/api/countConversations/:id",
-    passport.authenticate("jwt", { session: false }), Message.countConversations);
+    passport.authenticate("jwt", { session: false }), Api.countConversations);
 
 router.put("/api/updateConversation/:id/:userId",
-    passport.authenticate("jwt", { session: false }), Message.updateConversation);
+    passport.authenticate("jwt", { session: false }), Api.updateConversation);
 
 /* Rutas Notificaciones */
 router.get('/api/notifications', (req, res) => {
@@ -37,19 +46,19 @@ router.get('/api/notifications', (req, res) => {
 })
 
 router.post("/api/createNotification",
-    passport.authenticate("jwt", { session: false }), Message.createNotification);
+    passport.authenticate("jwt", { session: false }), Api.createNotification);
 
 router.get("/api/countNotifications/:id",
-    passport.authenticate("jwt", { session: false }), Message.countNotifications);
+    passport.authenticate("jwt", { session: false }), Api.countNotifications);
 
 router.get("/api/getNotifications/:id",
-    passport.authenticate("jwt", { session: false }), Message.getNotifications);
+    passport.authenticate("jwt", { session: false }), Api.getNotifications);
 
 router.get("/api/getNotificationsByType/:id/:tipo",
-    passport.authenticate("jwt", { session: false }), Message.getNotificationByType);
+    passport.authenticate("jwt", { session: false }), Api.getNotificationByType);
 
 router.delete("/api/deleteNotification/:id",
-    passport.authenticate("jwt", { session: false }), Message.deleteNotification);
+    passport.authenticate("jwt", { session: false }), Api.deleteNotification);
 
 /* Rutas Mensajes */
 router.get('/api/messages', (req, res) => {
@@ -65,17 +74,17 @@ router.get('/api/messages', (req, res) => {
 })
 
 router.post("/api/sendMessage",
-    passport.authenticate("jwt", { session: false }), Message.createMessage);
+    passport.authenticate("jwt", { session: false }), Api.createMessage);
 
 router.get("/api/getMessages/:id",
-    passport.authenticate("jwt", { session: false }), Message.getMessages);
+    passport.authenticate("jwt", { session: false }), Api.getMessages);
 
 /* Rutas Rutinas */
 router.get("/api/rutine/:id",
-    passport.authenticate("jwt", { session: false }), Rutine.findRutineById);
+    passport.authenticate("jwt", { session: false }), Api.findRutineById);
 
 /* Rutas Informes Entrenamiento */
 router.get("/api/getTraining/:id",
-    passport.authenticate("jwt", { session: false }), Training.getTraining);
+    passport.authenticate("jwt", { session: false }), Api.getTraining);
 
 module.exports = router;
