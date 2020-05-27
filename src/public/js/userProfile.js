@@ -1,5 +1,67 @@
 /* Funciones Generales */
 
+async function showSlide() {
+
+    let slides = document.getElementsByClassName("race");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].classList.add('noVisible')
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1 }
+    slides[slideIndex - 1].classList.remove('noVisible')
+    slideTime = setTimeout(function () { showSlide() }, 5000);
+}
+
+function changeSlide() {
+
+    let slides = document.getElementsByClassName("race");
+    let indexSlideVisible;
+
+    for (let i = 0; i < slides.length; i++) {
+
+        if (!slides[i].classList.contains('noVisible')) indexSlideVisible = i;
+
+    }
+    if (this.className == 'prev') {
+
+        if (indexSlideVisible == 0) {
+
+            slides[indexSlideVisible].classList.add('noVisible');
+            slides[2].classList.remove('noVisible');
+            slideIndex = 2;
+
+        } else {
+
+            slides[indexSlideVisible].classList.add('noVisible');
+            slides[indexSlideVisible - 1].classList.remove('noVisible');
+            slideIndex = indexSlideVisible - 1;
+
+        }
+    }
+
+    if (this.className == 'next') {
+
+        if (indexSlideVisible == 2) {
+
+            slides[indexSlideVisible].classList.add('noVisible');
+            slides[0].classList.remove('noVisible');
+            slideIndex = 0;
+
+        } else {
+
+            slides[indexSlideVisible].classList.add('noVisible');
+            slides[indexSlideVisible + 1].classList.remove('noVisible');
+            slideIndex = indexSlideVisible + 1;
+
+        }
+    }
+
+}
+
+function stopTimeOut(timeout) {
+    clearTimeout(timeout);
+}
+
 function clearLeftNav() {
 
     const nav = document.getElementById('leftMenu');
@@ -332,13 +394,9 @@ function parseDataTraining(data, backgroundColor, borderColor, labels) {
         }],
         borderWidth: 1
     }
-
-
     return data;
 
 }
-
-
 
 function parseDataIMC(data, backgroundColor, borderColor, labels) {
 
@@ -353,8 +411,6 @@ function parseDataIMC(data, backgroundColor, borderColor, labels) {
 
     return data;
 }
-
-
 
 /* Funciones Datos del Usuario*/
 
@@ -394,9 +450,9 @@ async function getTraining() {
     return await getServer(url);
 }
 
-async function loadRutine(id_rutina) {
+async function loadRutine(id) {
 
-    const url = '/api/rutine/' + id_rutina;
+    const url = '/api/findRutineById/' + id;
     const actividades = await getServer(url);
 
     return actividades;
@@ -404,9 +460,9 @@ async function loadRutine(id_rutina) {
 }
 
 /* Funciones Left Nav */
-function muestraInicio() {
+async function muestraInicio() {
 
-    // borramos primero si hay algun element del nav seleccionado
+    //borramos primero si hay algun element del nav seleccionado
     clearLeftNav();
 
     /*marcamos el item del nav como seleccionado*/
@@ -432,12 +488,64 @@ function muestraInicio() {
     textPortada.innerHTML = 'INICIO';
     inicioContainer.appendChild(textPortada);
 
+    //cargamos menu inicio
+    const dataContainer = document.createElement('div');
+    dataContainer.classList.add('subMenu');
+    dataContainer.setAttribute('id', 'mainInicio');
+    mainContainer.appendChild(dataContainer);
+
+    const infoRaces = document.createElement('div');
+    infoRaces.setAttribute('id', 'infoRaces');
+    dataContainer.appendChild(infoRaces);
+
+    const titleRaces = document.createElement('h2');
+    titleRaces.innerHTML = 'Inscríbete en las próximas carreras';
+    infoRaces.appendChild(titleRaces);
+
+    // slide imagenes
+    const fotos = ['../assets/img/valencia-marathon.jpg', '../assets/img/sevilla-marathon.jpg', '../assets/img/madrid-marathon.jpg'];
+    const nameRaces = ['Maratón Valencia Trinidad Alfonso EDP', 'Zurich Maratón Sevilla', 'Rock & Roll Maratón Madrid'];
+    for (let i = 0; i < fotos.length; i++) {
+
+        const race = document.createElement('div');
+        race.classList.add('race', 'noVisible');
+        infoRaces.appendChild(race);
+
+        const imgRace = document.createElement('img');
+        imgRace.setAttribute('src', fotos[i]);
+        imgRace.classList.add('imgRace');
+        race.appendChild(imgRace);
+
+        const text = document.createElement('div');
+        text.classList.add('text');
+        text.innerHTML = nameRaces[i];
+        race.appendChild(text);
+
+    }
+
+    const prev = document.createElement('a');
+    prev.classList.add('prev');
+    prev.addEventListener('click', changeSlide);
+    prev.innerHTML = '&#10094;';
+    infoRaces.appendChild(prev);
+
+    const next = document.createElement('a');
+    next.classList.add('next');
+    next.addEventListener('click', changeSlide);
+    next.innerHTML = '&#10095;';
+    infoRaces.appendChild(next);
+
+    clearTimeout(slideTime);
+    showSlide();
+
 }
 
 async function muestraInforme() {
 
     // borramos primero si hay algun element del nav seleccionado
     clearLeftNav();
+    // y paramos el settimeout del carrousel menu inicio
+    clearTimeout(slideTime);
     // marcamos el item del nav como seleccionado
     this.classList.add('itemNavSelected');
 
@@ -463,29 +571,32 @@ async function muestraInforme() {
     // obtenemos entrenamientos
     const data = await getTraining();
 
+    // contenido informes
+    const training = document.createElement('div');
+    dataContainer.appendChild(training);
+
+    const headerTraining = document.createElement('div');
+    headerTraining.classList.add('headerSubMenus');
+    training.appendChild(headerTraining);
+
+    const titleTraining = document.createElement('p');
+    titleTraining.innerHTML = 'Tus últimos entrenamientos';
+    headerTraining.appendChild(titleTraining);
+
+    const dataTraining = document.createElement('div');
+    dataTraining.classList.add('contenidoSubMenu');
+    training.appendChild(dataTraining);
+
     // si no hay entrenamientos...
     if (!data) {
 
-        console.log('no hay datos para descargar');
+        const adviseEntrenos = document.createElement('p');
+        adviseEntrenos.innerHTML = 'Aún no tienes registros de entrenamiento';
+        adviseEntrenos.classList.add('advise');
+        dataTraining.appendChild(adviseEntrenos);
 
         // ... si hay entrenamientos
     } else {
-
-        // contenido informes
-        const training = document.createElement('div');
-        dataContainer.appendChild(training);
-
-        const headerTraining = document.createElement('div');
-        headerTraining.classList.add('headerSubMenus');
-        training.appendChild(headerTraining);
-
-        const titleTraining = document.createElement('p');
-        titleTraining.innerHTML = 'Tus últimos entrenamientos';
-        headerTraining.appendChild(titleTraining);
-
-        const dataTraining = document.createElement('div');
-        dataTraining.classList.add('contenidoSubMenu');
-        training.appendChild(dataTraining);
 
         const chartTraining = document.createElement('div');
         chartTraining.classList.add('grafico');
@@ -505,6 +616,8 @@ async function muestraSalud() {
 
     // borramos primero si hay algun element del nav seleccionado
     clearLeftNav();
+    // y paramos el settimeout del carrousel menu inicio
+    clearTimeout(slideTime);
     // marcamos el item del nav como seleccionado
     this.classList.add('itemNavSelected');
 
@@ -528,22 +641,32 @@ async function muestraSalud() {
     dataContainer.setAttribute('id', 'mainSalud');
     mainContainer.appendChild(dataContainer);
 
+    const confData = document.createElement('div');
+    dataContainer.appendChild(confData);
+
+    const buttonConf = document.createElement('button');
+    buttonConf.addEventListener('click', () => {
+        window.location.href = '/user/userConfiguration';
+    });
+    buttonConf.innerHTML = 'Actualiza tus datos';
+    confData.appendChild(buttonConf);
+
+    const IMC = document.createElement('div');
+    dataContainer.appendChild(IMC);
+
+    const headerIMC = document.createElement('div');
+    headerIMC.classList.add('headerSubMenus');
+    IMC.appendChild(headerIMC);
+
+    const titleIMC = document.createElement('p');
+    titleIMC.innerHTML = 'IMC';
+    headerIMC.appendChild(titleIMC);
+
+    const dataIMC = document.createElement('div');
+    dataIMC.classList.add('contenidoSubMenu');
+    IMC.appendChild(dataIMC);
+
     if (user.peso != null && user.altura != null) {
-
-        const IMC = document.createElement('div');
-        dataContainer.appendChild(IMC);
-
-        const headerIMC = document.createElement('div');
-        headerIMC.classList.add('headerSubMenus');
-        IMC.appendChild(headerIMC);
-
-        const titleIMC = document.createElement('p');
-        titleIMC.innerHTML = 'IMC';
-        headerIMC.appendChild(titleIMC);
-
-        const dataIMC = document.createElement('div');
-        dataIMC.classList.add('contenidoSubMenu');
-        IMC.appendChild(dataIMC);
 
         const chartIMC = document.createElement('div');
         chartIMC.classList.add('grafico');
@@ -565,26 +688,29 @@ async function muestraSalud() {
 
     } else {
 
-        console.log('altura y peso no configurados');
+        const adviseIMC = document.createElement('p');
+        adviseIMC.innerHTML = 'Actualiza tus datos para poder recibir un diagnóstico de tu IMC';
+        adviseIMC.classList.add('advise');
+        dataIMC.appendChild(adviseIMC);
 
     }
 
+    const pulsaciones = document.createElement('div');
+    dataContainer.appendChild(pulsaciones);
+
+    const headerPuls = document.createElement('div');
+    headerPuls.classList.add('headerSubMenus');
+    pulsaciones.appendChild(headerPuls);
+
+    const titlePuls = document.createElement('p');
+    titlePuls.innerHTML = 'TUS PULSACIONES';
+    headerPuls.appendChild(titlePuls);
+
+    const dataPulsaciones = document.createElement('div');
+    dataPulsaciones.classList.add('contenidoSubMenu');
+    pulsaciones.appendChild(dataPulsaciones);
+
     if (user.pulsaciones != null && user.sexo != null && user.edad != null) {
-
-        const pulsaciones = document.createElement('div');
-        dataContainer.appendChild(pulsaciones);
-
-        const headerPuls = document.createElement('div');
-        headerPuls.classList.add('headerSubMenus');
-        pulsaciones.appendChild(headerPuls);
-
-        const titlePuls = document.createElement('p');
-        titlePuls.innerHTML = 'TUS PULSACIONES';
-        headerPuls.appendChild(titlePuls);
-
-        const dataPulsaciones = document.createElement('div');
-        dataPulsaciones.classList.add('contenidoSubMenu');
-        pulsaciones.appendChild(dataPulsaciones);
 
         const chartPulsaciones = document.createElement('div');
         chartPulsaciones.classList.add('grafico');
@@ -606,14 +732,20 @@ async function muestraSalud() {
 
     } else {
 
-        console.log('pulsaciones no configurados');
+        const advisePulsaciones = document.createElement('p');
+        advisePulsaciones.innerHTML = 'Actualiza tus datos para poder recibir un diagnóstico de tus pulsaciones';
+        advisePulsaciones.classList.add('advise');
+        dataPulsaciones.appendChild(advisePulsaciones);
     }
+
 }
 
 async function muestraRutina() {
 
     // borramos primero si hay algun element del nav seleccionado
     clearLeftNav();
+    // y paramos el settimeout del carrousel menu inicio
+    clearTimeout(slideTime);
     // marcamos el item del nav como seleccionado
     this.classList.add('itemNavSelected');
 
@@ -632,8 +764,9 @@ async function muestraRutina() {
     inicioContainer.appendChild(textPortada);
 
     // descargamos la rutina del usuario(dato estatico para realizar pruebas)
-    const rutina = await loadRutine(1);
-
+    const rutinas = await loadRutine(user.id_rutina);
+    const rutina = rutinas[0];
+    
     //montamos la tabla-rutina
     const dataContainer = document.createElement('div');
     dataContainer.classList.add('subMenu');
@@ -706,6 +839,8 @@ async function init() {
 /* VARIABLES GLOBALES*/
 // objeto user = obtiene en init todos los datos que se mostraran en su perfil
 let user;
+let slideIndex = 0;
+let slideTime;
 //Colores para graficos
 const verde = 'rgba(36,242, 33, 1)';
 const naranja = 'rgba(217,158, 98, 0.3)';

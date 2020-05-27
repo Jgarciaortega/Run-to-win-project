@@ -120,7 +120,7 @@ exports.updateUser = async (req, res) => {
 
     if (rows.affectedRows > 0) res.send(true);
     else res.send(false);
-
+ 
 }
 
 
@@ -130,9 +130,9 @@ exports.createFriendship = async (req, res) => {
     const sql = 'INSERT INTO amigos VALUES (?, ?)';
     const data = [req.body.id1, req.body.id2];
 
-    const rows = await connection.execute(sql,data);
+    const rows = await connection.execute(sql, data);
 
-    if(rows[0].affectedRows > 0) res.send(true)
+    if (rows[0].affectedRows > 0) res.send(true)
     else res.send(false)
 }
 
@@ -152,9 +152,20 @@ exports.saveChallenge = async (req, res) => {
     const sql = 'UPDATE usuario set reto="' + req.params.challenge + '" WHERE id=' + req.params.id;
     const rows = await connection.execute(sql);
 
-    if(rows[0].affectedRows > 0) res.send(true);
+    if (rows[0].affectedRows > 0) res.send(true);
     else res.send(false);
-    
+
+}
+
+exports.saveRutine = async (req, res) => {
+
+    const connection = await model.getConnection();
+    const sql = 'UPDATE usuario set id_rutina="' + req.params.id_rutine + '" WHERE id=' + req.params.id;
+    const rows = await connection.execute(sql);
+
+    if (rows[0].affectedRows > 0) res.send(true);
+    else res.send(false);
+
 }
 
 const parseUser = results => {
@@ -179,7 +190,8 @@ const parseUser = results => {
         sexo: results.sexo,
         edad: results.edad,
         puntuacion: results.puntuacion,
-        reto: results.reto
+        reto: results.reto,
+        id_rutina: results.id_rutina
     };
 
     return user;

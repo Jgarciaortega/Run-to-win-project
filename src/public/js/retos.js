@@ -27,10 +27,25 @@ async function saveChallenge() {
 
     const challenge = this.getAttribute('data');
     const res = await putServer('/user/saveChallenge/' + user.id + '/' + challenge);
-   
-    if(res) alert('Desafío guardado');
+
+    if (res) {
+        alert('Desafío guardado');
+        //cargamos al usuario la rutina del desafio elegido
+        setRutine(challenge);
+    }
     else alert('Fallo al guardar el desafíio');
 
+}
+
+async function setRutine(challenge) {
+
+    // get rutina 
+    const res1 = await getServer('/api/findRutineByName/' + challenge);
+    const id_rutina = res1[0].id;
+
+    // modificamos la rutina del usuario
+    const res2 = await putServer('/user/saveRutine/' + user.id + '/' + id_rutina);
+   
 }
 
 async function init() {

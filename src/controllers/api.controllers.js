@@ -12,7 +12,6 @@ exports.createNotification = async (req, res) => {
     if(rows.affectedRows > 0) res.send(true);
     else res.send(false);
    
-    
 }
 
 exports.createMessage = async (req, res) => {
@@ -161,10 +160,18 @@ exports.uploadPhoto = (req, res) => {
 /* Rutines Metods */
 exports.findRutineById = async (req, res) => {
     const connection = await model.getConnection();
-    const [
-        rows,
-    ] =
-        await connection.execute("SELECT * FROM `rutinas_ejercicios` WHERE `id` = ?", [req.params.id]);
+    const rows = await connection.execute("SELECT * FROM `rutinas_ejercicios` WHERE `id` = ?", [req.params.id]);
+    connection.end();
+
+    if (rows.length) {
+        return res.send(rows[0]);       
+    }
+    return { out: false }; 
+}
+
+exports.findRutineByName = async (req, res) => {
+    const connection = await model.getConnection();
+    const rows = await connection.execute("SELECT * FROM `rutinas_ejercicios` WHERE `nombre` = ?", [req.params.name]);
     connection.end();
   
     if (rows.length) {

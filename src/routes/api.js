@@ -17,7 +17,7 @@ let storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 router.post('/api/uploadPhoto',
-passport.authenticate("jwt", { session: false }), upload.single('file'), Api.uploadPhoto);
+    passport.authenticate("jwt", { session: false }), upload.single('file'), Api.uploadPhoto);
 
 /* Rutas Conversaciones */
 router.post("/api/createConversation",
@@ -80,8 +80,11 @@ router.get("/api/getMessages/:id",
     passport.authenticate("jwt", { session: false }), Api.getMessages);
 
 /* Rutas Rutinas */
-router.get("/api/rutine/:id",
+router.get("/api/findRutineById/:id",
     passport.authenticate("jwt", { session: false }), Api.findRutineById);
+
+router.get("/api/findRutineByName/:name",
+    passport.authenticate("jwt", { session: false }), Api.findRutineByName);
 
 /* Rutas Informes Entrenamiento */
 router.get("/api/getTraining/:id",

@@ -107,6 +107,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0.5%;
+  /* Estilos Inicio */
   /* Estilos salud*/
   /* Fin estilos salud*/
   /* Estilos rutina */
@@ -159,9 +160,78 @@ body {
   background-size: 107% 102%;
   background-repeat: no-repeat;
 }
+#mainContent #center #mainInicio #infoRaces {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+#mainContent #center #mainInicio #infoRaces .race {
+  animation: fade 1s linear;
+  width: 97%;
+  border: 2px solid black;
+  border-radius: 5px 5px;
+  margin: 0px auto;
+}
+#mainContent #center #mainInicio #infoRaces .race .imgRace {
+  width: 100%;
+}
+#mainContent #center #mainInicio #infoRaces .prev,
+#mainContent #center #mainInicio #infoRaces .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: 22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 48px;
+  transition: 1.5s ease;
+  border-radius: 0.3px 3px 0;
+}
+#mainContent #center #mainInicio #infoRaces .prev {
+  left: 9px;
+}
+#mainContent #center #mainInicio #infoRaces .next {
+  right: 10px;
+  border-radius: 3px 0 0 3px;
+}
+#mainContent #center #mainInicio #infoRaces .prev:hover,
+#mainContent #center #mainInicio #infoRaces .next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+#mainContent #center #mainInicio #infoRaces .text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 15px;
+  position: absolute;
+  bottom: 2px;
+  width: 93.2%;
+  text-align: center;
+  background-color: black;
+  opacity: 0.8;
+}
+#mainContent #center #mainInicio #infoRaces .numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
 #mainContent #center #mainSalud {
   display: flex;
   flex-direction: column;
+}
+#mainContent #center #mainSalud button {
+  align-self: flex-end;
+  border-radius: 5px;
+  font-size: 15px;
+  align-self: flex-end;
+  color: white;
+  background-color: var(--bg--gray);
+  min-height: 31px;
+  margin-left: 81%;
+  margin-top: 1%;
 }
 #mainContent #center table,
 #mainContent #center th,
@@ -274,6 +344,12 @@ body {
 }
 
 /*CLASES GENERALES*/
+.advise {
+  color: var(--bg--red);
+  font-weight: bolder;
+  letter-spacing: 0.25px;
+}
+
 .error {
   border: 1px solid var(--bg--error);
 }
@@ -458,6 +534,14 @@ li {
   }
   to {
     background-size: 107% 102%;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
   }
 }
 

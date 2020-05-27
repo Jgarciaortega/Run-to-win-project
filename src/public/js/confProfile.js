@@ -250,11 +250,8 @@ async function saveChanges() {
             value: '"/assets/user_photos/' + res.filename + '"'
         }
 
-        console.log(data);
-        
         const res2 = await putServer('/user/updateUser/' + user.id, data);
-        console.log(res2);
-            
+        
     }
     
 }

@@ -175,10 +175,84 @@ body {
       background-repeat: no-repeat;
     }
 
+    /* Estilos Inicio */
+    #mainInicio {
+      #infoRaces {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+        .race {
+          animation: fade 1s linear;
+          width: 97%;
+          border: 2px solid black;
+          border-radius: 5px 5px;
+          margin: 0px auto;
+          .imgRace {
+            width: 100%;
+          }
+        }
+
+        .prev,
+        .next {
+          cursor: pointer;
+          position: absolute;
+          top: 50%;
+          width: auto;
+          margin-top: 22px;
+          padding: 16px;
+          color: white;
+          font-weight: bold;
+          font-size: 48px;
+          transition: 1.5s ease;
+          border-radius: 0.3px 3px 0;
+        }
+        .prev {
+          left: 9px;
+        }
+        .next {
+          right: 10px;
+          border-radius: 3px 0 0 3px;
+        }
+        .prev:hover,
+        .next:hover {
+          background-color: rgba(0, 0, 0, 0.8);
+        }
+        .text {
+          color: #f2f2f2;
+          font-size: 15px;
+          padding: 8px 15px;
+          position: absolute;
+          bottom: 2px;
+          width: 93.2%;
+          text-align: center;
+          background-color: black;
+          opacity: 0.8;
+        }
+        .numbertext {
+          color: #f2f2f2;
+          font-size: 12px;
+          padding: 8px 12px;
+          position: absolute;
+          top: 0;
+        }
+      }
+    }
+
     /* Estilos salud*/
     #mainSalud {
       display: flex;
       flex-direction: column;
+      button {
+        align-self: flex-end;
+        border-radius: 5px;
+        font-size: 15px;
+        align-self: flex-end;
+        color: white;
+        background-color: var(--bg--gray);
+        min-height: 31px;
+        margin-left: 81%;
+        margin-top: 1%;
+      }
     }
     /* Fin estilos salud*/
 
@@ -268,12 +342,12 @@ body {
     font-size: 14px;
     font-weight: 400;
     color: #fff;
-    background-color:var(--bg--gray);
+    background-color: var(--bg--gray);
     display: inline-block;
     transition: all 0.5s;
     cursor: pointer;
     padding: 7px 40px !important;
-    
+
     text-align: center;
     border-radius: 5px;
     .fa-upload {
@@ -291,9 +365,9 @@ body {
     font-size: 14px;
     background-color: #106ba0;
     color: #fff;
-    border: 1px dashed  #106ba0;
+    border: 1px dashed #106ba0;
     margin-left: 40%;
-    .fa-save{
+    .fa-save {
       color: #fff;
       margin-right: 4%;
     }
@@ -309,6 +383,12 @@ body {
 }
 
 /*CLASES GENERALES*/
+
+.advise {
+  color: var(--bg--red);
+  font-weight: bolder;
+  letter-spacing: 0.25px;
+}
 .error {
   border: 1px solid var(--bg--error);
 }
@@ -500,5 +580,14 @@ li {
   }
   to {
     background-size: 107% 102%;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
   }
 }
