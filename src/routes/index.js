@@ -4,7 +4,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     res.render('index',{
         style: '/css/home.css',
-        js: '/js/index.js'
+        js1: '/js/index.js'
     });
 });
 

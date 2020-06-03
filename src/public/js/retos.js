@@ -29,11 +29,11 @@ async function saveChallenge() {
     const res = await putServer('/user/saveChallenge/' + user.id + '/' + challenge);
 
     if (res) {
-        alert('Desafío guardado');
+        showAdvise('Desafio guardado correctamente');
         //cargamos al usuario la rutina del desafio elegido
         setRutine(challenge);
     }
-    else alert('Fallo al guardar el desafíio');
+    else showAdvise('Fallo al guardar el desafio');
 
 }
 
@@ -45,8 +45,21 @@ async function setRutine(challenge) {
 
     // modificamos la rutina del usuario
     const res2 = await putServer('/user/saveRutine/' + user.id + '/' + id_rutina);
+
+}
+
+function showAdvise(msg) {
+
+    document.getElementById('myModal').classList.remove('noVisibility');
+    document.getElementById('msgModal').innerHTML = msg;
    
 }
+
+function hideAdvise() {
+
+    document.getElementById('myModal').classList.add('noVisibility');
+}
+
 
 async function init() {
 
@@ -55,8 +68,13 @@ async function init() {
     //2º con el id obtenemos el usario
     user = await getServer('/user/findById/' + localStorageInfo.id);
 
+    /* listeners */
+    // buttons:
     const buttons = document.querySelectorAll('button');
     buttons.forEach(button => button.addEventListener('click', saveChallenge));
+
+    // close advise:
+    document.getElementsByClassName('close')[0].addEventListener('click', hideAdvise);
 
 }
 

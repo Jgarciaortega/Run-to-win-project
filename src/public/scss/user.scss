@@ -35,6 +35,7 @@
 body {
   font-family: Century Gothic, sans-serif;
   background-color: #ececec;
+  margin: 5px 1px;
 }
 
 /* Contenido */
@@ -242,17 +243,7 @@ body {
     #mainSalud {
       display: flex;
       flex-direction: column;
-      button {
-        align-self: flex-end;
-        border-radius: 5px;
-        font-size: 15px;
-        align-self: flex-end;
-        color: white;
-        background-color: var(--bg--gray);
-        min-height: 31px;
-        margin-left: 81%;
-        margin-top: 1%;
-      }
+      
     }
     /* Fin estilos salud*/
 
@@ -383,6 +374,17 @@ body {
 }
 
 /*CLASES GENERALES*/
+.btn-centerMenu {
+  align-self: flex-end;
+  border-radius: 5px;
+  font-size: 15px;
+  align-self: flex-end;
+  color: white;
+  background-color: var(--bg--gray);
+  min-height: 31px;
+  margin-left: 81%;
+  margin-top: 1%;
+}
 
 .advise {
   color: var(--bg--red);

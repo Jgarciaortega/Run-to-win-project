@@ -126,8 +126,8 @@ async function requestFriendship() {
 
     const response = await postServer('/api/createNotification', data);
 
-    if (response) alert('Petición de amistad enviada')
-    else alert('La petición de amistad no se envió')
+    if (response) showAdvise('Petición de amistad enviada')
+    else showAdvise('La petición de amistad no se envió')
 }
 
 async function acceptFriendship() {
@@ -142,7 +142,7 @@ async function acceptFriendship() {
     const response = await postServer('/user/createFriendship', data);
 
     if (response == true) {
-        alert('Ya sois amigos');
+        showAdvise('Ya sois amigos');
         await deleteNotification(this.getAttribute('data-id'));
         document.getElementById(this.getAttribute('data-id')).classList.add('noVisible');
         divRequest.classList.add('noVisible');
@@ -156,7 +156,7 @@ async function rejectFriendship() {
     const divRequest = document.getElementById(idRequest);
     const response = await deleteNotification(idRequest);
 
-    if (response.msg === 'borrada') alert('Petición rechazada')
+    if (response.msg === 'borrada') showAdvise('Petición rechazada')
 
     divRequest.classList.add('noVisible');
 
@@ -230,6 +230,19 @@ async function getFriendRequest() {
     }
 }
 
+
+function showAdvise(msg) {
+
+    document.getElementById('myModal').classList.remove('noVisibility');
+    document.getElementById('msgModal').innerHTML = msg;
+   
+}
+
+function hideAdvise() {
+
+    document.getElementById('myModal').classList.add('noVisibility');
+}
+
 async function deleteNotification(id) {
 
     const response = await deleteServer('/api/deleteNotification/' + id);
@@ -245,6 +258,8 @@ async function init() {
 
     // listener buscar amigo
     document.getElementById('finder').addEventListener('keyup', findNewFriends);
+
+    document.getElementsByClassName('close')[0].addEventListener('click', hideAdvise);
 
     getFriendRequest();
 

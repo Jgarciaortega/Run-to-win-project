@@ -31,15 +31,15 @@ async function postServer(url, data) {
 
 }
 
-async function uploadServer(url, file){
+async function uploadServer(url, file) {
 
     let formData = new FormData();
     formData.append('file', file);
-   
+
     let body = {
         method: 'POST',
         body: formData
-       
+
     };
 
     const res1 = await fetch('/api/uploadPhoto', body);
@@ -169,10 +169,10 @@ function validPulsations(pulsaciones) {
 
 function deleteErrorMsg() {
 
-    // let nameElement = 'error-' + this.getAttribute('id');
-    // let errorElement = document.getElementById(nameElement);
-    // errorElement.innerHTML = '';
-    // this.classList.remove('error');
+    let nameElement = 'error-' + this.getAttribute('id');
+    let errorElement = document.getElementById(nameElement);
+    errorElement.innerHTML = '';
+    this.classList.remove('error');
 }
 
 function showError(inputName, message) {
@@ -241,9 +241,9 @@ async function saveChanges() {
 
     if (validationOk) modifyField(elements);
 
-    if(filePhoto.files.length > 0){
+    if (filePhoto.files.length > 0) {
 
-        const res = await uploadServer('/api/uploadPhoto',filePhoto.files[0]);
+        const res = await uploadServer('/api/uploadPhoto', filePhoto.files[0]);
 
         const data = {
             name: 'imagen',
@@ -251,9 +251,9 @@ async function saveChanges() {
         }
 
         const res2 = await putServer('/user/updateUser/' + user.id, data);
-        
+
     }
-    
+
 }
 
 function modifyField(elements) {
@@ -278,8 +278,8 @@ function modifyField(elements) {
 
     })
 
-    if (saved) alert('Cambios guardados correctamente');
-    else alert('Error al salvar cambios');
+    if (saved) showAdvise('Cambios guardados correctamente');
+    else showAdvise('Error al salvar cambios');
 
 }
 
@@ -288,18 +288,21 @@ function modifyStyle(word) {
 
     let newWord = '';
     let char;
-    let words = word.split(' ');
 
-    for (let i = 0; i < words.length; i++) {
+    if (word != null) {
+        let words = word.split(' ');
 
-        for (let y = 0; y < words[i].length; y++) {
+        for (let i = 0; i < words.length; i++) {
 
-            char = words[i].charAt(y);
+            for (let y = 0; y < words[i].length; y++) {
 
-            if (y == 0) char = ' ' + char.toUpperCase();
-            else char = char.toLowerCase();
+                char = words[i].charAt(y);
 
-            newWord += char;
+                if (y == 0) char = ' ' + char.toUpperCase();
+                else char = char.toLowerCase();
+
+                newWord += char;
+            }
         }
     }
 
@@ -323,6 +326,19 @@ function loadInfoUser(user) {
 
 }
 
+function showAdvise(msg) {
+
+    document.getElementById('myModal').classList.remove('noVisibility');
+    document.getElementById('msgModal').innerHTML = msg;
+
+}
+
+function hideAdvise() {
+
+    document.getElementById('myModal').classList.add('noVisibility');
+}
+
+
 async function init() {
 
     //Obtenemos el id del usuario
@@ -339,6 +355,9 @@ async function init() {
     document.getElementById('sexo').addEventListener('blur', deleteErrorMsg);
 
     document.querySelector('input[name="foto"]').addEventListener('change', showFileName);
+
+    // close advise:
+    document.getElementsByClassName('close')[0].addEventListener('click', hideAdvise);
 
     // listener save changes
     document.getElementById('btnPersonalData').addEventListener('click', saveChanges);

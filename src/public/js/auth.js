@@ -312,8 +312,6 @@ async function sendToServer(url, data) {
 
 async function login(user, pass) {
 
-    console.log(user, pass);
-    
     let url = '../user/logIn';
 
     let userLogin = {

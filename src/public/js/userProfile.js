@@ -498,9 +498,13 @@ async function muestraInicio() {
     infoRaces.setAttribute('id', 'infoRaces');
     dataContainer.appendChild(infoRaces);
 
-    const titleRaces = document.createElement('h2');
-    titleRaces.innerHTML = 'Inscríbete en las próximas carreras';
-    infoRaces.appendChild(titleRaces);
+    const headerRace = document.createElement('div');
+    headerRace.classList.add('headerSubMenus');
+    infoRaces.appendChild(headerRace);
+
+    const titleRaces = document.createElement('p');
+    titleRaces.innerHTML = 'Inscríbete';
+    headerRace.appendChild(titleRaces);
 
     // slide imagenes
     const fotos = ['../assets/img/valencia-marathon.jpg', '../assets/img/sevilla-marathon.jpg', '../assets/img/madrid-marathon.jpg'];
@@ -645,6 +649,7 @@ async function muestraSalud() {
     dataContainer.appendChild(confData);
 
     const buttonConf = document.createElement('button');
+    buttonConf.classList.add('btn-centerMenu');
     buttonConf.addEventListener('click', () => {
         window.location.href = '/user/userConfiguration';
     });
@@ -763,58 +768,90 @@ async function muestraRutina() {
     textPortada.innerHTML = 'RUTINAS';
     inicioContainer.appendChild(textPortada);
 
-    // descargamos la rutina del usuario(dato estatico para realizar pruebas)
-    const rutinas = await loadRutine(user.id_rutina);
-    const rutina = rutinas[0];
-    
     //montamos la tabla-rutina
     const dataContainer = document.createElement('div');
     dataContainer.classList.add('subMenu');
     mainContainer.appendChild(dataContainer);
 
-    const headerRoutine = document.createElement('div');
-    headerRoutine.classList.add('headerSubMenus');
-    dataContainer.appendChild(headerRoutine);
+    const confData = document.createElement('div');
+    dataContainer.appendChild(confData);
 
-    const titleRoutine = document.createElement('h3');
-    titleRoutine.innerHTML = rutina.nombre;
-    headerRoutine.appendChild(titleRoutine);
+    const buttonConf = document.createElement('button');
+    buttonConf.classList.add('btn-centerMenu');
+    buttonConf.addEventListener('click', () => {
+        window.location.href = '/user/retos';
+    });
 
-    const tabla = document.createElement('table');
-    tabla.classList.add('contenidoSubMenu');
-    dataContainer.appendChild(tabla);
-    const col = 4;
-    const filas = 7;
-    const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-    const ejercicios = [rutina.dia1, rutina.dia2, rutina.dia3, rutina.dia4, rutina.dia5, rutina.dia6, rutina.dia7];
+   
+    // si el usuario tiene una rutina asignada sera != null
+    if (user.id_rutina != null) {
 
-    for (let i = 0; i <= filas; i++) {
+        const rutinas = await loadRutine(user.id_rutina);
+        const rutina = rutinas[0];
 
-        const row = document.createElement('tr');
-        tabla.appendChild(row);
+        buttonConf.innerHTML = 'Modifica tu reto';
+        confData.appendChild(buttonConf);
 
-        for (let y = 0; y < col; y++) {
+        const headerRoutine = document.createElement('div');
+        headerRoutine.classList.add('headerSubMenus');
+        dataContainer.appendChild(headerRoutine);
 
-            const title = document.createElement('th');
-            const cell = document.createElement('td');
+        const titleRoutine = document.createElement('h3');
+        titleRoutine.innerHTML = rutina.nombre;
+        headerRoutine.appendChild(titleRoutine);
 
-            if (i == 0) {
+        const tabla = document.createElement('table');
+        tabla.classList.add('contenidoSubMenu');
+        dataContainer.appendChild(tabla);
+        const col = 4;
+        const filas = 7;
+        const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+        const ejercicios = [rutina.dia1, rutina.dia2, rutina.dia3, rutina.dia4, rutina.dia5, rutina.dia6, rutina.dia7];
 
-                (y == 0) ? title.innerHTML = '' : title.innerHTML = 'SEMANA ' + (y);
-                row.appendChild(title);
+        for (let i = 0; i <= filas; i++) {
 
-            } else {
+            const row = document.createElement('tr');
+            tabla.appendChild(row);
 
-                (y == 0) ? cell.innerHTML = diasSemana[i - 1] : cell.innerHTML = ejercicios[i - 1];
-                row.appendChild(cell);
+            for (let y = 0; y < col; y++) {
+
+                const title = document.createElement('th');
+                const cell = document.createElement('td');
+
+                if (i == 0) {
+
+                    (y == 0) ? title.innerHTML = '' : title.innerHTML = 'SEMANA ' + (y);
+                    row.appendChild(title);
+
+                } else {
+
+                    (y == 0) ? cell.innerHTML = diasSemana[i - 1] : cell.innerHTML = ejercicios[i - 1];
+                    row.appendChild(cell);
+                }
+
             }
-
         }
+
+    } else {
+
+        buttonConf.innerHTML = 'Acepta un reto';
+        confData.appendChild(buttonConf);
+
+        const dataRutina = document.createElement('div');
+        dataRutina.classList.add('contenidoSubMenu');
+        mainContainer.appendChild(dataRutina);
+
+        const adviseRutina = document.createElement('p');
+        adviseRutina.innerHTML = 'Aún no tienes ninguna rutina asignada. Acepta un reto para poder tener una';
+        adviseRutina.classList.add('advise');
+        dataRutina.appendChild(adviseRutina);
     }
+
+
 }
 
 async function init() {
-
+    // modales => https://www.w3schools.com/howto/howto_css_modals.asp
     //1º obtenemos el id usuario 
     let localStorageInfo = JSON.parse(localStorage.getItem('user'));
     //2º con el id obtenemos el usario
