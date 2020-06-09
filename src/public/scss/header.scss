@@ -58,15 +58,15 @@ body {
         }
         #mainNav {
             margin-top: 3%;
-            margin-right: 5%;
+            margin-right: -25%;
             display: grid;
-            grid-template-columns: 4fr 1fr;
+            grid-template-columns: 3fr 1fr;
 
             #menuSup {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-evenly;
-                margin-left: 7%;
+                margin-left: 8%;
 
                 .linkPrincipal {
                     color: white;
@@ -106,23 +106,6 @@ body {
                     }
                 }
             }
-        }
-        #btn-strava {
-            width: 90%;
-            max-height: 43px;
-            background-image: url("../assets//img/stravacut.png");
-            background-size: 101%;
-            border: 1px solid var(--bg--strava);
-            background-repeat: no-repeat;
-            margin-top: 3%;
-            background-position-x: -1px;
-            opacity: 0.9;
-            cursor: pointer;
-        }
-
-        #btn-strava:active {
-            border: 2px solid #f3be7a;
-            opacity: 1;
         }
 
         #profile {
@@ -251,9 +234,10 @@ body {
 .desplegable {
     position: relative;
     padding: 7px;
-    top: 6%;
+    top: 7%;
     font-size: 22px;
     z-index: 1000;
+    width: 100%;
 }
 
 .noVisible {
@@ -264,6 +248,10 @@ body {
     visibility: hidden;
 }
 
+.menu-btn {
+    display: none;
+}
+
 /*ESTILOS GENERALES*/
 a {
     text-decoration: none;
@@ -271,4 +259,23 @@ a {
 
 li {
     list-style: none;
+}
+
+@media (max-width: 1420px) {
+    // .menu-btn {
+    //     display: block;
+    // }
+    // #mainNav {
+    //     flex-direction: column !important;
+    //     position: absolute;
+    //     top: 106px;
+    //     left: 0;
+    //     background-color: var(--bg--gray);
+    //     margin: 0px !important;
+    //     padding: 0px !important;
+    //     opacity: 0.9;
+    //     height: 100%;
+    //     // transform: translateX(-800px);
+    //     // transition: transform 0.5s ease-in-out;
+    // }
 }

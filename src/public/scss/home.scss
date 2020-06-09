@@ -45,7 +45,7 @@ body {
 }
 
 .wrap {
-  width: 1550px;
+  width: 82%;
   margin: 0px auto;
 }
 
@@ -53,6 +53,15 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+.menu-btn{
+  position: absolute;
+  top: 7%;
+  left: 87%;
+  font-size: 1.9em;
+  cursor: pointer;
+  display: none;
 }
 
 /*Cabecera*/
@@ -73,17 +82,16 @@ body {
       width: 100%;
     }
   }
-  .wrap {
-    display: flex;
-    flex-direction: row;
+  .contentHeader {
+    display: grid;
+    grid-template-columns: 1fr 1000px;
 
     #menu {
-      margin-left: 30%;
-
-      ul {
+      .nav-menu {
         display: flex;
         flex-direction: row;
         margin-top: 45px;
+        margin-left: 10%;
         li {
           display: inline-block;
           margin-right: 79px;
@@ -106,6 +114,9 @@ body {
               visibility: visible;
             }
           }
+        }
+        li:last-child {
+          margin-right: 0;
         }
 
         @keyframes showIcon {
@@ -153,7 +164,7 @@ body {
     border-bottom: 1px solid var(--bg--whiteOrange);
     .imgAboutUs {
       display: flex;
-      img{
+      img {
         margin-left: 0.25%;
         margin-right: 0.25%;
       }
@@ -171,7 +182,7 @@ body {
       grid-template-columns: repeat(2, 1fr);
       margin-top: 11%;
 
-      .textService{
+      .textService {
         padding-top: 15%;
       }
     }
@@ -225,4 +236,48 @@ footer {
     margin: 0 auto;
     list-style: none;
   }
+}
+
+@media (max-width: 1090px) {
+
+  .menu-btn{
+    display: block;
+  }
+  #menu{
+    .nav-menu {
+      flex-direction: column !important;
+      position: absolute;
+      top: 106px;
+      left: 0;
+      background-color:var(--bg--gray);
+      margin: 0px !important;
+      padding: 0px !important;
+      opacity: 0.9;
+      height: 100%;
+      transform: translateX(-500px);
+      transition: transform 0.5s ease-in-out;
+      li{
+        padding: 30px;
+      
+      }
+    }
+  }
+  .contentService{
+    display: block !important;
+   
+  }
+  .show{
+    transform: translateX(0px) !important;
+  }
+
+  .fab{
+    padding-right: 25px;
+  }
+
+  footer{
+    ul{
+      width: 48%;
+    }
+  }
+   
 }

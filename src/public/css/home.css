@@ -41,7 +41,7 @@ body {
 }
 
 .wrap {
-  width: 1550px;
+  width: 82%;
   margin: 0px auto;
 }
 
@@ -49,6 +49,15 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+.menu-btn {
+  position: absolute;
+  top: 7%;
+  left: 87%;
+  font-size: 1.9em;
+  cursor: pointer;
+  display: none;
 }
 
 /*Cabecera*/
@@ -69,36 +78,37 @@ body {
 #header #logo img {
   width: 100%;
 }
-#header .wrap {
-  display: flex;
-  flex-direction: row;
+#header .contentHeader {
+  display: grid;
+  grid-template-columns: 1fr 1000px;
 }
-#header .wrap #menu {
-  margin-left: 30%;
-}
-#header .wrap #menu ul {
+#header .contentHeader #menu .nav-menu {
   display: flex;
   flex-direction: row;
   margin-top: 45px;
+  margin-left: 10%;
 }
-#header .wrap #menu ul li {
+#header .contentHeader #menu .nav-menu li {
   display: inline-block;
   margin-right: 79px;
 }
-#header .wrap #menu ul li a {
+#header .contentHeader #menu .nav-menu li a {
   text-decoration: none;
   color: white;
   transition: color 500ms;
 }
-#header .wrap #menu ul li i {
+#header .contentHeader #menu .nav-menu li i {
   visibility: hidden;
 }
-#header .wrap #menu ul li a:hover {
+#header .contentHeader #menu .nav-menu li a:hover {
   color: var(--bg--orange);
 }
-#header .wrap #menu ul li a:hover i {
+#header .contentHeader #menu .nav-menu li a:hover i {
   animation: showIcon 250ms linear;
   visibility: visible;
+}
+#header .contentHeader #menu .nav-menu li:last-child {
+  margin-right: 0;
 }
 @keyframes showIcon {
   from {
@@ -204,6 +214,45 @@ footer a {
 footer li {
   margin: 0 auto;
   list-style: none;
+}
+
+@media (max-width: 1090px) {
+  .menu-btn {
+    display: block;
+  }
+
+  #menu .nav-menu {
+    flex-direction: column !important;
+    position: absolute;
+    top: 106px;
+    left: 0;
+    background-color: var(--bg--gray);
+    margin: 0px !important;
+    padding: 0px !important;
+    opacity: 0.9;
+    height: 100%;
+    transform: translateX(-500px);
+    transition: transform 0.5s ease-in-out;
+  }
+  #menu .nav-menu li {
+    padding: 30px;
+  }
+
+  .contentService {
+    display: block !important;
+  }
+
+  .show {
+    transform: translateX(0px) !important;
+  }
+
+  .fab {
+    padding-right: 25px;
+  }
+
+  footer ul {
+    width: 48%;
+  }
 }
 
 /*# sourceMappingURL=home.css.map */

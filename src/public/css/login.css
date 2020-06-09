@@ -10,7 +10,7 @@
 body {
   background: #404040;
   background: linear-gradient(158deg, #404040 -48%, #8c8c8c 21%, #f27405 108%);
-  min-height: 98vh;
+  height: 100vh !important;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -95,6 +95,20 @@ body {
 
 .noVisible {
   display: none;
+}
+
+@media (max-width: 1090px) {
+  body {
+    flex-direction: column;
+  }
+
+  #login {
+    width: 99%;
+  }
+
+  #registro {
+    width: 99%;
+  }
 }
 
 /*# sourceMappingURL=login.css.map */

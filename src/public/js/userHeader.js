@@ -55,7 +55,7 @@ async function init() {
     userId = JSON.parse(localStorage.getItem('user'));
 
     //1º peticion a strava de los datos del usuario
-    document.getElementById('btn-strava').addEventListener('click', connectToStrava);
+    // document.getElementById('btn-strava').addEventListener('click', connectToStrava);
 
     //listeners para desplegar/plegar menus
     document.getElementById('user').addEventListener('click', deployMenu);

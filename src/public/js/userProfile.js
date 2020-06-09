@@ -364,9 +364,9 @@ function generateDataPoints() {
 
     switch (user.status) {
 
-        case ('beginner'): rangoPuntos = 1000; break;
-        case ('intermediate'): rangoPuntos = 1500; break;
-        case ('pro'): rangoPuntos = 3000; break;
+        case ('BEGINNER'): rangoPuntos = 1000; break;
+        case ('INTERMEDIATE'): rangoPuntos = 1500; break;
+        case ('PRO'): rangoPuntos = 3000; break;
 
     }
 
@@ -503,7 +503,7 @@ async function muestraInicio() {
     infoRaces.appendChild(headerRace);
 
     const titleRaces = document.createElement('p');
-    titleRaces.innerHTML = 'Inscríbete';
+    titleRaces.innerHTML = 'Próximas carreras más destacadas';
     headerRace.appendChild(titleRaces);
 
     // slide imagenes
@@ -571,6 +571,17 @@ async function muestraInforme() {
     dataContainer.classList.add('subMenu');
     dataContainer.setAttribute('id', 'mainInformes');
     mainContainer.appendChild(dataContainer);
+
+    const confData = document.createElement('div');
+    dataContainer.appendChild(confData);
+
+    const buttonConf = document.createElement('button');
+    buttonConf.classList.add('btn-centerMenu');
+    // buttonConf.addEventListener('click', () => {
+    //     window.location.href = '/user/userConfiguration';
+    // });
+    buttonConf.innerHTML = 'Conecta con Strava';
+    confData.appendChild(buttonConf);
 
     // obtenemos entrenamientos
     const data = await getTraining();
