@@ -1,9 +1,9 @@
-RUN TO WIN PROJECT
+#RUN TO WIN PROJECT
 
 Este trabajo es el proyecto de final de curso de desarrollo de aplicaciones web. Este se basa en una plataforma de entrenamiento deportivo, 
 concretamente de running.
 
-INFRAESTRUCTURA
+#INFRAESTRUCTURA
 
 Estas son las tecnologías usadas más destacadas:
 
