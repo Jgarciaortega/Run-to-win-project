@@ -1,7 +1,6 @@
 ## RUN TO WIN PROJECT
 
-Este trabajo es el proyecto de final de curso de desarrollo de aplicaciones web. Este se basa en una plataforma de entrenamiento deportivo, 
-concretamente de running.
+Aplicación desarrollada como proyecto final de DAW. Se trata de una platafoma diseñada para mejorar el entrenamiento deportivo de los runners.
 
 ### INFRAESTRUCTURA
 
